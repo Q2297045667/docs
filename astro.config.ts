@@ -19,7 +19,7 @@ const prod = process.env.NODE_ENV === "production";
 
 // https://astro.build/config
 export default defineConfig({
-  site: prod ? "https://docs.papermc.io" : undefined,
+  site: prod ? "https://paper.8aka.org" : undefined,
   integrations: [
     // save Markdown renderer configuration to globals for use by the on-demand renderer
     // order matters - we want this to use only our configuration
@@ -32,7 +32,7 @@ export default defineConfig({
       },
     },
     starlight({
-      title: "PaperMC Docs",
+      title: "PaperMC 中文文档",
       social: [
         { icon: "github", label: "paper:GitHub", href: "https://github.com/PaperMC/Paper" },
         { icon: "seti:java", label: "paper:Javadoc", href: `https://jd.papermc.io/paper/${LATEST_PAPER_RELEASE}` },
@@ -64,7 +64,7 @@ export default defineConfig({
       ],
       lastUpdated: true,
       editLink: {
-        baseUrl: "https://github.com/PaperMC/docs/edit/main/",
+        baseUrl: "hhttps://github.com/8aka-Team/PaperMC-Docs-CN/edit/main/",
       },
       customCss: [
         "@fontsource/poppins/400.css",
@@ -100,14 +100,14 @@ export default defineConfig({
               icon: "paper",
               items: [
                 {
-                  label: "Administration",
+                  label: "管理",
                   items: [
                     {
-                      label: "Getting started",
+                      label: "开始使用",
                       items: ["paper/getting-started", "paper/adding-plugins", "paper/migration", "paper/next-steps"],
                     },
                     {
-                      label: "How-to guides",
+                      label: "操作指南",
                       items: [
                         "paper/aikars-flags",
                         "paper/anti-xray",
@@ -118,10 +118,10 @@ export default defineConfig({
                       ],
                     },
                     {
-                      label: "Reference",
+                      label: "参考",
                       items: [
                         {
-                          label: "Configuration",
+                          label: "配置",
                           collapsed: true,
                           items: [
                             "paper/reference/configuration",
@@ -142,16 +142,16 @@ export default defineConfig({
                       ],
                     },
                     {
-                      label: "Miscellaneous",
+                      label: "其他",
                       items: ["paper/misc/paper-bug-fixes", "paper/faq"],
                     },
                   ],
                 },
                 {
-                  label: "Development",
+                  label: "开发",
                   items: [
                     {
-                      label: "Getting started",
+                      label: "开始使用",
                       items: [
                         "paper/dev/project-setup",
                         "paper/dev/how-do-plugins-work",
@@ -164,11 +164,11 @@ export default defineConfig({
                       label: "API",
                       items: [
                         {
-                          label: "Command API",
+                          label: "命令 API",
                           collapsed: true,
                           items: [
                             {
-                              label: "Basics",
+                              label: "基础",
                               items: [
                                 "paper/dev/command-api/basics/introduction",
                                 "paper/dev/command-api/basics/command-tree",
@@ -181,7 +181,7 @@ export default defineConfig({
                               ],
                             },
                             {
-                              label: "Arguments",
+                              label: "参数",
                               items: [
                                 "paper/dev/command-api/arguments/minecraft",
                                 "paper/dev/command-api/arguments/location",
@@ -194,7 +194,7 @@ export default defineConfig({
                               ],
                             },
                             {
-                              label: "Miscellaneous",
+                              label: "其他",
                               items: [
                                 "paper/dev/command-api/misc/basic-command",
                                 "paper/dev/command-api/misc/comparison-bukkit-brigadier",
@@ -203,7 +203,7 @@ export default defineConfig({
                           ],
                         },
                         {
-                          label: "Component API",
+                          label: "组件 API",
                           collapsed: true,
                           items: [
                             "paper/dev/component-api/introduction",
@@ -212,7 +212,7 @@ export default defineConfig({
                           ],
                         },
                         {
-                          label: "Event API",
+                          label: "事件 API",
                           collapsed: true,
                           items: [
                             "paper/dev/event-listeners",
@@ -222,7 +222,7 @@ export default defineConfig({
                           ],
                         },
                         {
-                          label: "Entity API",
+                          label: "实体 API",
                           collapsed: true,
                           items: ["paper/dev/entity-teleport", "paper/dev/display-entities"],
                         },
@@ -240,7 +240,7 @@ export default defineConfig({
                       ],
                     },
                     {
-                      label: "Miscellaneous",
+                      label: "其他",
                       items: [
                         "paper/dev/using-databases",
                         "paper/dev/debugging",
@@ -251,7 +251,7 @@ export default defineConfig({
                   ],
                 },
                 {
-                  label: "Contributing",
+                  label: "贡献",
                   items: ["paper/contributing/events"],
                 },
               ],
@@ -263,10 +263,10 @@ export default defineConfig({
               icon: "velocity",
               items: [
                 {
-                  label: "Administration",
+                  label: "管理",
                   items: [
                     {
-                      label: "Getting started",
+                      label: "开始使用",
                       items: [
                         "velocity/getting-started",
                         "velocity/why-velocity",
@@ -275,11 +275,11 @@ export default defineConfig({
                       ],
                     },
                     {
-                      label: "How-to guides",
+                      label: "操作指南",
                       items: ["velocity/tuning", "velocity/security", "velocity/migration"],
                     },
                     {
-                      label: "Reference",
+                      label: "参考",
                       items: [
                         "velocity/configuration",
                         "velocity/reference/system-properties",
@@ -292,10 +292,10 @@ export default defineConfig({
                   ],
                 },
                 {
-                  label: "Development",
+                  label: "开发",
                   items: [
                     {
-                      label: "Getting started",
+                      label: "开始使用",
                       items: [
                         "velocity/dev/creating-your-first-plugin",
                         "velocity/dev/api-basics",
@@ -303,14 +303,14 @@ export default defineConfig({
                       ],
                     },
                     {
-                      label: "How-to guides",
+                      label: "操作指南",
                       items: ["velocity/dev/dependency-management", "velocity/dev/porting-plugins-from-velocity-1"],
                     },
                     {
                       label: "API",
                       items: [
                         {
-                          label: "Component API",
+                          label: "组件 API",
                           collapsed: true,
                           items: [
                             "paper/dev/component-api/introduction",
@@ -335,10 +335,10 @@ export default defineConfig({
               icon: "folia",
               items: [
                 {
-                  label: "Administration",
+                  label: "管理",
                   items: [
                     {
-                      label: "Reference",
+                      label: "参考",
                       items: ["folia/reference/overview", "folia/reference/region-logic", "folia/faq"],
                     },
                   ],
@@ -360,7 +360,7 @@ export default defineConfig({
             },
             {
               id: "misc",
-              label: "Miscellaneous",
+              label: "其他",
               link: "/misc/",
               icon: "random",
               items: [
@@ -370,7 +370,7 @@ export default defineConfig({
                 "misc/hangar-publishing",
                 "misc/java-install",
                 {
-                  label: "Tools",
+                  label: "工具",
                   items: [
                     "misc/tools/start-script-gen",
                     "misc/tools/item-command-converter",
