@@ -1,11 +1,11 @@
 ---
 title: Audiences
-description: How to use Adventure's Audiences.
+description: 如何使用 Adventure 的 Audiences 功能。
 slug: paper/dev/component-api/audiences
 ---
 
-Audiences wrap a collection of recipients that can receive messages. They can be used to send messages to individual
-players, groups of players, or even the entire server (including the console).
+Audiences 封装了一组可以接收消息的接收者。
+它们可以用于向单个玩家、玩家组，甚至是整个服务器（包括控制台）发送消息。
 
 ## Who is an `Audience`?
 

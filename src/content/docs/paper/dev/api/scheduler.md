@@ -1,18 +1,18 @@
 ﻿---
-title: Scheduling
-description: A guide on how to use BukkitScheduler to run code at specific times.
+title: 调度器
+description: 如何使用 BukkitScheduler 在特定时间运行代码的指南
 slug: paper/dev/scheduler
 ---
 
-The [`BukkitScheduler`](jd:paper:org.bukkit.scheduler.BukkitScheduler) can be used to schedule your code to be run later or repeatedly.
+[`BukkitScheduler`](jd:paper:org.bukkit.scheduler.BukkitScheduler) 可用于安排代码稍后运行或重复运行。
 
 :::note[Folia]
 
-This guide is designed for non-Folia Bukkit servers. If you are using Folia, you should use its respective schedulers.
+本指南适用于非 Folia 的 Bukkit 服务器。如果你正在使用 Folia，你应该使用其各自的调度器。
 
 :::
 
-## What is a tick?
+## 什么是刻 Tick?
 
 Every game runs something called a game loop, which essentially executes all the logic of the game over and over.
 A single execution of that loop in Minecraft is called a 'tick'.

@@ -12,7 +12,7 @@ Velocity 支持三种转发格式：
 - **BungeeGuard**，它与 BungeeCord 转发相同，但包含一个密钥。
   它比单独的 BungeeCord 转发更好，但不如 Velocity 现代转发理想。
 
-:::note[注释]
+:::note[注意]
 
 您只能选择其中一种转发格式（如果想要同时是应用多种转发协议请使用 [Velocity-CTD](https://github.com/GemstoneGG/Velocity-CTD) 它允许同时对多个不同的后端使用不同的协议）。
 目前无法“混用”转发模式或将所有转发格式一起使用。
@@ -52,7 +52,7 @@ Paper 1.14 及以上版本，以及 Paper 1.13.1/1.13.2 构建 377 及以上版�
 您还需要将 `proxies.velocity.online-mode` 设置为与您的 `velocity.toml` 文件中的 `online-mode` 设置一致。
 完成对 `paper-global.yml` 的编辑后，请重启服务器。
 
-:::note[注释]
+:::note[注意]
 
 如果您使用的是 Paper 1.18.2 或更低版本，您会在 `paper.yml` 文件中找到这些选项，分别为
 `settings.velocity-support.enabled`、`settings.velocity-support.secret` 和 `settings.velocity-support.online-mode`。

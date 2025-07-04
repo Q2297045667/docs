@@ -1,12 +1,12 @@
 ---
-title: Roadmap
-description: Outlines the future intents and plans of the Paper project.
+title: 路线图
+description: 概述了 Paper 项目的未来意图和计划。
 slug: paper/dev/roadmap
 ---
 
-Paper offers a rich API with a wide range of features that can help you unlock the full potential of your server.
-However, in order to make room for new features and improvements, some of the older APIs will be phased out. This page
-is intended to document any future API changes that are planned or possible deprecations that may be coming up.
+Paper 提供了一个功能丰富的 API，能够帮助你充分发挥服务器的潜力。
+然而，为了给新功能和改进腾出空间，一些较旧的 API 将会逐步淘汰。
+本页面旨在记录计划中的未来 API 更改以及可能出现的弃用情况。
 
 ## Future plans
 

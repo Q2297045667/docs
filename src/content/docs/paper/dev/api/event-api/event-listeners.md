@@ -1,6 +1,6 @@
 ---
-title: Listeners
-description: Developer guide for how to listen to the broadcasted events.
+title: 监听器
+description: 开发者指南，介绍如何监听广播的事件。
 slug: paper/dev/event-listeners
 ---
 

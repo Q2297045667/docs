@@ -1,6 +1,6 @@
 ---
-title: Teleportation
-description: The entity teleportation API and how to use it.
+title: 传送
+description: 实体传送 API 及其使用方法。
 slug: paper/dev/entity-teleport
 ---
 

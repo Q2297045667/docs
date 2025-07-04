@@ -115,7 +115,7 @@ brew install openjdk@21
 
 ## [Pterodactyl](https://pterodactyl.io/)
 
-:::note[注释]
+:::note[注意]
 
 在低于 `1.2.0` 版本的 Pterodactyl 中，需要管理员账户才能更改 Java 版本。
 这些说明将不适用。
@@ -133,7 +133,7 @@ Pterodactyl 会自动提示您更新，如下图所示：
 
 ![Pterodactyl Manual Java Version Change](./assets/pterodactyl-manual.png)
 
-:::note[注释]
+:::note[注意]
 
 如果在下拉菜单中看不到`Java 21`，则需要管理员账户来更新 Paper egg。
 

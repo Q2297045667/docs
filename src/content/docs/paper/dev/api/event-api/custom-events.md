@@ -1,6 +1,6 @@
 ---
-title: Custom events
-description: A guide to show you how to add custom events to your plugin.
+title: 自定义事件
+description: 一个指南，展示如何为您的插件添加自定义事件。
 slug: paper/dev/custom-events
 ---
 

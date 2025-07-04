@@ -1,6 +1,6 @@
 ---
-title: Display entities
-description: The display entity API and how to use it.
+title: 显示实体
+description: 显示实体 API 及其使用方法。
 slug: paper/dev/display-entities
 version: "1.20"
 ---

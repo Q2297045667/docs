@@ -1,6 +1,6 @@
 ---
-title: Permissions
-description: All permissions available in the default Paper server.
+title: 权限
+description: 默认 Paper 服务器中可用的所有权限。
 slug: paper/reference/permissions
 ---
 

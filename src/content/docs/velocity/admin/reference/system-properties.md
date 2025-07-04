@@ -22,7 +22,7 @@ slug: velocity/reference/system-properties
 java -Dvelocity.packet-decode-logging=true -jar velocity.jar
 ```
 
-:::note[注释]
+:::note[注意]
 
 Velocity 的一些系统属性名称中包含 `.` 字符。在使用 PowerShell 时，这些需要使用引号包裹。
 例如：`"-Dvelocity.packet-decode-logging=true"`
@@ -32,7 +32,7 @@ Velocity 的一些系统属性名称中包含 `.` 字符。在使用 PowerShell 
 `-D` 用于设置系统属性，而系统属性是 `velocity.packet-decode-logging`，其值为 `true`。
 否则，只需将它们添加到启动命令中。
 
-:::note[注释]
+:::note[注意]
 
 显示的默认值可能未明确设置为该属性，但仅在未明确设置时才会被 Velocity 使用。
 

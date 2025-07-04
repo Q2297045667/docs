@@ -1,12 +1,12 @@
 ---
-title: Plugin messaging
-description: How to communicate with clients or proxies.
+title: 消息传递
+description: 如何与客户端或代理进行通信。
 slug: paper/dev/plugin-messaging
 ---
 
-First introduced in [2012](https://web.archive.org/web/20220711204310/https://dinnerbone.com/blog/2012/01/13/minecraft-plugin-channels-messaging/),
-Plugin messaging is a way for plugins to communicate with clients. When your servers are behind a proxy,
-it will allow your plugins to communicate with the proxy server.
+插件消息最早于 [2012](https://web.archive.org/web/20220711204310/https://dinnerbone.com/blog/2012/01/13/minecraft-plugin-channels-messaging/) 引入，
+这是一种让插件与客户端通信的方式。
+当服务器位于代理之后时，它允许插件与代理服务器进行通信。
 
 ## BungeeCord channel
 

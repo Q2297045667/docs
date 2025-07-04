@@ -1,11 +1,11 @@
 ---
-title: Recipes
-description: How to create and manage recipes.
+title: 配方表
+description: 如何创建和管理配方。
 slug: paper/dev/recipes
 ---
 
-Recipes are a way to define a way to craft a particular item. They are defined by a plugin or
-datapack, however we are only going to cover the plugin side of things here.
+配方是一种定义制作特定物品的方式。
+它们可以由插件或数据包定义，但在这里我们只讨论插件方面的内容。
 
 ## [`ShapedRecipe`](jd:paper:org.bukkit.inventory.ShapedRecipe)
 

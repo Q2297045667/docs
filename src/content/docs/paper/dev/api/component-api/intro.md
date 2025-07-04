@@ -1,12 +1,12 @@
 ---
-title: Introduction
+title: 介绍
 slug: paper/dev/component-api/introduction
-description: An introduction to how components work.
+description: 关于组件如何工作的介绍。
 ---
 
-:::note
+:::note[注意]
 
-This documentation page applies to both the Paper and Velocity projects.
+本文档页面适用于 Paper 和 Velocity 项目。
 
 :::
 

@@ -46,7 +46,7 @@ public void onPlayerChat(PlayerChatEvent event) {
 
 如果不指定顺序，`-32768` 是默认值。
 
-:::note[注释]
+:::note[注意]
 
 由于兼容性限制，你必须指定 [`PostOrder.CUSTOM`](jd:velocity:com.velocitypowered.api.event.PostOrder#CUSTOM) 才能使用这个字段。
 

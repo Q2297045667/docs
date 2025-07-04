@@ -1,6 +1,6 @@
 ---
-title: Supporting Paper and Folia
-description: How to support both Folia and Paper within your plugin.
+title: 支持 Paper 和 Folia
+description: 如何在您的插件中同时支持 Folia 和 Paper。
 slug: paper/dev/folia-support
 ---
 

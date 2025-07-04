@@ -1,6 +1,6 @@
 ---
-title: Chat events
-description: An outline on AsyncChatEvent and how to handle it.
+title: 聊天事件
+description: 关于 `AsyncChatEvent` 及其处理方式的概述。
 slug: paper/dev/chat-events
 ---
 

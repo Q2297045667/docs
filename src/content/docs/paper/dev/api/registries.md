@@ -1,15 +1,15 @@
 ---
-title: Registries
-description: A guide to registries and their modification on Paper.
+title: 注册表
+description: 关于 Paper 上注册表及其修改的指南。
 slug: paper/dev/registries
 sidebar:
   badge:
-    text: Experimental
+    text: 实验性
     variant: danger
 ---
 
-:::danger[Experimental]
-The Registry API and anything that uses it is currently experimental and may change in the future.
+:::danger[实验性]
+注册表 API 及其使用的一切目前都是实验性的，未来可能会发生变化。
 :::
 
 ## What is a registry?

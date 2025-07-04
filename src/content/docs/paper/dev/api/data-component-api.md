@@ -1,14 +1,14 @@
 ---
-title: Data components
-description: A guide to the ItemStack data component API.
+title: 数据组件
+description: 关于 ItemStack 数据组件 API 的指南。
 slug: paper/dev/data-component-api
 sidebar:
   badge:
-    text: Experimental
+    text: 实验性
     variant: danger
 ---
 
-:::danger[Experimental]
+:::danger[实验性]
 
 The data component API is currently experimental, and is additionally subject to change across versions.
 
