@@ -1,12 +1,12 @@
 ---
-title: Bug fixes
-description: An explanation of which Vanilla bugs we fix in Paper.
+title: 漏洞修复
+description: 关于我们在 Paper 中修复了哪些原版漏洞的说明
 slug: paper/misc/paper-bug-fixes
 ---
 
-Paper fixes many gameplay and technical issues within Minecraft. The most prevalent fixes are to TNT duplication and bedrock breaking.
+Paper 修复了 Minecraft 中许多游戏玩法和技术问题。最常见的修复是 TNT 复制和基岩破坏。
 
-## Vanilla bug fixes
+## 原版漏洞修复
 
 Paper fixes many Vanilla bugs that were not intended by Mojang. These bugs are patched to fix behavior or prevent abuse and
 instability on the server. Some of our fixes are configurable, as we understand that some servers may want to keep the
