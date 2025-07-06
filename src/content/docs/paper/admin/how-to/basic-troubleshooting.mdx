@@ -1,59 +1,59 @@
 ---
-title: Basic troubleshooting
-description: This guide will help you diagnose your server's problem before reporting it to PaperMC or the plugin's author.
+title: 故障排除
+description: 本指南将帮助你在向 PaperMC 或插件作者报告问题之前，诊断服务器的问题
 slug: paper/basic-troubleshooting
 ---
 
-This guide will help you diagnose your server's problem before reporting it to PaperMC or the plugin's author.
+这份指南将帮助你在向 PaperMC 或插件开发者报告问题之前，先诊断出服务器所存在的问题。
 
-:::caution[Stop Your Server And Take A Backup]
+:::caution[停止服务器并进行备份]
 
-Before following this guide, stop your server first. Modifying server files while it is still running will corrupt them. Only a full server shutdown can prevent this.
+在按照本指南操作之前，请先停止服务器。在服务器运行时修改服务器文件会导致文件损坏。只有完全关闭服务器才能防止这种情况发生。
 
-Also, if you don't follow this guide carefully or make a mistake while following it, you might corrupt your server. It is highly advised to back up your server before following this guide. Archiving your server folder as a .zip is good enough, or if you prefer, use backup software such as [borg](https://www.borgbackup.org/) or [kopia](https://kopia.io/). It would be ideal to create a test server by copying your production server's file, but that's not always possible.
+如果你不仔细遵循这份指南，或者在执行过程中出现错误，可能会损坏你的服务器。强烈建议你在按照这份指南操作之前备份你的服务器。将服务器文件夹打包为 .zip 格式就足够了，或者如果你愿意，也可以使用备份软件，例如 [BorgBackup](https://www.borgbackup.org/) 或 [Kopia](https://kopia.io/)。理想情况下，通过复制生产服务器的文件创建一个测试服务器会更好，但并不总是可行。
 
 :::
 
-If your server encounters a problem, it will either print an error message on the server console, create a crash report and close itself, or do both.
-If your server crashes, the crash report will be saved in the crash-report directory. If your server didn't crash, those error messages will be stored in the log directory along with other messages.
+如果服务器遇到问题，它会在服务器控制台上打印错误消息、创建崩溃报告并自行关闭，或者同时执行这两种操作。
+如果服务器崩溃，崩溃报告将保存在 `crash-report` 目录中。如果服务器没有崩溃，这些错误消息将与其他消息一起存储在 `log` 目录中。
 
-Note that the logs older than the latest will be compressed and not stored as plain text files.
+请注意，比最新的日志更早的日志将被压缩，而不是以纯文本文件的形式存储。
 
-The first thing you have to do is diagnose those messages.
+你首先需要做的是诊断这些消息。
 
-Almost every problem you encounter will print error message lines, which are called a "stack trace", on the server console. Examining the stack trace will help you find out what is causing problems on your server.
+你遇到的几乎所有问题都会在服务器控制台上打印错误消息行，这些行被称为“堆栈跟踪”。检查堆栈跟踪将帮助你找出服务器出现问题的原因。
 
-The stack trace starts with the error message, exception type, and exception message.
+堆栈跟踪以错误消息、异常类型和异常消息开始。
 
-Both error messages and exception messages were put there by the developer of either your plugin or Paper. These messages tell you what problem your server experienced. An exception type like `java.lang.RuntimeException` tells you the type of the exception. This will help the developer (and you) understand the type of problem. A good starting point is to search the exception type and message in the [Paper Discord](https://discord.gg/papermc).
+堆栈跟踪以错误消息、异常类型和异常消息开始。这些错误消息和异常消息是由你的插件或 Paper 的开发者添加的。这些消息会告诉你服务器遇到了什么问题。异常类型（如 `java.lang.RuntimeException`）会告诉你异常的类型。这将帮助开发者（以及你）了解问题的类型。一个好的起点是在 [Paper Discord](https://discord.gg/papermc) 中搜索异常类型和消息。
 
-Many lines beginning with `at` may appear beneath the exception message. These are the body of the stack trace. These lines tell you where the problem starts. The top line of the body of the stack trace will tell you exactly where the problem occurred and, if possible, display where it came from.
+在异常消息下方，可能会出现许多以 `at` 开头的行，这些是堆栈跟踪的主体。这些行会告诉你问题是从哪里开始的。堆栈跟踪主体的最上面一行会确切地告诉你问题发生的位置，并且如果可能的话，会显示它来自哪里。
 
-Issues are often plugin-induced, and are the first possible thing you should check.
+问题通常是由插件引起的，这是你应该首先检查的可能原因之一。
 
-# Common issues
+# 常见问题
 
-## Plugin-induced issues
-If you find any plugin's name in a stack trace in your logs, head to [Check Plugin Updates](#check-plugin-updates) and read from there. In most cases, the plugin, whose name is found on the stack trace, is causing the problem.
+## 由插件引发的问题
+如果你在日志中的堆栈跟踪中发现了某个插件的名称，请前往[检查插件更新](#检查插件更新)并从那里开始阅读。在大多数情况下，堆栈跟踪中发现的插件名称就是导致问题的插件。
 
-You can disable all of your plugins by renaming the plugins directory to something else, such as plugins-disabled, or by archiving the plugins directory and deleting it.
+你可以通过将插件目录重命名为其他名称（例如 plugins-disabled），或者将插件目录打包并删除它，来禁用所有插件。
 
-After that, try to run your server.
+之后，尝试运行你的服务器。
 
-If the problem is resolved after removing the plugins, you know that it was a plugin that caused the issue.
+如果在移除插件后问题解决了，那么你就知道是某个插件导致了这个问题。
 
-### Binary search
-In case you've determined a plugin is causing issues but cannot narrow it down, try a binary search.
+### 二分查找法
+如果你确定是某个插件导致了问题，但无法确定具体是哪个，可以尝试二分查找法。
 
-1. Split your plugins into two groups. The size of the two groups can be different, but it is ideal if the difference is minimal. Make sure that plugins that depend on each other are grouped together.
-2. Disable one of the two groups of plugins. You can disable them by changing their extension from .jar to something else, such as .jar-disabled, or move them outside the plugins directory and into a temporary directory.
-3. Run your server and check if the problem still exists. If the problem is resolved, the plugin that caused the issue is one of the disabled plugins. If the problem is not resolved, the plugin that is causing the issue is one of the active plugins.
-4. Repeat from the start with the suspect plugin group.
-Repeat the steps above with groups that have the plugin that is causing the issue.
+1. 将你的插件分成两组。这两组的大小可以不同，但最好差距最小。确保相互依赖的插件分在一组。
+2. 禁用这两组中的一组。你可以通过将它们的扩展名从 `.jar` 改为其他名称（例如 `.jar-disabled`），或者将它们移出 `plugins` 目录并放入一个临时目录来禁用它们。
+3. 运行你的服务器并检查问题是否仍然存在。如果问题解决了，那么导致问题的插件就是被禁用的那组插件中的一个。如果问题仍然存在，那么导致问题的插件就是仍然启用的那组插件中的一个。
+4. 从头开始，对可疑的插件组重复上述步骤。
+重复上述步骤，对包含导致问题的插件的组进行操作。
 
-:::caution[Library Plugin Dependencies]
+:::caution[库插件依赖]
 
-Some plugins that you install are not a typical plugin, but a library. These are installed like plugins, however tend to offer few user-facing features and are relied upon by other plugins for their functionality. If you disable a library, plugins that depend on it will not work properly. Common examples of these libraries are ProtocolLib, Vault providers, permission plugins, etc.
+你安装的一些插件并不是普通的插件，而是一个库。这些库的安装方式与插件相同，但通常不提供面向用户的功能，而是被其他插件依赖以实现其功能。如果你禁用了这样的库，依赖它的插件将无法正常工作。常见的库插件包括 ProtocolLib、Vault 提供者、权限插件等。
 
 :::
 
