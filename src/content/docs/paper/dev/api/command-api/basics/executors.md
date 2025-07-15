@@ -31,7 +31,7 @@ public interface Command<S> {
 }
 ```
 
-我们的lambda有一个参数并返回一个整数。这基本上就是该接口中定义的`run`方法。
+我们的 lambda 有一个参数并返回一个整数。这基本上就是该接口中定义的`run`方法。
 那个参数`CommandContext<S>`是我们获取执行该命令的发送者以及所有命令参数的所有信息的地方。
 它有很多方法，但对我们来说主要用到的是`S getSource()`和`V getArgument(String, Class<V>)`。
 我们在[参数与文字](/paper/dev/command-api/basics/arguments-and-literals)章节中简要地了解了`getArgument(...)`，但简而言之，这是我们可以检索参数的方法。后面会有更具体的示例。
@@ -106,9 +106,9 @@ Commands.literal("flyspeed")
 ![](./assets/flyspeed-proxied.png)
 
 ### 逻辑分离
-有时，如果命令太大或者由于个人偏好，你可能不想把逻辑代码放在`executes`方法中，因为过多的缩进可能会使代码难以阅读。
-在这种情况下，我们可以不把逻辑定义在lambda表达式中，而是使用方法引用。
-为此，我们可以直接将方法引用传递给`executes`方法。它可能如下所示：
+有时，如果命令太大或者由于个人偏好，你可能不想把逻辑代码放在 `executes` 方法中，因为过多的缩进可能会使代码难以阅读。
+在这种情况下，我们可以不把逻辑定义在 lambda 表达式中，而是使用方法引用。
+为此，我们可以直接将方法引用传递给 `executes` 方法。它可能如下所示：
 
 ```java title="FlightSpeedCommand.java"
 public class FlightSpeedCommand {

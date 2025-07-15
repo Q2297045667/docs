@@ -1,6 +1,6 @@
 ---
-title: Registry
-description: Documentation for arguments retrieving registry values.
+title: 注册
+description: 关于从注册表中检索参数值的文档。
 slug: paper/dev/command-api/arguments/registry
 version: 1.21.5
 ---
@@ -44,18 +44,18 @@ import EnchantsRegistry from "./assets/registry-arguments/enchants-registry.mp4"
 
 import Video from "/src/components/Video.astro";
 
-Registries in Minecraft hold all sort of information - possible item or block types, enchantments, potion effects, ... and more!
+Minecraft 中的注册表包含各种信息——可能的物品或方块类型、附魔、药水效果……以及更多！
 
-There are two types of registry arguments: `resource` and `resourceKey`.
-The main difference between those arguments is the return value: The `resource` argument returns the parsed value, whilst the `resourceKey` only returns a `TypedKey`, which
-you can use to retrieve the value yourself.
+注册表参数有两种类型：`resource` 和 `resourceKey`。
+这两种参数的主要区别在于返回值：`resource` 参数返回解析后的值，
+而 `resourceKey` 只返回一个 `TypedKey`，你可以用它自己检索值。
 
-## Resource argument
-Just like any other argument, you can get a `ArgumentType<T>` reference to it using `ArgumentTypes.resource(RegistryKey<T>)`. A selection of possible registry keys can be
-found below. They are accessed in a static context using the [`RegistryKey`](jd:paper:io.papermc.paper.registry.RegistryKey) interface.
+## 资源参数
+就像其他任何参数一样，你可以使用 `ArgumentTypes.resource(RegistryKey<T>)` 获取它的 `ArgumentType<T>` 引用。
+以下是一些可能的注册表键，它们可以通过 [`RegistryKey`](jd:paper:io.papermc.paper.registry.RegistryKey) 接口以静态方式访问。
 
-Each entry in `RegistryKey` returns a `RegistryKey<T>`. The `<T>` generic parameter here describes the return type. This means that if we were to retrieve
-[`RegistryKey.ITEM`](jd:paper:io.papermc.paper.registry.RegistryKey#ITEM), the return type would be an `ItemType`, since it is defined as follows:
+`RegistryKey` 中的每个条目都返回一个 `RegistryKey<T>`。这里的 `<T>` 泛型参数描述了返回类型。
+这意味着如果我们检索 [`RegistryKey.ITEM`](jd:paper:io.papermc.paper.registry.RegistryKey#ITEM)，返回类型将是 `ItemType`，因为它被定义为如下：
 
 ```java title="RegistryKey.java"
 public sealed interface RegistryKey<T> extends Keyed permits RegistryKeyImpl {
@@ -65,7 +65,7 @@ public sealed interface RegistryKey<T> extends Keyed permits RegistryKeyImpl {
 }
 ```
 
-And really, there isn't much more to it. For that exact reason, here is an example on the implementation of such an argument:
+实际上，这并没有更多内容。正因为如此，这里有一个关于这种参数实现的示例：
 
 ```java
 public static LiteralCommandNode<CommandSourceStack> enchantmentRegistry() {
@@ -85,20 +85,20 @@ public static LiteralCommandNode<CommandSourceStack> enchantmentRegistry() {
                     return Command.SINGLE_SUCCESS;
                 }
 
-                ctx.getSource().getSender().sendRichMessage("<red>This command requires a player!");
+                ctx.getSource().getSender().sendRichMessage("<red>这个命令需要一个玩家！");
                 return Command.SINGLE_SUCCESS;
             }))
         .build();
 }
 ```
 
-We define an `enchantment` argument using a enchantment registry key resource and retrieve the value of that using `ctx.getArgument("enchantment", Enchantment.class)`.
-Finally, we enchant the item of the executing player's hand with whatever enchantment the sender chose at level 10 and send a success message.
+我们使用附魔注册表键资源定义了一个 `enchantment` 参数，并通过 `ctx.getArgument("enchantment", Enchantment.class)` 获取该值。
+最后，我们将执行玩家手中的物品附魔为发送者选择的附魔类型，等级为 10，并发送一条成功消息。
 
-Here is how it looks in-game:
+这是游戏中的样子：
 <Video src={EnchantsRegistry} />
 
-:::caution
+:::caution[警告]
 
 There are certain edge-cases, where this argument, due to missing registries on the client, will cause a **Network Protocol Error**.
 Basically, the only argument where this is the case right now is with the `STRUCTURE` registry key.
