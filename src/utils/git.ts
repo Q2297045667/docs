@@ -14,14 +14,14 @@ export const GITHUB_OPTIONS: RequestInit = process.env.GITHUB_TOKEN
   ? {
       headers: {
         Accept: "application/vnd.github+json",
-        "User-Agent": "PaperMC/docs (https://paper.8aka.org)",
+        "User-Agent": "PaperMC/docs (https://docs.papermc.io)",
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
       },
     }
   : {
       headers: {
         Accept: "application/vnd.github+json",
-        "User-Agent": "PaperMC/docs (https://paper.8aka.org)",
+        "User-Agent": "PaperMC/docs (https://docs.papermc.io)",
       },
     };
 
