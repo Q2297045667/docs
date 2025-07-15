@@ -5,9 +5,7 @@ advancements:
   disabled:
     default: "[minecraft:story/disabled]"
     description: >-
-      设置需要禁用的进度，它使用一系列的字符串。
-
-      - 分别是:
+      设置需要禁用的进度，它使用一系列的字符串，分别是:
 
       - 一个包括了命名空间的成绩名称。比如输入 "minecraft:adventure/avoid_vibration"，将会禁用
         "潜行100级" 这个进度。[Minecraft Wiki](https://zh.minecraft.wiki/w/%E8%BF%9B%E5%BA%A6#%E8%BF%9B%E5%BA%A6%E5%88%97%E8%A1%A8) 有所有的原版进度名称。
