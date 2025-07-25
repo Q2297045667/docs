@@ -7,16 +7,18 @@
   ];
 
   const flags: Option[] = [
-    { id: "none", label: "None", value: "" },
+    { id: "none", label: "不使用 Flags", value: "" },
     {
-      id: "aikar",
-      label: "Aikar's",
+      id: "aikar_G1GC",
+      label: "Aikar's（G1GC）(推荐)",
       value: [
         "-XX:+AlwaysPreTouch",
         "-XX:+DisableExplicitGC",
         "-XX:+ParallelRefProcEnabled",
         "-XX:+PerfDisableSharedMem",
         "-XX:+UnlockExperimentalVMOptions",
+        "-XX:+ExplicitGCInvokesConcurrent",
+        "-XX:+UseLargePages",
         "-XX:+UseG1GC",
         "-XX:G1HeapRegionSize=8M",
         "-XX:G1HeapWastePercent=5",
@@ -30,6 +32,27 @@
         "-XX:MaxGCPauseMillis=200",
         "-XX:MaxTenuringThreshold=1",
         "-XX:SurvivorRatio=32",
+        "-Dusing.aikars.flags=https://mcflags.emc.gs",
+        "-Daikars.new.flags=true",
+        "" /* space */,
+      ].join(" "),
+    },
+    {
+      id: "aikar_ZGC",
+      label: "Aikar's（ZGC）(适合多核心)",
+      value: [
+        //来源：https://github.com/Q2297045667/ZGC-For-Minecraft
+        //参考：https://blog.binklac.com/e6ad4dc21152/
+        "-XX:+AlwaysPreTouch",
+        "-XX:+DisableExplicitGC",
+        "-XX:+ParallelRefProcEnabled",
+        "-XX:+PerfDisableSharedMem",
+        "-XX:+UnlockExperimentalVMOptions",
+        "-XX:+ExplicitGCInvokesConcurrent",
+        "-XX:+UseLargePages",
+        "-XX:+UseZGC",
+        "-XX:ZUncommitDelay=300",
+        "-XX:SoftMaxHeapSize=8g",
         "-Dusing.aikars.flags=https://mcflags.emc.gs",
         "-Daikars.new.flags=true",
         "" /* space */,
@@ -114,7 +137,7 @@
 
 <div class="not-content generator">
   <div class="memory-input">
-    <p><span class="label">Memory:</span> {memory}GB</p>
+    <p><span class="label">内存:</span> {memory}GB</p>
     <input type="range" min={0.5} max={24} step={0.5} bind:value={memory} />
     <p class="gauge">
       {#each { length: 5 } as _, i}
@@ -125,11 +148,11 @@
 
   <div class="inputs">
     <div class="input">
-      <p class="label">File name:</p>
+      <p class="label">文件名:</p>
       <input type="text" placeholder="server.jar" bind:value={filename} />
     </div>
     <div class="input">
-      <p class="label">Platform:</p>
+      <p class="label">平台:</p>
       <select bind:value={platformId}>
         {#each platforms as option (option.id)}
           <option value={option.id}>{option.label ?? option.id}</option>
@@ -150,12 +173,12 @@
     {#if flag.id !== "velocity"}
       <div class="checkbox">
         <input type="checkbox" bind:checked={gui} />
-        <span class="label">GUI</span>
+        <span class="label">开启 GUI</span>
       </div>
     {/if}
     <div class="checkbox">
       <input type="checkbox" bind:checked={autoRestart} />
-      <span class="label">Auto-restart</span>
+      <span class="label">自动重启</span>
     </div>
   </div>
 
@@ -163,9 +186,9 @@
 
   <div class="actions">
     <button class:copied onclick={copyToClipboard}>
-      {copied ? "Copied!" : "Copy"}
+      {copied ? "已复制！" : "复制"}
     </button>
-    <button onclick={download}>Download</button>
+    <button onclick={download}>下载</button>
   </div>
 </div>
 
