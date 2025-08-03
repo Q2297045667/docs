@@ -322,11 +322,10 @@ packet-limiter:
 
         - 可选的值为 `DROP`（将忽略超过限制的数据包）和 `KICK`（将因超过限制而踢出玩家）。
     interval:
-      vanilla: "0.000001"
+      vanilla: "-1"
       default: "7.0"
       description: 设置 `max-packet-rate` 应用的时间间隔，单位为秒。
     max-packet-rate:
-      vanilla: "999999.0"
       default: "500.0"
       description: 设置在时间间隔内每个玩家允许的数据包数量。
   kick-message:
