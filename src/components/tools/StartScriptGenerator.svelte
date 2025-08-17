@@ -61,8 +61,8 @@
       ].join(" "),
     },
     {
-      id: "velocity",
-      label: "Velocity",
+      id: "velocity_G1GC",
+      label: "Velocity（G1GC）(推荐)",
       value: [
         "-XX:+AlwaysPreTouch",
         "-XX:+ParallelRefProcEnabled",
@@ -75,8 +75,8 @@
       ].join(" "),
     },
     {
-      id: "velocity（Zing-25+）",
-      label: "Velocity",
+      id: "velocity_Zing",
+      label: "velocity（Zing25+）",
       value: [
         "-XX:+UseZST",
         "-XX:+AlwaysPreTouch",
