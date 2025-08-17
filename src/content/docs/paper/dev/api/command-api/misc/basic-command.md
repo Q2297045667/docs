@@ -2,15 +2,16 @@
 title: 基本命令
 description: 使用 Brigadier 的 Bukkit 风格命令声明概述。
 slug: paper/dev/command-api/misc/basic-command
+version: 1.21.1
 ---
 
 对于非常简单的命令，Paper 提供了一种通过实现 [`BasicCommand`](jd:paper:io.papermc.paper.command.brigadier.BasicCommand) 接口来声明 Bukkit 风格命令的方法。
 
-这个接口有一个方法需要你覆盖：
-- `void execute(CommandSourceStack commandSourceStack, String[] args)`
+这个接口有一个方法，你必须重写：
+- `void execute(CommandSourceStack source, String[] args)`
 
-还有三个可选方法，你可以覆盖，但不是必须的：
-- `Collection<String> suggest(CommandSourceStack commandSourceStack, String[] args)`
+还有三个可选方法，你可以重写，但不是必须的：
+- `Collection<String> suggest(CommandSourceStack source, String[] args)`
 - `boolean canUse(CommandSender sender)`
 - `@Nullable String permission()`
 
@@ -27,17 +28,14 @@ import org.jspecify.annotations.NullMarked;
 public class YourCommand implements BasicCommand {
 
     @Override
-    public void execute(CommandSourceStack commandSourceStack, String[] args) {
+    public void execute(CommandSourceStack source, String[] args) {
 
     }
 }
 ```
 
-如果你之前见过 `CommandContext<CommandSourceStack>` 类，
-你可能会认出 `execute` 方法的第一个参数是 `CommandContext<S>` 中的泛型参数 `S`，它也用于 `ArgumentBuilder` 中的 `executes` 方法。
-
-通过 `CommandSourceStack`，我们可以获取有关命令发送者的基本信息、命令发送的位置以及执行实体。
-更多信息，请参阅 [basics/command-executors](/paper/dev/command-api/basics/executors)。
+通过 `CommandSourceStack`，你可以获取有关命令发送者的基本信息、命令发送的位置以及命令执行的实体。
+你可以在 [我们的命令执行器页面](/paper/dev/command-api/basics/executors) 上找到更多信息。
 
 ## 可选方法
 你可以自由选择是否实现上述提到的可选方法。以下是对每个方法的简要概述：
@@ -52,9 +50,52 @@ public class YourCommand implements BasicCommand {
 通过这个方法，你可以为 Brigadier 命令设置一个基本的 `requires` 结构。[你可以在这里了解更多](/paper/dev/command-api/basics/requirements)。
 这个方法返回一个 `boolean` 值，只有返回 `true`，命令发送者才能执行该命令。
 
+:::note[注意]
+
+如果你重写了这个方法，那么重写 `permission()` 方法将没有任何作用。
+这是因为默认实现使用了 `permission()` 的返回值，而如果你重写了它，这个返回值将不再被使用。
+
+```java title="BasicCommand.java"
+default boolean canUse(final CommandSender sender) {
+    final String permission = this.permission();
+    return permission == null || sender.hasPermission(permission);
+}
+```
+
+:::
+
 ### `permission()`
 通过 `permission` 方法，你可以类似于 `canUse` 方法，设置执行和查看此命令所需的权限。
 
+## 注册基础命令
+注册一个 `BasicCommand` 非常简单：在你的插件主类中，你可以在 `onEnable` 方法中调用其中一个
+[`registerCommand(...)`](jd:paper:org.bukkit.plugin.java.JavaPlugin#registerCommand(java.lang.String,io.papermc.paper.command.brigadier.BasicCommand))
+方法。
+
+```java title="YourPlugin.java"
+public class YourPlugin extends JavaPlugin {
+
+    @Override
+    public void onEnable() {
+        BasicCommand yourCommand = ...;
+        registerCommand("mycommand", yourCommand);
+    }
+}
+```
+
+### 基础命令是函数式接口
+由于你只需要重写一个方法，因此可以直接传递一个 lambda 表达式。
+然而，出于风格原因，这种做法并不推荐，因为它会使代码更难阅读。
+
+```java
+@Override
+public void onEnable() {
+    registerCommand(
+        "quickcmd",
+        (source, args) -> source.getSender().sendRichMessage("<yellow>你好!")
+    );
+}
+```
 
 ## 示例：广播命令
 以一个简单的广播命令为例，我们首先声明一个实现了 `BasicCommand` 接口并覆盖了 `execute` 和 `permission` 方法的类：
@@ -71,7 +112,7 @@ import org.jspecify.annotations.Nullable;
 public class BroadcastCommand implements BasicCommand {
 
     @Override
-    public void execute(CommandSourceStack commandSourceStack, String[] args) {
+    public void execute(CommandSourceStack source, String[] args) {
 
     }
 
@@ -88,9 +129,9 @@ public class BroadcastCommand implements BasicCommand {
 现在，在我们的 `execute` 方法中，我们可以获取执行该命令的执行者的名称。如果没有找到，我们可以直接获取命令发送者的名称，如下所示：
 
 ```java
-final Component name = commandSourceStack.getExecutor() != null
-    ? commandSourceStack.getExecutor().name()
-    : commandSourceStack.getSender().name();
+final Component name = source.getExecutor() != null
+    ? source.getExecutor().name()
+    : source.getSender().name();
 ```
 
 这确保了我们涵盖了所有情况，并且即使在使用 `/execute as` 时，命令也能正确工作。
@@ -99,7 +140,7 @@ final Component name = commandSourceStack.getExecutor() != null
 如果没有定义任何参数（即 `args` 的长度为 0），则提示发送者至少需要一个参数才能发送广播：
 ```java
 if (args.length == 0) {
-    commandSourceStack.getSender().sendRichMessage("<red>你不能发送空的广播！");
+    source.getSender().sendRichMessage("<red>你不能发送一个空的广播！");
     return;
 }
 
@@ -136,13 +177,13 @@ import org.jspecify.annotations.Nullable;
 public class BroadcastCommand implements BasicCommand {
 
     @Override
-    public void execute(CommandSourceStack commandSourceStack, String[] args) {
-        final Component name = commandSourceStack.getExecutor() != null
-            ? commandSourceStack.getExecutor().name()
-            : commandSourceStack.getSender().name();
+    public void execute(CommandSourceStack source, String[] args) {
+        final Component name = source.getExecutor() != null
+            ? source.getExecutor().name()
+            : source.getSender().name();
 
         if (args.length == 0) {
-            commandSourceStack.getSender().sendRichMessage("<red>你不能发送空的广播！");
+            source.getSender().sendRichMessage("<red>不能发送空广播！");
             return;
         }
 
@@ -163,14 +204,12 @@ public class BroadcastCommand implements BasicCommand {
 }
 ```
 
-注册我们的命令如下所示：
+注册命令的代码如下所示：
 
 ```java title="PluginMainClass.java"
 @Override
 public void onEnable() {
-    this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS,
-        event -> event.registrar().register("broadcast", new BroadcastCommand())
-    );
+    registerCommand("broadcast", new BroadcastCommand());
 }
 ```
 
@@ -178,13 +217,13 @@ public void onEnable() {
 ![](./assets/broadcast-command.png)
 
 
-## 示例：添加建议
-我们的广播命令运行得很好，但缺少建议。基于文本的命令中，玩家名称是一种非常常见的建议类型。
-为了提供建议的玩家名称，我们可以将所有在线玩家映射到他们的名称，如下所示：
+### 添加建议
+我们的广播命令运行良好，但缺乏建议功能。对于基于文本的命令，最常见的建议类型是玩家名称。
+为了提供玩家名称的建议，我们可以将所有在线玩家映射到他们的名称，如下所示：
 
 ```java
 @Override
-public Collection<String> suggest(CommandSourceStack commandSourceStack, String[] args) {
+public Collection<String> suggest(CommandSourceStack source, String[] args) {
     return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
 }
 ```
@@ -239,13 +278,13 @@ import java.util.Collection;
 public class BroadcastCommand implements BasicCommand {
 
     @Override
-    public void execute(CommandSourceStack commandSourceStack, String[] args) {
-        final Component name = commandSourceStack.getExecutor() != null
-            ? commandSourceStack.getExecutor().name()
-            : commandSourceStack.getSender().name();
+    public void execute(CommandSourceStack source, String[] args) {
+        final Component name = source.getExecutor() != null
+            ? source.getExecutor().name()
+            : source.getSender().name();
 
         if (args.length == 0) {
-            commandSourceStack.getSender().sendRichMessage("<red>你不能发送一个空的广播！");
+            source.getSender().sendRichMessage("<red>你不能发送一个空的广播！");
             return;
         }
 
@@ -265,7 +304,7 @@ public class BroadcastCommand implements BasicCommand {
     }
 
     @Override
-    public Collection<String> suggest(CommandSourceStack commandSourceStack, String[] args) {
+    public Collection<String> suggest(CommandSourceStack source, String[] args) {
         if (args.length == 0) {
             return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
         }
