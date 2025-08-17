@@ -869,6 +869,14 @@ max-growth-height:
     default: "3"
     description: 设置甘蔗自然生长的最大高度。
 misc:
+  allow-remote-ender-dragon-respawning:
+    default: "false"
+    vanilla: "true"
+    description: >-
+      Disables an optimization which verifies that end crystals placed in the end
+      are placed on the portal frame before any attempt is made at respawning
+      the ender dragon. Enabling this setting allows remote ender dragon
+      respawning to work again.
   disable-end-credits:
     default: "false"
     description: >-
