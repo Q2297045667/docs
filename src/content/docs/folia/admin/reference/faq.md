@@ -43,24 +43,28 @@ slug: folia/faq
 您需要根据实际看到的线程使用情况对其进行调整。
 
 ## Folia 禁用了哪些命令？
-Folia 当前禁用了一些命令，以下是禁用的命令：
-- Bossbar（Boss 栏）命令
-- Clone（克隆）命令
-- Data（数据）命令
-- Datapack（数据包）
-- Debug（调试）
-- Function（函数）
-- Item （物品）命令
-- Loot（战利品）
-- Reload（重载）
-- Ride（骑乘）
-- Schedule（计划）
-- Scoreboard（计分板）
-- Tag（标签）
-- Team（队伍）
-- TeamMsg（队伍消息）
-- Trigger（触发器）
-- WorldBorder（世界边界）
-- Perf（性能）
-- SaveAll（保存全部）
-- Restart（重启）
+Folia 当前禁用了一些命令。以下是这些命令：
+- Bossbar commands
+- Clone commands
+- Data commands
+- Datapack
+- Debug
+- Function
+- Item commands
+- Loot
+- Reload
+- Return
+- Ride
+- Rotate
+- Schedule
+- Scoreboard
+- Spectate
+- SpreadPlayers
+- Tag
+- Team
+- TeamMsg
+- Tick
+- Trigger
+- Perf
+- SaveAll
+- Restart

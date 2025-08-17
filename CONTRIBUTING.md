@@ -83,7 +83,7 @@ Slug 应该是唯一的，并且遵循文档的文件夹结构。标题是将在
 
 7. **链接和引用**：引用外部资源或链接到其他页面时，请使用描述性锚点文本并提供完整的 URL。
 
-8. **图片**：如有必要，可包含图片以说明概念，确保图片清晰且与内容相关，并将它们存储在仓库中，而不是外部 CDN（例如 imgur）。
+8. **图片和视频**：如有必要，可插入图片以阐释概念，确保图片清晰且与内容相关，并将其存储在仓库中，而不是外部 CDN（例如 Imgur）。也可以插入视频，但应确保视频简短且经过适当压缩。如果视频不需要交互（例如暂停），则建议使用动画图像（GIF、WebP 等），因为自动播放更能吸引注意力，并且可以通过构建工具进一步优化。
 
 9. **格式化代码**：在完成更改后，别忘了运行格式化脚本 `pnpm run format`。
 
@@ -135,7 +135,6 @@ Latest `paperweight-userdev` version is {LATEST_USERDEV_RELEASE}.
 ```
 
 如果您希望在代码块中执行这些替换，您需要使用特殊的 `replace` 元属性。
-
 它也可以在普通的 `.md` 文件中使用，您无需导入任何内容：
 
 ````markdown
@@ -159,7 +158,6 @@ loader: io.papermc.testplugin.TestPluginLoader
 ## 链接到 Javadoc
 
 许多 Javadoc 网站支持 `latest` 标签，例如 javadoc.io 或类似网站，这种情况下，只需在普通 Markdown 链接中使用它即可。
-
 然而，您可能还想引用 Paper、Velocity 或 Java 的最新版本的 Javadoc，这些版本并不支持 `latest` 标签。
 
 为此，您可以使用 `jd:project_name[:module_name][:class_or_member_reference]` Markdown 链接快捷方式：
@@ -177,4 +175,5 @@ loader: io.papermc.testplugin.TestPluginLoader
 贡献者应在与本仓库相关的所有互动中遵守 PaperMC 组织的 [社区指南](https://papermc.io/community/guidelines)。
 
 感谢您为 PaperMC 文档做出贡献！您的奉献有助于改善整个社区的文档。
-如果您有任何问题或需要进一步的帮助，请随时在 PaperMC Discord 服务器上联系我们，或在仓库中创建问题。
+如果您有任何问题或需要进一步的帮助，
+请随时在 PaperMC Discord 服务器上联系我们，或在仓库中创建问题。

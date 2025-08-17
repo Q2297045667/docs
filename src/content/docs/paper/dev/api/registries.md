@@ -68,9 +68,9 @@ final Enchantment enchantment = enchantmentRegistry.getOrThrow(EnchantmentKeys.S
 
 ### 引用注册表值
 
-引用注册表中的条目说起来容易做起来难。
-虽然在大多数情况下，一个简单的值的 [Collection](jd:java:java.util.Collection) 可能就足够了，
-但 Minecraft 更常使用其他方法，因此你也会经常遇到这些方法。
+引用注册表中的条目说起来容易，做起来难。
+在大多数情况下，一个简单的 [Collection](jd:java:java.util.Collection) 值集合可能就足够了，
+但 Minecraft 更常使用替代方法，因此你会遇到这些方法。
 
 [`RegistrySet`](jd:paper:io.papermc.paper.registry.set.RegistrySet)
 定义了一个与注册表 *相关* 的元素集合。

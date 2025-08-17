@@ -14,6 +14,7 @@ import ResourceChickenVariant from "./assets/registry-arguments/resource-chicken
 import ResourceCowVariant from "./assets/registry-arguments/resource-cow-variant.mp4";
 import ResourceDamageType from "./assets/registry-arguments/resource-damage-type.mp4";
 import ResourceDataComponentType from "./assets/registry-arguments/resource-data-component-type.mp4";
+import ResourceDialog from "./assets/registry-arguments/resource-dialog.mp4";
 import ResourceEnchantment from "./assets/registry-arguments/resource-enchantment.mp4";
 import ResourceEntityType from "./assets/registry-arguments/resource-entity-type.mp4";
 import ResourceFluid from "./assets/registry-arguments/resource-fluid.mp4";
@@ -197,42 +198,43 @@ Commands.argument("item", ArgumentTypes.resourceKey(RegistryKey.ITEM))
 
 以下 `RegistryKeys` 存在：
 
-| RegistryKeys 字段     | 返回值                 | 预览视频              |
-|---------------------|---------------------|-------------------|
-| ATTRIBUTE           | Attribute           | [属性](#属性)         |
-| BANNER_PATTERN      | PatternType         | [旗帜图案](#旗帜图案)     |
-| BIOME               | Biome               | [生物群系](#生物群系)     |
-| BLOCK               | BlockType           | [方块](#方块)         |
-| CAT_VARIANT         | Cat.Type            | [猫的变种](#猫的变种)     |
-| CHICKEN_VARIANT     | Chicken.Variant     | [鸡的变种](#鸡的变种)     |
-| COW_VARIANT         | Cow.Variant         | [牛的变种](#牛的变种)     |
-| DAMAGE_TYPE         | DamageType          | [伤害类型](#伤害类型)     |
-| DATA_COMPONENT_TYPE | DataComponentType   | [数据组件类型](#数据组件类型) |
-| ENCHANTMENT         | Enchantment         | [附魔](#附魔)         |
-| ENTITY_TYPE         | EntityType          | [实体类型](#实体类型)     |
-| FLUID               | Fluid               | [流体](#流体)         |
-| FROG_VARIANT        | Frog.Variant        | [青蛙的变种](#青蛙的变种)   |
-| GAME_EVENT          | GameEvent           | [游戏事件](#游戏事件)     |
-| INSTRUMENT          | MusicInstrument     | [乐器](#乐器)         |
-| ITEM                | ItemType            | [物品](#物品)         |
-| JUKEBOX_SONG        | JukeboxSong         | [唱片机歌曲](#唱片机歌曲)   |
-| MAP_DECORATION_TYPE | MapCursor.Type      | [地图装饰类型](#地图装饰类型) |
-| MEMORY_MODULE_TYPE  | MemoryKey\<?>       | [内存模块类型](#内存模块类型) |
-| MENU                | MenuType            | [菜单](#菜单)         |
-| MOB_EFFECT          | PotionEffectType    | [生物效果](#生物效果)     |
-| PAINTING_VARIANT    | Art                 | [画作变种](#画作变种)     |
-| PARTICLE_TYPE       | Particle            | [粒子](#粒子)         |
-| PIG_VARIANT         | Pig.Variant         | [猪的变种](#猪的变种)     |
-| POTION              | PotionType          | [药水](#药水)         |
-| SOUND_EVENT         | Sound               | [声音](#声音)         |
-| STRUCTURE           | Structure           | [结构](#结构)         |
-| STRUCTURE_TYPE      | StructureType       | [结构类型](#结构类型)     |
-| TRIM_MATERIAL       | TrimMaterial        | [修饰材料](#修饰材料)     |
-| TRIM_PATTERN        | TrimPattern         | [修饰图案](#修饰图案)     |
-| VILLAGER_PROFESSION | Villager.Profession | [村民职业](#村民职业)     |
-| VILLAGER_TYPE       | Villager.Type       | [村民类型](#村民类型)     |
-| WOLF_SOUND_VARIANT  | Wolf.SoundVariant   | [狼的声音变种](#狼的声音变种) |
-| WOLF_VARIANT        | Wolf.Variant        | [狼的变种](#狼的变种)     |
+| 注册表键字段                | 返回值    | 预览视频                           |
+| --------------------- | ------ | ------------------------------ |
+| ATTRIBUTE             | 属性     | [属性](#attribute)               |
+| BANNER\_PATTERN       | 图案类型   | [旗帜图案](#banner-pattern)        |
+| BIOME                 | 生物群系   | [生物群系](#biome)                 |
+| BLOCK                 | 块类型    | [方块](#block)                   |
+| CAT\_VARIANT          | 猫的变种   | [猫的变种](#cat-variant)           |
+| CHICKEN\_VARIANT      | 鸡的变种   | [鸡的变种](#chicken-variant)       |
+| COW\_VARIANT          | 牛的变种   | [牛的变种](#cow-variant)           |
+| DAMAGE\_TYPE          | 损害类型   | [伤害类型](#damage-type)           |
+| DATA\_COMPONENT\_TYPE | 数据组件类型 | [数据组件类型](#data-component-type) |
+| DIALOG                | 对话框    | [对话框](#dialog)                 |
+| ENCHANTMENT           | 魔法附魔   | [附魔](#enchantment)             |
+| ENTITY\_TYPE          | 实体类型   | [实体类型](#entity-type)           |
+| FLUID                 | 流体     | [流体](#fluid)                   |
+| FROG\_VARIANT         | 青蛙的变种  | [青蛙的变种](#frog-variant)         |
+| GAME\_EVENT           | 游戏事件   | [游戏事件](#game-event)            |
+| INSTRUMENT            | 音乐乐器   | [乐器](#instrument)              |
+| ITEM                  | 物品类型   | [物品](#item)                    |
+| JUKEBOX\_SONG         | 点唱机歌曲  | [点唱机歌曲](#jukebox-song)         |
+| MAP\_DECORATION\_TYPE | 地图装饰类型 | [地图装饰类型](#map-decoration-type) |
+| MEMORY\_MODULE\_TYPE  | 记忆模块类型 | [记忆模块类型](#memory-module-type)  |
+| MENU                  | 菜单类型   | [菜单](#menu)                    |
+| MOB\_EFFECT           | 生物效果   | [生物效果](#mob-effect)            |
+| PAINTING\_VARIANT     | 画作变体   | [画作变体](#painting-variant)      |
+| PARTICLE\_TYPE        | 粒子类型   | [粒子](#particle)                |
+| PIG\_VARIANT          | 猪的变种   | [猪的变种](#pig-variant)           |
+| POTION                | 魔法药水   | [药水](#potion)                  |
+| SOUND\_EVENT          | 声音事件   | [声音](#sound)                   |
+| STRUCTURE             | 结构     | [结构](#structure)               |
+| STRUCTURE\_TYPE       | 结构类型   | [结构类型](#structure-type)        |
+| TRIM\_MATERIAL        | 修剪材料   | [修剪材料](#trim-material)         |
+| TRIM\_PATTERN         | 修剪图案   | [修剪图案](#trim-pattern)          |
+| VILLAGER\_PROFESSION  | 村民职业   | [村民职业](#villager-profession)   |
+| VILLAGER\_TYPE        | 村民类型   | [村民类型](#villager-type)         |
+| WOLF\_SOUND\_VARIANT  | 狼的声音变种 | [狼的声音变种](#wolf-sound-variant)  |
+| WOLF\_VARIANT         | 狼的变种   | [狼的变种](#wolf-variant)          |
 
 ### 属性
 <Video src={ResourceAttributes} />
@@ -258,14 +260,17 @@ Commands.argument("item", ArgumentTypes.resourceKey(RegistryKey.ITEM))
 ### 伤害类型
 <Video src={ResourceDamageType} />
 
-### 魔法
+### 数据组件类型
+<Video src={ResourceDataComponentType} />
+
+### 对话框
+<Video src={ResourceDialog} />
+
+### 附魔
 <Video src={ResourceEnchantment} />
 
 ### 实体类型
 <Video src={ResourceEntityType} />
-
-### 数据组件类型
-<Video src={ResourceDataComponentType} />
 
 ### 流体
 <Video src={ResourceFluid} />

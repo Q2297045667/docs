@@ -18,6 +18,15 @@ Paper 的命令系统是基于 Minecraft 的 Brigadier 命令系统构建的。�
 :::
 
 ## 指南
+
+:::tip[提示]
+
+如果 Brigadier API 看起来太复杂，
+你可以从 [基础命令](/paper/dev/command-api/misc/basic-command) 开始。
+它们提供了一种简单的方式来创建命令，学习曲线较短。
+
+:::
+
 在学习 Brigadier 时，以下网站值得一读：
 - [命令树](/paper/dev/command-api/basics/command-tree)
 - [参数和字面量](/paper/dev/command-api/basics/arguments-and-literals)

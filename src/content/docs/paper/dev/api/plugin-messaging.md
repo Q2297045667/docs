@@ -195,8 +195,8 @@ public class MyPlugin extends JavaPlugin implements PluginMessageListener {
 
 :::caution[在所有服务器上封禁玩家的示例]
 
-这不是推荐的封禁玩家的方式，因为目标服务器上可能没有任何在线玩家，
-但它是一个如何使用它的示例。
+这不是推荐的封禁玩家的方式，因为目标服务器上可能没有在线玩家，
+但它是一个如何使用此功能的示例。
 
 :::
 

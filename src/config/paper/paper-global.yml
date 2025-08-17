@@ -322,11 +322,10 @@ packet-limiter:
 
         - 可选的值为 `DROP`（将忽略超过限制的数据包）和 `KICK`（将因超过限制而踢出玩家）。
     interval:
-      vanilla: "0.000001"
+      vanilla: "-1"
       default: "7.0"
       description: 设置 `max-packet-rate` 应用的时间间隔，单位为秒。
     max-packet-rate:
-      vanilla: "999999.0"
       default: "500.0"
       description: 设置在时间间隔内每个玩家允许的数据包数量。
   kick-message:
@@ -334,11 +333,26 @@ packet-limiter:
     description: >-
       设置当玩家发送过多数据包而被踢出时发送的消息，格式化为 [MiniMessage](https://docs.advntr.dev/minimessage/)。
   overrides:
-    default: ServerboundPlaceRecipePacket
-    description: >-
-      设置覆盖任何单个命名数据包的全局配置。
+    header:
+      message: >-
+        设置覆盖任何单个客户端发往服务器的包的 **action**、**interval** 和 **max-packet-rate** 配置。
 
-      - 您可以在计时信息中找到每个数据包的名称。对于经验丰富的用户，这里命名的数据包将使用 Mojang 映射，无论服务器如何。
+        - 您可以在 [wiki](https://minecraft.wiki/w/Java_Edition_protocol/Packets) 上找到包的标识符。
+    minecraft:place_recipe:
+      action:
+        default: KICK
+        description: >-
+          设置当超出限制时应采取的措施。
+
+          - 可能的值包括 **DROP**，它将忽略超出限制的包，以及 **KICK**，它将因超出限制而踢出玩家。
+      interval:
+        vanilla: "0.000001"
+        default: "7.0"
+        description: 设置 **max-packet-rate** 应用的时间间隔，以秒为单位。
+      max-packet-rate:
+        vanilla: "999999.0"
+        default: "500.0"
+        description: 设置每个玩家在指定时间间隔内允许发送的包的数量。
 player-auto-save:
   max-per-tick:
     default: "-1"

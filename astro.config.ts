@@ -1,5 +1,7 @@
 import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import d2 from "astro-d2";
 import { defineConfig } from "astro/config";
 import starlightLinksValidator from "starlight-links-validator";
@@ -209,6 +211,7 @@ export default defineConfig({
                             "paper/dev/component-api/introduction",
                             "paper/dev/component-api/i18n",
                             "paper/dev/component-api/audiences",
+                            "paper/dev/component-api/signed-messages",
                           ],
                         },
                         {
@@ -226,15 +229,25 @@ export default defineConfig({
                           collapsed: true,
                           items: ["paper/dev/entity-teleport", "paper/dev/display-entities"],
                         },
+                        {
+                          label: "Inventories",
+                          collapsed: true,
+                          items: ["paper/dev/menu-type-api", "paper/dev/custom-inventory-holder"],
+                        },
+                        {
+                          label: "Lifecycle API",
+                          collapsed: true,
+                          items: ["paper/dev/lifecycle", "paper/dev/lifecycle/datapacks"],
+                        },
                         "paper/dev/data-component-api",
                         "paper/dev/pdc",
-                        "paper/dev/custom-inventory-holder",
                         "paper/dev/scheduler",
                         "paper/dev/plugin-messaging",
                         "paper/dev/plugin-configurations",
-                        "paper/dev/lifecycle",
                         "paper/dev/registries",
+                        "paper/dev/dialogs",
                         "paper/dev/recipes",
+                        "paper/dev/particles",
                         "paper/dev/folia-support",
                         "paper/dev/roadmap",
                       ],
@@ -399,6 +412,8 @@ export default defineConfig({
                 "/paper/dev/api/command-api/misc",
                 "/paper/dev/api/component-api",
                 "/paper/dev/api/entity-api",
+                "/paper/dev/api/inventories",
+                "/paper/dev/api/lifecycle",
                 "/paper/dev/api/event-api",
                 "/paper/dev/misc",
                 "/paper/contributing",
@@ -421,6 +436,11 @@ export default defineConfig({
         ),
       ],
       expressiveCode: {
+        plugins: [pluginLineNumbers(), pluginCollapsibleSections()],
+        defaultProps: {
+          showLineNumbers: false,
+          collapseStyle: "collapsible-start",
+        },
         frames: {
           extractFileNameFromCode: false,
         },

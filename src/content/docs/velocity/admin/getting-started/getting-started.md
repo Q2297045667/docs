@@ -56,10 +56,13 @@ pause
 java -Xms1G -Xmx1G -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15 -jar velocity*.jar
 ```
 
-保存后，如果您尚未打开终端（或登录到机器），
-请打开终端并导航到您放置 Velocity JAR 文件和 `start.sh` 文件的目录。
-然后运行 `chmod +x start.sh`，接着运行 `./start.sh`。
-如果一切正常，您现在应该会看到一个与下一部分中的输出类似的控制台。
+保存文件后，如果你还没有打开终端（或登录到机器），请打开一个终端（或登录到机器）。
+导航到你放置 Velocity JAR 文件和 `start.sh` 文件的目录。
+然后，你需要准备 `start.sh` 脚本，使其可执行并运行它。
+
+1. 运行 `chmod u+x start.sh`。 此命令修改文件的权限，授予文件所有者（即你）执行（`x`）脚本的权限。
+   如果没有这一步，系统可能无法识别该脚本是可以运行的。
+2. 现在文件已经可以执行，运行 `./start.sh` 来运行脚本。
 
 ## 启动后
 
@@ -126,7 +129,8 @@ try = [
 
 :::caution[注意]
 
-以下设置是通用的，适用于任何 Minecraft 服务器。
+以下设置是通用的，
+适用于任何 Minecraft 服务器。
 这种设置不仅不实用（玩家将缺少皮肤、正确的 UUID，所有连接都将显示为来自代理），而且**极其不安全**。
 在将服务器置于离线模式后，
 您**必须**按照“玩家信息转发”和“保护您的服务器”部分的内容完成设置。
