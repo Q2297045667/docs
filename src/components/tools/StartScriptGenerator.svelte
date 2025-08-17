@@ -10,28 +10,34 @@
     { id: "none", label: "不使用 Flags", value: "" },
     {
       id: "aikar_G1GC",
-      label: "Aikar's（G1GC）(推荐)",
+      label: "Aikar's（G1GC）(通用推荐)",
       value: [
-        "-XX:+AlwaysPreTouch",
-        "-XX:+DisableExplicitGC",
-        "-XX:+ParallelRefProcEnabled",
-        "-XX:+PerfDisableSharedMem",
+        // 全局/实验开关
         "-XX:+UnlockExperimentalVMOptions",
-        "-XX:+ExplicitGCInvokesConcurrent",
+        "-XX:+AlwaysPreTouch",
         "-XX:+UseLargePages",
+        "-XX:+PerfDisableSharedMem",
+        "-XX:+DisableExplicitGC",
+        "-XX:+ExplicitGCInvokesConcurrent",
+        "-XX:+ParallelRefProcEnabled",
+        // GC 内存回收
         "-XX:+UseG1GC",
+        // G1 通用参数
+        "-XX:MaxGCPauseMillis=200",
+        "-XX:InitiatingHeapOccupancyPercent=15",
+        // G1 区域与分代参数
         "-XX:G1HeapRegionSize=8M",
-        "-XX:G1HeapWastePercent=5",
+        "-XX:G1NewSizePercent=30",
         "-XX:G1MaxNewSizePercent=40",
+        "-XX:G1ReservePercent=20",
+        "-XX:G1HeapWastePercent=5",
         "-XX:G1MixedGCCountTarget=4",
         "-XX:G1MixedGCLiveThresholdPercent=90",
-        "-XX:G1NewSizePercent=30",
         "-XX:G1RSetUpdatingPauseTimePercent=5",
-        "-XX:G1ReservePercent=20",
-        "-XX:InitiatingHeapOccupancyPercent=15",
-        "-XX:MaxGCPauseMillis=200",
+        // 晋升与幸存区
         "-XX:MaxTenuringThreshold=1",
         "-XX:SurvivorRatio=32",
+        // 系统属性
         "-Dusing.aikars.flags=https://mcflags.emc.gs",
         "-Daikars.new.flags=true",
         "-Dfile.encoding=UTF-8",
@@ -40,55 +46,72 @@
     },
     {
       id: "aikar_ZGC",
-      label: "Aikar's（ZGC）(适合多核心)",
+      label: "Aikar's（JDK17+ZGC）(适合多核心)",
       value: [
         //来源：https://github.com/Q2297045667/ZGC-For-Minecraft
         //参考：https://blog.binklac.com/e6ad4dc21152/
-        "-XX:+AlwaysPreTouch",
-        "-XX:+DisableExplicitGC",
-        "-XX:+ParallelRefProcEnabled",
-        "-XX:+PerfDisableSharedMem",
-        "-XX:+UnlockExperimentalVMOptions",
-        "-XX:+ExplicitGCInvokesConcurrent",
-        "-XX:+UseLargePages",
+        // GC 内存回收
         "-XX:+UseZGC",
-        "-XX:ZUncommitDelay=300",
-        "-XX:SoftMaxHeapSize=8g",
-        "-Dusing.aikars.flags=https://mcflags.emc.gs",
-        "-Daikars.new.flags=true",
+        "-XX:+UnlockExperimentalVMOptions",
+        // 内存与大页
+        "-XX:+UseLargePages",
+        "-XX:+AlwaysPreTouch",
+        // ZGC 行为细调
+        "-XX:-ZUncommit",
+        "-XX:ZCollectionInterval=30",
+        "-XX:ZAllocationSpikeTolerance=5",
+        "-XX:+ZProactive",
+        "-XX:+ExplicitGCInvokesConcurrent",
+        // 通用 JVM 并行/调优
+        "-XX:+PerfDisableSharedMem",
+        "-XX:+UseStringDeduplication",
+        "-XX:+UseCompressedOops",
+        "-XX:+ParallelRefProcEnabled",
+        // 系统属性
         "-Dfile.encoding=UTF-8",
         "" /* space */,
       ].join(" "),
     },
     {
       id: "velocity_G1GC",
-      label: "Velocity（G1GC）(推荐)",
+      label: "Velocity（G1GC）(通用推荐)",
       value: [
-        "-XX:+AlwaysPreTouch",
-        "-XX:+ParallelRefProcEnabled",
-        "-XX:+UnlockExperimentalVMOptions",
+        // GC 内存回收
         "-XX:+UseG1GC",
+        "-XX:+UnlockExperimentalVMOptions",
+        // 内存与大页
+        "-XX:+UseLargePages",
+        "-XX:+AlwaysPreTouch",
+        // 通用 JVM 并行/调优
+        "-XX:+ParallelRefProcEnabled",
+        // G1 区域与分代参数
         "-XX:G1HeapRegionSize=4M",
         "-XX:MaxInlineLevel=15",
+        // 系统属性
         "-Dfile.encoding=UTF-8",
         "" /* space */,
       ].join(" "),
     },
     {
-      id: "velocity_Zing",
-      label: "velocity（Zing25+）",
+      id: "velocity_ZST",
+      label: "velocity（Zing25+ZST）",
       value: [
+        // GC 内存回收
         "-XX:+UseZST",
         "-XX:+AlwaysPreTouch",
+        // 内存与大页
         "-XX:+UseTransparentHugePages",
-        "-XX:FalconOptimizationLevel=3",
+        // JIT 相关
         "-XX:+UseMultiTiering",
+        "-XX:FalconOptimizationLevel=3",
         "-XX:+UseReadyNow",
         "-XX:ProfileLog=profiles/velocity.rn",
         "-XX:+FalconUseCompileStashing",
         "-XX:+FalconLoadObjectCache",
         "-XX:+FalconAOTCache",
+        // 字符串优化
         "-XX:+CompactStrings",
+        // 系统属性
         "-Dfile.encoding=UTF-8",
         "" /* space */,
       ].join(" "),
