@@ -47,8 +47,8 @@ Velocity 的一些系统属性名称中包含 `.` 字符。在使用 PowerShell 
 
 #### mojang.sessionserver
 
-- **default**: `https://sessionserver.mojang.com/session/minecraft/hasJoined`
-- **description**: Full URL of the `hasJoined` endpoint on the session server used for authentication.
+- **默认**: `https://sessionserver.mojang.com/session/minecraft/hasJoined`
+- **描述**: 用于身份验证的会话服务器上`hasJoined`端点的完整URL。
 
 #### velocity.natives-tmpdir
 
