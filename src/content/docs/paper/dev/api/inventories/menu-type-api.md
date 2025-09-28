@@ -5,11 +5,11 @@ description: A guide to the Menu Type API.
 version: 1.21.8
 sidebar:
   badge:
-    text: Experimental
+    text: 实验性
     variant: danger
 ---
 
-:::danger[Experimental]
+:::danger[实验性]
 
 The Menu Type API and anything that uses it is currently experimental and may change in the future.
 
