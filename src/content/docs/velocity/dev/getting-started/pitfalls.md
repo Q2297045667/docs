@@ -31,16 +31,19 @@ public void onProxyInitialization(ProxyInitializeEvent event) {
 
 ## Audience 操作尚未完全支持
 
-Velocity 当前不支持 Adventure API 的所有观众操作，因此这些操作应在后端处理。
-此外，播放声音在 1.19.3 以下版本中被认为是不可行的，因为需要一个硬编码的声音 ID 注册表。
+Velocity 目前不支持 Adventure API 的所有 Audience 操作，因此这些操作应该在后端处理。
+此外，播放声音在 1.19.3 以下版本被认为是不可行的，需要一个硬编码的声音 ID 注册表。
 
-| 操作             | 是否支持 |
-|----------------|------|
-| 聊天消息           | 是    |
-| 动作栏消息          | 是    |
-| 标题             | 是    |
-| Boss 栏         | 是    |
-| Tablist 页眉和页眉尾 | 是    |
-| 资源包            | 是    |
-| 声音             | 否    |
-| 书本             | 否    |
+| 操作          | 是否支持            |
+|-------------|-----------------|
+| 聊天消息        | 是               |
+| 动作条消息       | 是               |
+| 标题          | 是               |
+| 老板条         | 是               |
+| 选项卡列表的头部和尾部 | 是               |
+| 资源包         | 是               |
+| 声音          | 是[^sounds-note] |
+| 书籍          | 否               |
+| 对话框         | 否               |
+
+[^sounds-note]: 播放声音仅在 1.19.3+ 版本中有效，并需要一个发射器（ [`Sound.Emitter#self()`](https://jd.advntr.dev/api/latest/net/kyori/adventure/sound/Sound.Emitter.html#self()) 或来自同一服务器的其他玩家）。[`Player#playSound(Sound)`](jd:velocity:com.velocitypowered.api.proxy.Player#playSound(net.kyori.adventure.sound.Sound))尚未实现，因为 Adventure 的协议要求声音在播放时必须位于玩家的当前位置。
