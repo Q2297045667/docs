@@ -157,7 +157,7 @@ public void bootstrap(BootstrapContext context) {
             DialogKeys.create(Key.key("papermc:custom_dialog")),
             builder -> builder
                 // 在这里构建你的对话框……
-                .base(DialogBase.builder(Component.text("Title")).build())
+                .base(DialogBase.builder(Component.text("标题")).build())
                 .type(DialogType.notice())
         )));
 }
@@ -169,40 +169,40 @@ public void bootstrap(BootstrapContext context) {
 - 使用 [`Adventure#closeDialog()`](https://jd.advntr.dev/api/latest/net/kyori/adventure/audience/Audience.html#closeDialog()) 的预期方式。
 - 使用 [`Player#closeInventory()`](jd:paper:org.bukkit.entity.HumanEntity#closeInventory()) 的稍微有点黑客的方式。
 
-Using `closeDialog()` will result in the dialog being closed and the player returning to the previous non-dialog or game menu screen they were on.
-This means any previously open inventories will be kept open.
+使用 `closeDialog()` 会导致对话框关闭，玩家返回到他们之前所在的非对话框或游戏菜单屏幕。
+这意味着任何之前打开的库存将保持打开状态。
 
-In contrast, `closeInventory()` will close not only the currently open dialog, but also any other screens, like an open inventory.
+相比之下，`closeInventory()` 不仅会关闭当前打开的对话框，还会关闭其他屏幕，比如打开的库存。
 
-## Example: A blocking confirmation dialog
-If you want your players to read some information, agree to something, or give general input before they join your server,
-you can send them a dialog during the configuration phase. For this example, we will be creating the dialog shown at
-the start.
+## 示例：一个阻塞的确认对话框
+如果你想让玩家在加入你的服务器之前阅读一些信息、同意某件事或提供一般输入，
+你可以在配置阶段向他们发送一个对话框。
+在这个示例中，我们将创建前面展示的对话框。
 
-### The dialog
-The dialog is a simple confirmation-type dialog with a single plain message body components. We will register it in
-the bootstrapper so that we can easily retrieve it from the `AsyncPlayerConnectionConfigureEvent`, where the dialog will
-be sent from.
+### 对话框
+这个对话框是一个简单的确认类型对话框，包含一个纯文本消息主体组件。
+我们将在启动器中注册它，
+以便我们可以在 `AsyncPlayerConnectionConfigureEvent` 中轻松检索它，对话框将从这里发送。
 
 ```java title="CustomPluginBootstrapper.java" showLineNumbers
 ctx.getLifecycleManager().registerEventHandler(RegistryEvents.DIALOG.compose(),
     e -> e.registry().register(
         DialogKeys.create(Key.key("papermc:praise_paperchan")),
         builder -> builder
-            .base(DialogBase.builder(Component.text("Accept our rules!", NamedTextColor.LIGHT_PURPLE))
+            .base(DialogBase.builder(Component.text("接受我们的规则！", NamedTextColor.LIGHT_PURPLE))
                 .canCloseWithEscape(false)
                 .body(List.of(
-                    DialogBody.plainMessage(Component.text("By joining our server you agree that Paper-chan is cute!"))
+                    DialogBody.plainMessage(Component.text("加入我们的服务器，即表示你同意 Paper-chan 很可爱！"))
                 ))
                 .build()
             )
             .type(DialogType.confirmation(
-                ActionButton.builder(Component.text("Paper-chan is cute!", TextColor.color(0xEDC7FF)))
-                    .tooltip(Component.text("Click to agree!"))
+                ActionButton.builder(Component.text("Paper-chan 很可爱！", TextColor.color(0xEDC7FF)))
+                    .tooltip(Component.text("点击以同意！"))
                     .action(DialogAction.customClick(Key.key("papermc:paperchan/agree"), null))
                     .build(),
-                ActionButton.builder(Component.text("I hate Paper-chan!", TextColor.color(0xFF8B8E)))
-                    .tooltip(Component.text("Click this if you are a bad person!"))
+                ActionButton.builder(Component.text("我讨厌 Paper-chan！", TextColor.color(0xFF8B8E)))
+                    .tooltip(Component.text("如果你是个坏人，就点击这个！"))
                     .action(DialogAction.customClick(Key.key("papermc:paperchan/disagree"), null))
                     .build()
             ))
@@ -210,13 +210,13 @@ ctx.getLifecycleManager().registerEventHandler(RegistryEvents.DIALOG.compose(),
 );
 ```
 
-Notice the `.action` methods on the confirmation `ActionButton`s. These hold a key and an optional, custom NBT payload
-that will be sent from the client to the server when the player clicks one of the buttons. We use that to identify
-the click event.
+注意确认 `ActionButton` 上的 `.action` 方法。
+这些方法包含一个键和一个可选的自定义 NBT 负载，当玩家点击其中一个按钮时，这些内容将从客户端发送到服务器。
+我们用它来识别点击事件。
 
-This example uses two separate keys for both keys, but you can also use only one and set a custom NBT payload.
+这个示例为两个键分别使用了两个不同的键，但你也可以只使用一个键并设置一个自定义的 NBT 负载。
 
-### Requiring the player to agree before allowing them to join
+### 要求玩家同意后才能加入
 In order to block the player from joining the server, we send them the dialog and await a response. We do
 this by constructing a `CompletableFuture`, putting it into a map, and waiting until the future gets
 completed, will only happen as soon the player pressed one of the two confirmation buttons of the dialog.
