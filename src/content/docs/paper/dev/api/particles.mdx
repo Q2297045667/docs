@@ -105,11 +105,11 @@ Particle.NOTE.builder()
 
 ![CRIT粒子向随机方向移动](./assets/particles/random-direction-crit.webp)
 
-### Specified direction
-To specify the velocity's direction, set the `count` argument to `0` and use the offset arguments as the direction vector.
-See [`count` argument behavior](#count-argument-behavior) for more details.
+### 指定方向
+要指定速度的方向，需将 `count` 参数设置为 `0`，并使用偏移参数作为方向向量。
+更多详情请参见 [`count` 参数行为](#count-argument-behavior)。
 
-An example of a repeating task spawning campfire smoke that slowly goes "up" (positive Y axis):
+一个重复任务的示例，生成缓慢向上（正 Y 轴方向）飘动的篝火烟雾：
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
@@ -133,9 +133,9 @@ An example of a repeating task spawning campfire smoke that slowly goes "up" (po
   </TabItem>
 </Tabs>
 
-![Campfire signal smoke going up](./assets/particles/smoke-going-up.webp)
+![篝火信号烟向上飘](./assets/particles/smoke-going-up.webp)
 
-We could also make the smoke go down if we wanted to:
+如果需要，我们也可以让烟向下飘。
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
@@ -160,9 +160,9 @@ We could also make the smoke go down if we wanted to:
 </Tabs>
 
 {/* spellchecker:off */}
-### List of directional particles
+### 定向粒子列表
 <details>
-<summary>Show list</summary>
+<summary>展示列表</summary>
 - BLOCK
 - BUBBLE
 - BUBBLE_COLUMN_UP
@@ -210,10 +210,10 @@ We could also make the smoke go down if we wanted to:
 </details>
 {/* spellchecker:on */}
 
-## Colored particles
-These particles can be colored by passing a [`Color`](jd:paper:org.bukkit.Color) object as the `data` argument.
+## 彩色颗粒
+这些颗粒可以通过传递一个 [`Color`](jd:paper:org.bukkit.Color) 对象作为 `data` 参数来着色。
 
-Example of spawning 10 potion effect particles in a 2x2x2 area with a slightly translucent orange color:
+在 2x2x2 区域内生成 10 个带有略微半透明橙色的药水效果颗粒的示例：
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
@@ -233,33 +233,33 @@ Example of spawning 10 potion effect particles in a 2x2x2 area with a slightly t
   </TabItem>
 </Tabs>
 
-![Colored potion effect particles](./assets/particles/orange-spell-particles.webp)
+![彩色药水效果颗粒](./assets/particles/orange-spell-particles.webp)
 
-:::note
-Only the `ENTITY_EFFECT` supports the alpha channel, which is used to create translucent particles.
+:::note[注意]
+只有 `ENTITY_EFFECT` 支持 alpha 通道，用于创建半透明颗粒。
 :::
 
-:::caution
-The `EFFECT` and `INSTANT_EFFECT` particles cannot be colored with the API and will always be white. Only thrown potions
-can color them.
+:::caution[警告]
+`EFFECT` 和 `INSTANT_EFFECT` 颗粒无法通过API着色，它们始终是白色的。
+只有投掷的药水才能为它们着色。
 :::
 
-### Dust particles
-Vanilla uses the dust particle for redstone particles. They can have a custom color by passing
-[Particle.DustOptions](jd:paper:org.bukkit.Particle$DustOptions) as `data`.
+### 尘埃颗粒
+原版游戏中使用尘埃颗粒来表示红石颗粒。
+通过将 [Particle.DustOptions](jd:paper:org.bukkit.Particle$DustOptions) 作为 `data` 参数传递，可以为其设置自定义颜色。
 
-:::note
-The scale factor must be in the range of `0.01` to `4.0`. Values outside this range will be clamped to the nearest valid value.
+:::note[注意]
+缩放因子必须在 `0.01` 到 `4.0` 的范围内。超出此范围的值将被限制为最近的有效值。
 :::
 
-An example of creating a vertical line of blue dust particles, that are two times the regular size:
+创建一条蓝色尘埃颗粒的垂直线，颗粒大小是常规大小的两倍的示例：
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
     ParticleBuilder particleBuilder = Particle.DUST.builder()
       .color(Color.BLUE, 2.0f);
 
-    // We can reuse the builder
+    // 我们可以重用构建器
     for (double i = -1.0; i <= 1.0; i += 0.25) {
       particleBuilder.location(someLocation.clone().add(0, i, 0)).receivers(32, true).spawn();
     }
@@ -279,19 +279,19 @@ An example of creating a vertical line of blue dust particles, that are two time
   </TabItem>
 </Tabs>
 
-![Blue dust particles in a vertical line](./assets/particles/blue-dust-particles-in-line.webp)
+![一条蓝色尘埃颗粒的垂直线](./assets/particles/blue-dust-particles-in-line.webp)
 
-:::note
-Here, adding a size argument would control the dust particle's lifetime, in ticks. By default, the value is a random
-integer between 8 and 40, which is multiplied by the particle's scale, to get the final lifetime (with a minimum of 1).
+:::note[注意]
+在这里，添加一个大小参数可以控制尘埃颗粒的持续时间，以刻为单位。
+默认情况下，该值是一个介于 8 到 40 之间的随机整数，该值乘以颗粒的缩放比例，以获得最终的持续时间（最小值为 1）。
 :::
 
-#### Dust transition particles
-Dust transition particles work exactly like [dust particles](#dust-particles), but instead of having a static color, they **transition**
-their color from one to another. A [Particle.DustTransition](jd:paper:org.bukkit.Particle$DustTransition) is used for
-specifying the transition.
+#### 尘埃过渡颗粒
+尘埃过渡颗粒的工作原理与[尘埃颗粒](#dust-particles)完全相同，
+但它们不是具有静态颜色，而是会从一种颜色**过渡**到另一种颜色。
+使用 [Particle.DustTransition](jd:paper:org.bukkit.Particle$DustTransition) 来指定这种过渡。
 
-An example where three dust transition particles spawn on the x-axis within a 1-block length:
+一个示例，在 1 格长度的 x 轴上生成三个尘埃过渡颗粒：
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
@@ -317,13 +317,13 @@ An example where three dust transition particles spawn on the x-axis within a 1-
   </TabItem>
 </Tabs>
 
-![Dust transition particles in a line](./assets/particles/dust-transition-particles.webp)
+![一条线上的尘埃过渡颗粒](./assets/particles/dust-transition-particles.webp)
 
-### Note particles
-The note particles will use the `offsetX` argument in a custom function to determine the color,
-see [Note particle color picker](#note-particle-color-picker) for more details. `offsetY` and `offsetZ` are ignored in this case.
+### 注意颗粒
+注意颗粒会使用 `offsetX` 参数在一个自定义函数中确定颜色，更多详情请参阅[音符颗粒颜色选择器](#note-particle-color-picker)。
+在这种情况下，`offsetY` 和 `offsetZ` 会被忽略。
 
-Example:
+示例：
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
@@ -342,17 +342,17 @@ Example:
   </TabItem>
 </Tabs>
 
-![Note particle](./assets/particles/note-particle.webp)
+![注意颗粒](./assets/particles/note-particle.webp)
 
-#### Note particle color picker
-This tool allows you to pick a color for the note particle by adjusting the `offsetX` value. It only allows you to
-choose `offsetX` values between `-1.0` and `1.0`; values outside this range will repeat the color pattern.
+#### 音符颗粒颜色选择器
+这个工具允许您通过调整 `offsetX` 值来选择音符颗粒的颜色。
+它只允许您选择介于 `-1.0` 到 `1.0`之间的 `offsetX` 值；超出此范围的值将重复颜色模式。
 <NoteParticleColorPicker client:load />
 
-:::tip
-To achieve the Vanilla note particle colors you must set the offsetX to a fraction of 24.
+:::tip[提示]
+要实现原版游戏中的音符颗粒颜色，您必须将`offsetX`设置为24的分数。
 
-Example:
+示例：
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
