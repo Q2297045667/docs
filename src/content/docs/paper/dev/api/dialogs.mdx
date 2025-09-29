@@ -1,6 +1,6 @@
 ---
-title: Dialog API
-description: A guide to the dialog API introduced in 1.21.7.
+title: 对话 API
+description: 1.21.7 版本中引入的对话 API 指南。
 slug: paper/dev/dialogs
 version: 1.21.8
 sidebar:
@@ -16,56 +16,56 @@ import InputDialogShowcaseMp4 from "./assets/dialogs/input-dialog-showcase.mp4?u
 
 :::danger[实验性]
 
-The dialog API is currently experimental and might change in the future.
+对话 API 目前处于实验阶段，未来可能会发生变化。
 
 :::
 
-[Dialogs](https://minecraft.wiki/w/Dialog) are a feature added to Minecraft in the [1.21.6](https://minecraft.wiki/w/Java_Edition_1.21.6)
-update. Paper released developer API for creating custom dialogs in 1.21.7. This section is meant
-as an introduction to this API and what you can and cannot do with dialogs.
+[对话](https://minecraft.wiki/w/Dialog ) 是在 Minecraft [1.21.6](https://minecraft.wiki/w/Java_Edition_1.21.6 ) 更新中新增的功能。
+Paper 在 1.21.7 中发布了用于创建自定义对话的开发者 API。
+本节旨在介绍此 API 以及您可以和不可以在对话中做的事情。
 
-## What is a dialog?
-Dialogs are a way for servers to send custom in-game menus to clients. They allow for displaying various information
-or provide an easy way to gather user input.
+## 什么是对话？
+对话框是服务器向客户端发送自定义游戏内菜单的一种方式。
+它们可以用于显示各种信息，或者提供一种便捷的方式收集用户输入。
 
-Dialogs can be shown to players during the configuration phase or normal gameplay, which makes them a very
-versatile tool. A simple dialog might look like this:
+对话框可以在配置阶段或正常游戏过程中展示给玩家，这使得它们成为一种非常灵活的工具。
+一个简单的对话框可能如下所示：
 
-![A dialog sent during the configuration phase](./assets/dialogs/confirmation-dialog.png)
+![在配置阶段发送的对话框](./assets/dialogs/confirmation-dialog.png)
 
-The dialog shown here is a **confirmation**-type dialog, which just means it always contains two buttons, one meant for
-confirmation and one meant for refusal.
+此处展示的对话框是一个**确认**类型的对话框，
+这意味着它总是包含两个按钮，一个用于确认，一个用于拒绝。
 
-## Showing dialogs
-Dialogs can be shown in-game using the `/dialog show <players> <dialog>` command. Alternatively, you can show them
-using the API by using [Audience#showDialog(DialogLike)](https://jd.advntr.dev/api/latest/net/kyori/adventure/audience/Audience.html#showDialog(net.kyori.adventure.dialog.DialogLike)).
-You can get built-in dialogs statically from the [`Dialog`](jd:paper:io.papermc.paper.dialog.Dialog) interface.
-New dialogs can be created dynamically using [`Dialog#create`](jd:paper:io.papermc.paper.dialog.Dialog#create(java.util.function.Consumer))
-or, if registered during the bootstrap phase, retrieved from the dialog registry with `RegistryAccess.registryAccess().getRegistry(RegistryKey.DIALOG).get(Key)`.
+## 展示对话框
+可以通过 `/dialog show <players> <dialog>` 命令在游戏中展示对话框。
+或者，你也可以通过 API 使用 [Audience#showDialog(DialogLike)](https://jd.advntr.dev/api/latest/net/kyori/adventure/audience/Audience.html#showDialog(net.kyori.adventure.dialog.DialogLike)) 来展示它们。
+你可以从 [`Dialog`](jd:paper:io.papermc.paper.dialog.Dialog) 接口中静态获取内置对话框。
+新对话框可以使用 [`Dialog#create`](jd:paper:io.papermc.paper.dialog.Dialog#create(java.util.function.Consumer)) 动态创建，
+或者如果在启动阶段注册，可以通过 `RegistryAccess.registryAccess().getRegistry(RegistryKey.DIALOG).get(Key)` 从对话框注册表中获取。
 
-## Built-in dialogs
-There are three built-in dialogs:
-- [Server Links](jd:paper:io.papermc.paper.registry.keys.DialogKeys#SERVER_LINKS)
-- [Quick Actions](jd:paper:io.papermc.paper.registry.keys.DialogKeys#QUICK_ACTIONS)
-- [Custom Options](jd:paper:io.papermc.paper.registry.keys.DialogKeys#CUSTOM_OPTIONS)
+## 内置对话框
+有三种内置对话框：
+- [服务器链接](jd:paper:io.papermc.paper.registry.keys.DialogKeys#SERVER_LINKS)
+- [快速操作](jd:paper:io.papermc.paper.registry.keys.DialogKeys#QUICK_ACTIONS)
+- [自定义选项](jd:paper:io.papermc.paper.registry.keys.DialogKeys#CUSTOM_OPTIONS)
 
-### Adding server links
-You can add server links by retrieving the [`ServerLinks`](jd:paper:org.bukkit.ServerLinks) instance from
-[`Bukkit.getServer().getServerLinks()`](jd:paper:org.bukkit.Server#getServerLinks()) and using the various mutation methods.
-The player can open the server links menu at any time by opening the game menu (pressing `esc`) and clicking on
-the `Server Links...` button. This button only appears if server links are present.
+### 添加服务器链接
+你可以通过从 [`Bukkit.getServer().getServerLinks()`](jd:paper:org.bukkit.Server#getServerLinks()) 获取 [`ServerLinks`](jd:paper:org.bukkit.ServerLinks) 实例，
+并使用各种修改方法来添加服务器链接。
+玩家可以通过打开游戏菜单（按下 `esc` 键）并点击 `服务器链接...` 按钮，随时打开服务器链接菜单。
+此按钮仅在存在服务器链接时才会显示。
 
-## Creating dialogs dynamically
-You can build a [`Dialog`](jd:paper:io.papermc.paper.dialog.Dialog) object using the [`Dialog#create`](jd:paper:io.papermc.paper.dialog.Dialog#create(java.util.function.Consumer))
-method. The consumer parameter allows you to build the dialog. **A dialog always requires a base and a type**, which
-can be declared in the builder. You can either create a new dialog or alternatively use an existing
-[registry-registered](#registering-dialogs-in-the-registry) dialog as a base instead.
+## 动态创建对话框
+你可以使用 [`Dialog#create`](jd:paper:io.papermc.paper.dialog.Dialog#create(java.util.function.Consumer)) 方法构建一个 [`Dialog`](jd:paper:io.papermc.paper.dialog.Dialog) 对象。
+Consumer 参数允许你构建对话框。
+**对话框总是需要一个基础和一个类型**，这可以在构建器中声明。
+你可以创建一个新的对话框，或者使用一个现有的[注册表注册的](#registering-dialogs-in-the-register)对话框作为基础。
 
-For reference, a very simple (notice-type) dialog can be constructed and shown to a player with the following code:
+作为参考，一个非常简单的（通知类型）对话框可以通过以下代码构建并展示给玩家：
 
 <details>
-  <summary>In-game preview</summary>
-  ![A dialog with only a title and an ok button](./assets/dialogs/notice-dialog.png)
+  <summary>游戏内预览</summary>
+  ![仅包含标题和确定按钮的对话框](./assets/dialogs/notice-dialog.png)
 </details>
 
 ```java
@@ -76,79 +76,79 @@ Dialog dialog = Dialog.create(builder -> builder.empty()
 player.showDialog(dialog);
 ```
 
-### Dialog base
-You can create a dialog base using its [builder](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase$Builder), which can be created
-using [`DialogBase.builder(Component title)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase#builder(net.kyori.adventure.text.Component)).
-A dialog base can declare the following values:
+### 对话框基础
+你可以使用其[构建器](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase$Builder)创建对话框基础，
+该构建器可以通过 [`DialogBase.builder(Component title)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase#builder(net.kyori.adventure.text.Component)) 创建。
+对话框基础可以声明以下值：
 
-| Builder Method                                                                                                                                                                        | Description                                            |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
-| [`afterAction(DialogAfterAction)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase$Builder#afterAction(io.papermc.paper.registry.data.dialog.DialogBase.DialogAfterAction)) | The action to take after the dialog is closed          |
-| [`canCloseWithEscape(boolean)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase$Builder#canCloseWithEscape(boolean))                                                        | Whether the dialog can be closed with the `esc` key    |
-| [`externalTitle(Component)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase$Builder#externalTitle(net.kyori.adventure.text.Component))                                     | The title to display on buttons which open this dialog |
-| [`body(List<? extends DialogBody>)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase$Builder#body(java.util.List))                                                          | The body of the dialog.                                |
-| [`inputs(List<? extends DialogInput>)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase$Builder#inputs(java.util.List))                                                     | The inputs of the dialog.                              |
+| 构建器方法                                                                                                                                                                                    | 描述                |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
+| [`afterAction(DialogAfterAction)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase\$Builder#afterAction\(io.papermc.paper.registry.data.dialog.DialogBase.DialogAfterAction\)) | 对话框关闭后要执行的操作      |
+| [`canCloseWithEscape(boolean)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase\$Builder#canCloseWithEscape\(boolean\))                                                        | 是否可以通过`esc`键关闭对话框 |
+| [`externalTitle(Component)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase\$Builder#externalTitle\(net.kyori.adventure.text.Component\))                                     | 在打开此对话框的按钮上显示的标题  |
+| [`body(List<? extends DialogBody>)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase\$Builder#body\(java.util.List\))                                                          | 对话框的主体内容。         |
+| [`inputs(List<? extends DialogInput>)`](jd:paper:io.papermc.paper.registry.data.dialog.DialogBase\$Builder#inputs\(java.util.List\))                                                     | 对话框的输入内容。         |
 
-#### Dialog body
-A dialog can contain an arbitrary number of body components. A body entry can be created using [`DialogBody.plainMessage(Component)`](jd:paper:io.papermc.paper.registry.data.dialog.body.DialogBody#plainMessage(net.kyori.adventure.text.Component))
-for displaying text or [`DialogBody.item(ItemStack)`](jd:paper:io.papermc.paper.registry.data.dialog.body.DialogBody#item(org.bukkit.inventory.ItemStack))
-for displaying items.
+#### 对话框主体
+对话框可以包含任意数量的主体组件。
+可以通过 [`DialogBody.plainMessage(Component)`](jd:paper:io.papermc.paper.registry.data.dialog.body.DialogBody#plainMessage(net.kyori.adventure.text.Component)) 创建用于显示文本的主体条目，
+或者通过 [`DialogBody.item(ItemStack)`](jd:paper:io.papermc.paper.registry.data.dialog.body.DialogBody#item(org.bukkit.inventory.ItemStack)) 创建用于显示物品的主体条目。
 
-#### Dialog input
-There are four ways to gather input:
+#### 对话框输入
+有四种收集输入的方式：
 
 - [`DialogInput.bool`](jd:paper:io.papermc.paper.registry.data.dialog.input.DialogInput#bool(java.lang.String,net.kyori.adventure.text.Component))
 
-   A simple tick box representing a true or false state
+   一个简单的复选框，表示真或假的状态
 
    ![](./assets/dialogs/input-boolean.gif)
 
 - [`DialogInput.singleOption`](jd:paper:io.papermc.paper.registry.data.dialog.input.DialogInput#singleOption(java.lang.String,net.kyori.adventure.text.Component,java.util.List))
 
-   A multiple-choice button
+   一个多项选择按钮
 
    ![](./assets/dialogs/input-multi-options.gif)
 
 - [`DialogInput.text`](jd:paper:io.papermc.paper.registry.data.dialog.input.DialogInput#text(java.lang.String,net.kyori.adventure.text.Component))
 
-   A simple string input field
+   一个简单的字符串输入字段
 
    ![](./assets/dialogs/input-text.gif)
 
 - [`DialogInput.numberRange`](jd:paper:io.papermc.paper.registry.data.dialog.input.DialogInput#numberRange(java.lang.String,net.kyori.adventure.text.Component,float,float))
 
-   A slider for number input
+   一个用于数字输入的滑块
 
    ![](./assets/dialogs/input-number-range.gif)
 
 
-### Dialog type
-The [`DialogType`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType) interface defines a few static
-methods for the various dialog types. The following types exist:
+### 对话框类型
+[`DialogType`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType) 接口定义了几种对话框类型的静态方法。
+以下是存在的对话框类型：
 
-| Type             | Method                                                                                                                                                                                                                                              | Description                                |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
-| notice           | [`notice()`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#notice()) or [`notice(ActionButton button)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#notice(io.papermc.paper.registry.data.dialog.ActionButton)) | A simple dialog with just one button       |
-| confirmation     | [`confirmation(ActionButton yesButton, ActionButton noButton)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#confirmation(io.papermc.paper.registry.data.dialog.ActionButton,io.papermc.paper.registry.data.dialog.ActionButton)) | A dialog with a yes and no button          |
-| dialog list      | [`dialogList(RegistrySet dialogs)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#dialogList(io.papermc.paper.registry.set.RegistrySet))                                                                                           | A dialog for opening the specified dialogs |
-| multiple actions | [`multiAction(List<ActionButton> actions)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#multiAction(java.util.List))                                                                                                             | A dialog for displaying multiple buttons   |
-| server links     | [`serverLinks(ActionButton exitAction, int columns, int buttonWidth)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#serverLinks(io.papermc.paper.registry.data.dialog.ActionButton,int,int))                                      | A server links dialog                      |
+| 类型               | 方法                                                                                                                                                                                                                                                     | 描述                |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
+| notice           | [`notice()`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#notice\(\)) 或 [`notice(ActionButton button)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#notice\(io.papermc.paper.registry.data.dialog.ActionButton\)) | 一个只有一个按钮的简单对话框    |
+| confirmation     | [`confirmation(ActionButton yesButton, ActionButton noButton)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#confirmation\(io.papermc.paper.registry.data.dialog.ActionButton,io.papermc.paper.registry.data.dialog.ActionButton\))  | 一个带有“是”和“否”按钮的对话框 |
+| dialog list      | [`dialogList(RegistrySet dialogs)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#dialogList\(io.papermc.paper.registry.set.RegistrySet\))                                                                                            | 用于打开指定对话框的对话框     |
+| multiple actions | [`multiAction(List<ActionButton> actions)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#multiAction\(java.util.List\))                                                                                                              | 用于显示多个按钮的对话框      |
+| server links     | [`serverLinks(ActionButton exitAction, int columns, int buttonWidth)`](jd:paper:io.papermc.paper.registry.data.dialog.type.DialogType#serverLinks\(io.papermc.paper.registry.data.dialog.ActionButton,int,int\))                                       | 服务器链接对话框          |
 
-The type primarily influences the bottom part of the dialog.
+类型主要影响对话框的底部。
 
-## Registering dialogs in the registry
-If you want dialogs to be registered in the dialogs registry, you must register them inside a registry modification lifecycle
-event in your plugin's bootstrapper. Some general information on that can be read [here](/paper/dev/registries).
+## 在注册表中注册对话框
+如果你想让对话框在对话框注册表中注册，你必须在插件的启动器中的注册表修改生命周期事件中注册它们。
+关于这方面的基本信息可以阅读[这里](/paper/dev/registries)。
 
-:::tip
+:::tip[提示]
 
-The advantage of registering dialogs in the registry is that it allows you to use that same dialog
-elsewhere in your code without having to pass around the `Dialog` object. This also allows the dialog
-to be referenced in commands with a dialog parameter.
+在注册表中注册对话框的优点是，
+它允许你在代码的其他地方使用相同的对话框，而无需传递`Dialog`对象。
+这也允许在带有对话框参数的命令中引用该对话框。
 
 :::
 
-The general registration looks fairly similar to dynamically created dialogs:
+一般的注册过程与动态创建对话框的过程相当相似：
 ```java title="YourPluginBootstrapper.java" showLineNumbers
 @Override
 public void bootstrap(BootstrapContext context) {
@@ -156,18 +156,18 @@ public void bootstrap(BootstrapContext context) {
         .newHandler(event -> event.registry().register(
             DialogKeys.create(Key.key("papermc:custom_dialog")),
             builder -> builder
-                // Build your dialog here ...
+                // 在这里构建你的对话框……
                 .base(DialogBase.builder(Component.text("Title")).build())
                 .type(DialogType.notice())
         )));
 }
 ```
 
-## Closing dialogs
-Dialogs can be closed from the API. There are two ways to achieve that:
+## 关闭对话框
+可以通过API关闭对话框。有两种方法可以实现这一点：
 
-- The intended way of using [`Adventure#closeDialog()`](https://jd.advntr.dev/api/latest/net/kyori/adventure/audience/Audience.html#closeDialog()).
-- The slightly hacky way of using [`Player#closeInventory()`](jd:paper:org.bukkit.entity.HumanEntity#closeInventory()).
+- 使用 [`Adventure#closeDialog()`](https://jd.advntr.dev/api/latest/net/kyori/adventure/audience/Audience.html#closeDialog()) 的预期方式。
+- 使用 [`Player#closeInventory()`](jd:paper:org.bukkit.entity.HumanEntity#closeInventory()) 的稍微有点黑客的方式。
 
 Using `closeDialog()` will result in the dialog being closed and the player returning to the previous non-dialog or game menu screen they were on.
 This means any previously open inventories will be kept open.

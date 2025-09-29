@@ -1,6 +1,6 @@
 ---
-title: Signed messages
-description: A guide to working with SignedMessage objects.
+title: 签名消息
+description: 一份关于如何使用签名消息对象的指南。
 slug: paper/dev/component-api/signed-messages
 version: 1.19.4+
 ---
@@ -9,7 +9,7 @@ Since [Minecraft version 1.19](https://minecraft.wiki/w/Java_Edition_1.19), the 
 messages it sends so that they are uniquely identifiable and verifiable to be sent by a specific player.
 With this update, they also introduced the ability **delete specific messages** previously sent by a player.
 
-:::tip[Note]
+:::tip[注意]
 
 This guide does not go in-depth into the specifics of chat signing and its implementation on either client or server.
 For a full overview, you can refer [to this linked gist](https://gist.github.com/kennytv/ed783dd244ca0321bbd882c347892874).

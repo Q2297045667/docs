@@ -1,7 +1,7 @@
 ---
-title: Menu Type API
+title: 菜单类型 API
 slug: paper/dev/menu-type-api
-description: A guide to the Menu Type API.
+description: 一份关于菜单类型 API 的指南。
 version: 1.21.8
 sidebar:
   badge:
