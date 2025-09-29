@@ -8,17 +8,17 @@ version: 1.21.5
 import { Tabs, TabItem, Badge } from "@astrojs/starlight/components";
 import NoteParticleColorPicker from "/src/components/tools/NoteParticleColorPicker.svelte";
 
-This guide explains how to spawn different types of particles.
+这份指南解释了如何生成不同类型的粒子。
 
-If the particle you're trying to spawn isn't mentioned in this guide, then it most likely has no special behavior.
+如果你尝试生成的粒子没有在这份指南中提到，那么它很可能没有特殊行为。
 
-There are two ways to spawn particles.
-The first option is using the [`ParticleBuilder`](jd:paper:com.destroystokyo.paper.ParticleBuilder) class, which is
-preferred over the `spawnParticle()` methods. It is reusable and offers improved readability and clarity. The builder also includes
-the method [`receivers()`](jd:paper:com.destroystokyo.paper.ParticleBuilder#receivers()), which provides you
-with greater control over receivers.
+有两种方法可以生成粒子。
+第一种选择是使用 `ParticleBuilder` 类，
+这比 `spawnParticle()` 方法更受推荐。
+它具有可重用性，并且提供了更好的可读性和清晰度。
+构建器还包括 `receivers()` 方法，它为你提供了对接收者的更大控制权。
 
-An example of spawning 14 note particles in a 4x0.4x4 cuboid:
+一个在 4x0.4x4 的长方体中生成 14 个音符粒子的例子：
 ```java
 Particle.NOTE.builder()
   .location(someLocation)
@@ -28,35 +28,35 @@ Particle.NOTE.builder()
   .spawn();
 ```
 
-:::note
-The use of [`ParticleBuilder.receivers(32, true)`](jd:paper:com.destroystokyo.paper.ParticleBuilder#receivers(int,boolean))
-select all players in a distance of 32 blocks from the particle's location,
-resulting in a sphere shape. Setting the boolean parameter to `false` would select all players in a cube.
+:::note[注意]
+使用 [`ParticleBuilder.receivers(32, true)`](jd:paper:com.destroystokyo.paper.ParticleBuilder#receivers(int,boolean))
+会选择距离粒子位置32格范围内的所有玩家，形成一个球形区域。
+如果将布尔参数设置为 `false`，则会选择一个立方体内的所有玩家。
 :::
 
-The second way is using the `spawnParticle()` methods in `World` and `Player` classes:
-- [`World.spawnParticle()`](jd:paper:org.bukkit.World#spawnParticle(org.bukkit.Particle,double,double,double,int)) which spawns the particle for all players and
-- [`Player.spawnParticle()`](jd:paper:org.bukkit.entity.Player#spawnParticle(org.bukkit.Particle,double,double,double,int)) which spawns the particle only for the player.
+第二种方法是使用 `World` 和 `Player` 类中的 `spawnParticle()` 方法：
+- [`World.spawnParticle()`](jd:paper:org.bukkit.World#spawnParticle(org.bukkit.Particle,double,double,double,int)) ，它为所有玩家生成粒子。
+- [`Player.spawnParticle()`](jd:paper:org.bukkit.entity.Player#spawnParticle(org.bukkit.Particle,double,double,double,int)) ，它只为特定玩家生成粒子。
 
 ## `count` argument behavior <Badge variant="danger" text="Important" size="large" />
-When spawning particles, the Minecraft client behaves differently based on the `count` argument:
-- If `count = 0`, a singular particle spawns and the client uses the provided location without modification.
-The offset values are multiplied by the `extra` argument and passed to the particle constructor. The way these values are
-used may vary between particle types.
+在生成粒子时，Minecraft客户端会根据`count`参数的不同而表现出不同的行为：
+- 如果 `count = 0`，会生成一个单独的粒子，客户端会直接使用提供的位置而不进行任何修改。
+偏移值会乘以 `extra` 参数，然后传递给粒子构造器。
+这些值的使用方式可能会因粒子类型而有所不同。
 
-- If `count > 0`, the client spawns `count` number of particles. For each particle, it generates new offset
-values using a Gaussian (normal) distribution, multiplies them by the `extra` argument, and passes
-them to the particle constructor.
+- 如果 `count > 0`，客户端会生成 `count` 数量的粒子。
+对于每个粒子，它会使用高斯（正态）分布生成新的偏移值，
+将这些值乘以 `extra` 参数，然后传递给粒子构造器。
 
-## Directional particles
-This type of particle has an initial velocity when spawned.
+## 定向粒子
+这种类型的粒子在生成时具有初始速度。
 
-:::note
-Effective speed varies between particles.
+:::note[注意]
+不同粒子的有效速度会有所不同。
 :::
 
-In the following example 8 `FLAME` particles are spawned in a 1x1x1 cube shape randomly. `someLocation` serves as its center.
-The `extra` argument is set to 0, so the particles don't move.
+在以下示例中，8个`FLAME`粒子在1x1x1的立方体形状内随机生成，`someLocation`作为其中心。
+`extra`参数设置为0，因此粒子不会移动。
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
@@ -76,15 +76,15 @@ The `extra` argument is set to 0, so the particles don't move.
   </TabItem>
 </Tabs>
 
-:::caution
-Leaving the `extra` parameter unset will default it to `1`, likely resulting in unexpected behavior.
+:::caution[警告]
+如果不设置 `extra` 参数，它将默认为 `1`，这可能会导致意外的行为。
 :::
 
-### Random direction
-Setting the `count` parameter to anything positive will yield a random direction for the velocity as described in
-[`count` argument behavior](#count-argument-behavior).
+### 随机方向
+将 `count` 参数设置为任何正值，
+都会根据 [`count` argument behavior](#count-argument-behavior) 参数的行为描述，为速度产生一个随机方向。
 
-An example of spawning 6 `CRIT` particles at a location, without offset, that will move in a random direction at a moderate speed:
+一个在某个位置生成 6 个 `CRIT` 粒子的例子，这些粒子没有偏移，并将以适中的速度向随机方向移动：
 <Tabs syncKey="spawn-type">
   <TabItem label="ParticleBuilder">
     ```java
@@ -103,7 +103,7 @@ An example of spawning 6 `CRIT` particles at a location, without offset, that wi
   </TabItem>
 </Tabs>
 
-![Crit particles going in random directions](./assets/particles/random-direction-crit.webp)
+![CRIT粒子向随机方向移动](./assets/particles/random-direction-crit.webp)
 
 ### Specified direction
 To specify the velocity's direction, set the `count` argument to `0` and use the offset arguments as the direction vector.

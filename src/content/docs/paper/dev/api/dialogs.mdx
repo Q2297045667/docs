@@ -217,14 +217,14 @@ ctx.getLifecycleManager().registerEventHandler(RegistryEvents.DIALOG.compose(),
 这个示例为两个键分别使用了两个不同的键，但你也可以只使用一个键并设置一个自定义的 NBT 负载。
 
 ### 要求玩家同意后才能加入
-In order to block the player from joining the server, we send them the dialog and await a response. We do
-this by constructing a `CompletableFuture`, putting it into a map, and waiting until the future gets
-completed, will only happen as soon the player pressed one of the two confirmation buttons of the dialog.
+为了阻止玩家加入服务器，我们向他们发送对话框并等待响应。
+我们通过构建一个 `CompletableFuture`，将其放入一个映射中，
+并等待该未来完成（这只有在玩家按下对话框中的两个确认按钮之一时才会发生）来实现这一点。
 
-The code for that would look something like this:
+代码可能如下所示：
 
 <details>
-  <summary>In-game preview</summary>
+  <summary>游戏内预览</summary>
   <Video src={DialogShowcaseMp4} />
 </details>
 
@@ -233,7 +233,7 @@ The code for that would look something like this:
 public class ServerJoinListener implements Listener {
 
     /**
-     * A map for holding all currently connecting players.
+     * 一个用于保存所有当前正在连接的玩家的映射表。
      */
     private final Map<PlayerCommonConnection, CompletableFuture<Boolean>> awaitingResponse = new HashMap<>();
 
@@ -241,50 +241,50 @@ public class ServerJoinListener implements Listener {
     void onPlayerConfigure(AsyncPlayerConnectionConfigureEvent event) {
         Dialog dialog = RegistryAccess.registryAccess().getRegistry(RegistryKey.DIALOG).get(Key.key("papermc:praise_paperchan"));
         if (dialog == null) {
-            // The dialog failed to load :(
-            // This would happen if the dialog could not be found in the registry by the provided key.
-            // Usually that is an indicator that the used key is different from the one used to register your
-            // dialog, your bootstrapper might not be registered, or an exception occurred in the bootstrap phase.
+            // 对话框加载失败 :(
+            // 如果提供的键无法在注册表中找到对话框，则会发生这种情况。
+            // 通常这表明使用的键与注册对话框时使用的键不同，
+            // 启动器可能未注册，或者在启动阶段发生了异常。
             return;
         }
 
-        // Construct a new completable future without a task.
+        // 构造一个没有任务的新可完成的未来。
         CompletableFuture<Boolean> response = new CompletableFuture<>();
 
-        // Put it into our map.
+        // 将其放入我们的映射表中。
         awaitingResponse.put(event.getConnection(), response);
 
-        // Show the connecting player the dialog.
+        // 向正在连接的玩家展示对话框。
         event.getConnection().getAudience().showDialog(dialog);
 
-        // Wait until the future is complete. This step is necessary in order to keep the player in the configuration phase.
+        // 等待未来完成。这一步是必要的，以保持玩家在配置阶段。
         if (!response.join()) {
-            // If the response is false, they declined. Therefore, we kick them from the server.
-            event.getConnection().disconnect(Component.text("You hate Paper-chan :(", NamedTextColor.RED));
+            // 如果响应是`false`，则表示他们拒绝了。因此，我们将他们从服务器中踢出。
+            event.getConnection().disconnect(Component.text("你讨厌 Paper-chan :(", NamedTextColor.RED));
         }
 
-        // We clean the map to avoid unnecessary entry buildup.
+        // 我们清理映射表，以避免不必要的条目堆积。
         awaitingResponse.remove(event.getConnection());
     }
 
     /**
-     * An event for handling dialog button click events.
+     * 一个用于处理对话框按钮点击事件的事件。
      */
     @EventHandler
     void onHandleDialog(PlayerCustomClickEvent event) {
         Key key = event.getIdentifier();
 
         if (key.equals(Key.key("papermc:paperchan/disagree"))) {
-            // If the identifier is the same as the disagree one, set the connection result to false.
+            // 如果标识符与不同意的那个相同，则将连接结果设置为`false`。
             setConnectionJoinResult(event.getCommonConnection(), false);
         } else if (key.equals(Key.key("papermc:paperchan/agree"))) {
-            // If it is the same as the agree one, set the result to true.
+            // 如果它与同意的那个相同，则将结果设置为`true`。
             setConnectionJoinResult(event.getCommonConnection(), true);
         }
     }
 
     /**
-     * Simple utility method for setting a connection's dialog response result.
+     * 一个简单的工具方法，用于设置连接的对话框响应结果。
      */
     private void setConnectionJoinResult(PlayerCommonConnection connection, boolean value) {
         CompletableFuture<Boolean> future = awaitingResponse.get(connection);
@@ -295,27 +295,27 @@ public class ServerJoinListener implements Listener {
 }
 ```
 
-And that's all there is to it. You can use this code to block players from joining your server before they should
-be allowed to.
+这就是全部内容。
+你可以使用这段代码，在允许玩家加入你的服务器之前阻止他们。
 
-## Example: Retrieving and parsing user input
-The dialog for this example will be fairly simple: We once again create a confirmation-type dialog which contains two number range inputs.
-The top input will be for setting the level, the bottom input for setting the experience percentage towards the next level.
-When the player clicks on the confirmation button, they should have their levels and exp set to the configured values.
+## 示例：检索和解析用户输入
+这个示例中的对话框将非常简单：我们再次创建一个确认类型的对话框，其中包含两个数字范围输入。
+顶部输入用于设置等级，底部输入用于设置向下一个等级的经验百分比。
+当玩家点击确认按钮时，他们的等级和经验值应设置为配置的值。
 
 ```java showLineNumbers
 Dialog.create(builder -> builder.empty()
-    .base(DialogBase.builder(Component.text("Configure your new experience value"))
+    .base(DialogBase.builder(Component.text("配置你的新经验值"))
         .inputs(List.of(
-            DialogInput.numberRange("level", Component.text("Level", NamedTextColor.GREEN), 0f, 100f)
+            DialogInput.numberRange("等级", Component.text("等级", NamedTextColor.GREEN), 0f, 100f)
                 .step(1f)
                 .initial(0f)
                 .width(300)
                 .build(),
-            DialogInput.numberRange("experience", Component.text("Experience", NamedTextColor.GREEN), 0f, 100f)
+            DialogInput.numberRange("经验", Component.text("经验", NamedTextColor.GREEN), 0f, 100f)
                 .step(1f)
                 .initial(0f)
-                .labelFormat("%s: %s percent to the next level")
+                .labelFormat("%s: 距离下一个等级还有 %s")
                 .width(300)
                 .build()
         ))
@@ -323,38 +323,38 @@ Dialog.create(builder -> builder.empty()
     )
     .type(DialogType.confirmation(
         ActionButton.create(
-            Component.text("Confirm", TextColor.color(0xAEFFC1)),
-            Component.text("Click to confirm your input."),
+            Component.text("确认", TextColor.color(0xAEFFC1)),
+            Component.text("点击以确认你的输入。"),
             100,
             DialogAction.customClick(Key.key("papermc:user_input/confirm"), null)
         ),
         ActionButton.create(
             Component.text("Discard", TextColor.color(0xFFA0B1)),
-            Component.text("Click to discard your input."),
+            Component.text("点击以丢弃你的输入。"),
             100,
-            null // If we set the action to null, it doesn't do anything and closes the dialog
+            null // 如果我们把动作设置为`null`，它什么也不做，只是关闭对话框
         )
     ))
 );
 ```
 
-### Reading the input
-To retrieve the values the user put into the dialog, we can once again listen to a `PlayerCustomClickEvent`.
-We first check the identifier of the action. After that, we can retrieve the input values from the
-[`DialogResponseView`](jd:paper:io.papermc.paper.dialog.DialogResponseView) retrievable from
-[`PlayerCustomClickEvent#getDialogResponseView()`](jd:paper:io.papermc.paper.event.player.PlayerCustomClickEvent#getDialogResponseView()).
+### 读取输入
+为了检索用户在对话框中输入的值，我们再次监听一个 `PlayerCustomClickEvent`。
+我们首先检查动作的标识符。
+之后，我们可以从通过 [`PlayerCustomClickEvent#getDialogResponseView()`](jd:paper:io.papermc.paper.event.player.PlayerCustomClickEvent#getDialogResponseView())
+可获取的 [`DialogResponseView`](jd:paper:io.papermc.paper.dialog.DialogResponseView) 中检索输入值。
 
-This view allows us to retrieve the value of an input field with the field's key. Those are declared as the first
-parameter of the `DialogInput.numberRange` method.
+这个视图允许我们通过字段的键检索输入字段的值。
+这些键在 `DialogInput.numberRange` 方法的第一个参数中声明。
 
-The last issue is getting a player object from this event. We cannot just call `event.getPlayer()`. Instead, we have
-to cast the connection retrievable from [`PlayerCustomClickEvent#getCommonConnection()`](jd:paper:io.papermc.paper.event.player.PlayerCustomClickEvent#getCommonConnection()).
-to a [`PlayerGameConnection`](jd:paper:io.papermc.paper.connection.PlayerGameConnection), from which we can get the player.
+最后一个问题是从此事件中获取玩家对象。
+我们不能直接调用 `event.getPlayer()`。
+相反，我们必须将通过 [`PlayerCustomClickEvent#getCommonConnection()`](jd:paper:io.papermc.paper.event.player.PlayerCustomClickEvent#getCommonConnection()) 可获取的连接强制转换为 `PlayerGameConnection`，然后从中获取玩家。
 
-The full event handler code looks like this:
+完整的事件处理器代码如下所示：
 
 <details>
-  <summary>In-game preview</summary>
+  <summary>游戏内预览</summary>
   <Video src={InputDialogShowcaseMp4} />
 </details>
 
@@ -370,14 +370,14 @@ void handleLevelsDialog(PlayerCustomClickEvent event) {
         return;
     }
 
-    int levels = view.getFloat("level").intValue();
-    float exp = view.getFloat("experience").floatValue();
+    int levels = view.getFloat("等级").intValue();
+    float exp = view.getFloat("经验").floatValue();
 
     if (event.getCommonConnection() instanceof PlayerGameConnection conn) {
         Player player = conn.getPlayer();
-        player.sendRichMessage("You selected <color:#ccfffd><level> levels</color> and <color:#ccfffd><exp>% exp</color> to the next level!",
-            Placeholder.component("level", Component.text(levels)),
-            Placeholder.component("exp", Component.text(exp))
+        player.sendRichMessage("你选择了<color:#ccfffd><level>等级</color>和<color:#ccfffd><exp>%经验</color>到下一个等级！",
+            Placeholder.component("等级", Component.text(levels)),
+            Placeholder.component("经验", Component.text(exp))
         );
         player.setLevel(levels);
         player.setExp(exp / 100);
@@ -385,24 +385,24 @@ void handleLevelsDialog(PlayerCustomClickEvent event) {
 }
 ```
 
-### Using callbacks
+### 使用回调
 
-Instead of registering another event handler, you can instead use the
-[`DialogAction.customClick(DialogActionCallback, ClickCallback.Options)`](jd:paper:io.papermc.paper.registry.data.dialog.action.DialogAction#customClick(io.papermc.paper.registry.data.dialog.action.DialogActionCallback,net.kyori.adventure.text.event.ClickCallback.Options))
-method to register a callback locally.
+你可以使用
+`DialogAction.customClick(DialogActionCallback, ClickCallback.Options)`方法在本地注册一个回调，
+而不是注册另一个事件处理器。
 
-The code for the dialog action would therefore look like this:
+因此，对话框操作的代码如下所示：
 
 ```java showLineNumbers
 DialogAction.customClick(
     (view, audience) -> {
-        int levels = view.getFloat("level").intValue();
-        float exp = view.getFloat("experience").floatValue();
+        int levels = view.getFloat("等级").intValue();
+        float exp = view.getFloat("经验").floatValue();
 
         if (audience instanceof Player player) {
-            player.sendRichMessage("You selected <color:#ccfffd><level> levels</color> and <color:#ccfffd><exp>% exp</color> to the next level!",
-                Placeholder.component("level", Component.text(levels)),
-                Placeholder.component("exp", Component.text(exp))
+            player.sendRichMessage("你选择了<color:#ccfffd><level>等级</color>和<color:#ccfffd><exp>%经验</color>到下一个等级！",
+                Placeholder.component("等级", Component.text(levels)),
+                Placeholder.component("经验", Component.text(exp))
             );
 
             player.setLevel(levels);
@@ -410,8 +410,8 @@ DialogAction.customClick(
         }
     },
     ClickCallback.Options.builder()
-        .uses(1) // Set the number of uses for this callback. Defaults to 1
-        .lifetime(ClickCallback.DEFAULT_LIFETIME) // Set the lifetime of the callback. Defaults to 12 hours
+        .uses(1) // 设置此回调的使用次数。默认为 1
+        .lifetime(ClickCallback.DEFAULT_LIFETIME) // 设置回调的生命周期。默认为 12 小时
         .build()
 )
 ```
