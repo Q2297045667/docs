@@ -293,6 +293,13 @@ misc:
 
       - 这个功能修复了 [MC-4](https://bugs.mojang.com/browse/MC-4)。
       - 注意：此选项在最新的版本中已经移除
+  fix-far-end-terrain-generation:
+    vanilla: "false"
+    default: "true"
+    description: >-
+      是否修复 [MC-159283](https://bugs.mojang.com/browse/MC-159283) 问题
+
+      - 该问题会导致在极远距离的外界末地岛屿上出现异常的环形地形图案。
   load-permissions-yml-before-plugins:
     default: "true"
     description: >-

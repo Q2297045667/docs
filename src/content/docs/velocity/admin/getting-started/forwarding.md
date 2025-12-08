@@ -48,9 +48,10 @@ Paper 1.14 及以上版本，以及 Paper 1.13.1/1.13.2 构建 377 及以上版�
 如果您之前启用了 BungeeCord 转发，您还需要将其禁用。
 请确保在您的 `spigot.yml` 文件中将 `settings.bungeecord` 设置为 `false`。
 
-在 `config/paper-global.yml` 文件中，将 `proxies.velocity.enabled` 设置为 `true`，并将 `proxies.velocity.secret` 设置为与您的 `forwarding.secret` 文件中的密钥匹配。
-您还需要将 `proxies.velocity.online-mode` 设置为与您的 `velocity.toml` 文件中的 `online-mode` 设置一致。
-完成对 `paper-global.yml` 的编辑后，请重启服务器。
+在 `config/paper-global.yml` 中，将 `proxies.velocity.enabled` 设为 true，
+并将 `proxies.velocity.secret` 设置为您 `forwarding.secret` 文件中的密钥。
+同时，您还需要将 `proxies.velocity.online-mode` 设置为与 `velocity.toml` 中的 `online-mode` 设置相匹配。
+完成对 `paper-global.yml` 的编辑后，重启您的服务器。
 
 :::note[注意]
 
