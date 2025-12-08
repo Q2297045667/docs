@@ -16,28 +16,6 @@ anticheat:
         - 模式 3 在模式 2 的基础上会将每个区块层替换为隐藏方块列表中的随机方块，由于算法比较简单所以相较于模式 2 更加节省 CPU 资源。
 
         - 对于性能的消耗，模式 2 > 3 > 1
-    max-block-height:
-      default: "64"
-      description: >-
-        设置反矿透工作的最大高度（y 坐标，从世界的底部开始计算）。
-
-        - 仅接受 16 的整数倍。其他所有值都将向下取整。[Minecraft Wiki 关于矿石的页面](https://minecraft.wiki/w/Ore)可能有助于您确定最佳值。
-    update-radius:
-      default: "2"
-      description: >-
-        设置当客户端与方块交互时，将发送包含真实方块数据的方块更新的范围。
-
-        - 仅接受 0、1、2 这三个值。小于 0 的值将向上取整为 0，而大于 2 的值将向下取整为 2。0 仅用于测试目的，不应用于生产环境。
-    lava-obscures:
-      default: "false"
-      description: >-
-        是否混淆与熔岩接触的方块。此功能与非石头类矿石纹理配合使用效果不佳。这是因为熔岩虽然大多是不透明的，但在表面并不能完全覆盖方块。
-    use-permission:
-      default: "false"
-      description: >-
-        是否允许拥有 `paper.antixray.bypass` 权限的玩家绕过反矿透功能。
-
-        - 默认情况下，检查此权限是禁用的，因为旧版权限插件可能难以应对大量的检查。此功能仅应与现代权限插件一起使用。
     hidden-blocks:
       default: >-
         [copper_ore, deepslate_copper_ore, raw_copper_block, gold_ore,
@@ -54,6 +32,18 @@ anticheat:
         - 在模式 2 中，这些方块将随机放置在世界中，替换隐藏方块和替换方块。不允许在此列表中包含带有方块实体的方块，例如箱子或刷怪笼。可以多次添加单个方块，以增加其概率。
 
         - 在模式 3 中，行为与模式 2 非常相似，但这些方块将随机放置，每个垂直区块层将从列表中选择相同的方块。
+    lava-obscures:
+      default: "false"
+      description: >-
+        是否混淆与熔岩接触的方块。
+
+        - 此功能与非石头类矿石纹理配合使用效果不佳。这是因为熔岩虽然大多是不透明的，但在表面并不能完全覆盖方块。
+    max-block-height:
+      default: "64"
+      description: >-
+        设置反矿透工作的最大高度（y 坐标，从世界的底部开始计算）。
+
+        - 仅接受 16 的整数倍。其他所有值都将向下取整。[Minecraft Wiki 关于矿石的页面](https://minecraft.wiki/w/Ore)可能有助于您确定最佳值。
     replacement-blocks:
       default: "[stone, oak_planks, deepslate]"
       description: >-
@@ -64,6 +54,18 @@ anticheat:
         - 在模式 2 中，替换方块和隐藏方块都会被随机替换为隐藏方块。虽然隐藏方块列表中忽略了带有方块实体的方块，但它们可以被添加到替换方块列表中。此列表中忽略所有类型的空气方块。
 
         - 在模式 3 中，行为与模式 2 相同，但替换方块列表用于确定每个垂直区块层使用的方块。
+    update-radius:
+      default: "2"
+      description: >-
+        设置当客户端与方块交互时，将发送包含真实方块数据的方块更新的范围。
+
+        - 仅接受 0、1、2 这三个值。小于 0 的值将向上取整为 0，而大于 2 的值将向下取整为 2。0 仅用于测试目的，不应用于生产环境。
+    use-permission:
+      default: "false"
+      description: >-
+        是否允许拥有 `paper.antixray.bypass` 权限的玩家绕过反矿透功能。
+
+        - 默认情况下，检查此权限是禁用的，因为旧版权限插件可能难以应对大量的检查。此功能仅应与现代权限插件一起使用。
 chunks:
   auto-save-interval:
     default: default
@@ -103,6 +105,12 @@ chunks:
       - 该设置还会对诸如 PotatoPeeler 这类通过活跃时间筛选区块的工具产生影响，使其无法准确识别玩家很少停留的区块。
 
       - 在服务器因某些原因导致新旧区块存在差异时，合理设置固定值可能有助于解决一些相关问题，比如防止玩家利用区块差异寻找基地。
+  flush-regions-on-save:
+    default: "false"
+    description: >-
+      是否在保存区块时将其直接写入到磁盘。
+
+      - 这可能会对磁盘 IO 产生影响，且当同时写入的文件过多时容易出现卡顿。
   max-auto-save-chunks-per-tick:
     vanilla: "200"
     default: "24"
@@ -112,10 +120,6 @@ chunks:
     default: "false"
     description: >-
       是否阻止玩家进入未加载的区块。
-  flush-regions-on-save:
-    default: "false"
-    description: >-
-      是否在保存区块时将其写入磁盘。这可能会对性能产生影响。
 collisions:
   allow-player-cramming-damage:
     vanilla: "true"
@@ -136,17 +140,17 @@ collisions:
     vanilla: "2147483647"
     default: "8"
     description: >-
-      设置服务器在达到此值后停止处理碰撞，原版为 2147483647。
+      设置服务器在达到此值后停止处理碰撞。
   only-players-collide:
     default: "false"
     description: 是否仅在玩家是两个碰撞实体之一时计算碰撞。
 command-blocks:
-  permissions-level:
-    default: "2"
-    description: "设置命令方块的默认原版权限等级。"
   force-follow-perm-level:
     default: "true"
     description: "是否要求命令方块同时满足 Bukkit 权限要求和原版权限等级。否则，只需满足其中之一即可。"
+  permissions-level:
+    default: "2"
+    description: "设置命令方块的默认原版权限等级。"
 entities:
   armor-stands:
     do-collision-entity-lookups:
@@ -158,18 +162,19 @@ entities:
         是否禁用以防止盔甲架进行 Tick 更新。
 
         - 在存在大量盔甲架时可以提高性能，但是一些利用盔甲架的特殊事件的插件可能会有一些小问题（虽然基本没有这种插件）。
-  markers:
-    tick:
+  behavior:
+    allow-spider-world-border-climbing:
       default: "true"
       description: >-
-        是否禁用以防止标记进行 Tick 更新。
-
-        - 这可能会影响它们作为其他实体乘客的行为。
-  behavior:
+        是否允许蜘蛛在世界边界上爬行，就像在普通墙壁上一样。
     baby-zombie-movement-modifier:
       default: "0.5"
       description: >-
         设置小僵尸的移动速度，其中 `0.5` 表示比基础怪物速度快 50%，而 `-0.4` 表示比基础怪物速度慢 40%。
+    cooldown-failed-beehive-releases:
+      default: "true"
+      vanilla: "false"
+      description: 是否为蜜蜂在释放失败后增加冷却时间，这可能发生在蜂巢被阻塞或处于夜晚时。
     disable-chest-cat-detection:
       default: "false"
       description: 是否允许即使猫坐在箱子上时也可以打开箱子。
@@ -180,10 +185,6 @@ entities:
       default: "false"
       description: >-
         是否禁用 PvP 中的暴击，将其视为普通攻击。
-    allow-spider-world-border-climbing:
-      default: "true"
-      description: >-
-        是否允许蜘蛛在世界边界上爬行，就像在普通墙壁上一样。
     door-breaking-difficulty:
       vindicator:
         default: "[NORMAL, HARD]"
@@ -207,18 +208,18 @@ entities:
 
         - 设置为 `-1` 服务器将不使用最大值，允许它们合并为一个经验球。在击败 Boss 怪物时，这一点尤为明显。
     mobs-can-always-pick-up-loot:
-      zombies:
-        default: "false"
-        description: >-
-          是否总是允许僵尸捡起战利品。
-
-          - 如果设置为 `false`，僵尸捡起物品的概率将取决于世界的难度（原版行为）。
       skeletons:
         default: "false"
         description: >-
           是否总是允许骷髅捡起战利品。
 
           - 如果设置为 `false`，骷髅捡起物品的概率将取决于世界的难度（原版行为）。
+      zombies:
+        default: "false"
+        description: >-
+          是否总是允许僵尸捡起战利品。
+
+          - 如果设置为 `false`，僵尸捡起物品的概率将取决于世界的难度（原版行为）。
     nerf-pigmen-from-nether-portals:
       default: "false"
       description: "是否移除通过下界传送门生成的猪灵的 AI。"
@@ -232,7 +233,7 @@ entities:
       description: >-
         是否使鹦鹉变得“粘”人，这样在玩家移动时就不会从玩家的肩膀上掉下来。
 
-        - 即玩家移动也不会驱赶鹦鹉，但是潜行可以赶走它们。
+        - 即玩家移动也不会驱赶鹦鹉，但是潜行仍然可以赶走它们。
     phantoms-do-not-spawn-on-creative-players:
       vanilla: "false"
       default: "true"
@@ -241,12 +242,12 @@ entities:
       vanilla: "false"
       default: "true"
       description: "是否防止幻翼攻击已经睡觉的玩家。"
-    player-insomnia-start-ticks:
-      default: "72000"
-      description: |
-        设置玩家必须保持清醒的 Tick，在这之后幻翼才能开始生成。
-
-        - 默认值（72000）为 3 个我的世界天数，设置为 `-1` 将禁用幻翼生成。
+    phantoms-spawn-attempt-max-seconds:
+      default: "119"
+      description: 设置幻翼尝试生成之间的最大秒数。
+    phantoms-spawn-attempt-min-seconds:
+      default: "60"
+      description: 设置幻翼尝试生成之间的最小秒数。
     piglins-guard-chests:
       default: "true"
       description: 是否允许猪灵在愤怒时尝试守护箱子。
@@ -271,6 +272,12 @@ entities:
         per-player:
           default: "false"
           description: 是否对每个玩家独立计算开始事件。
+    player-insomnia-start-ticks:
+      default: "72000"
+      description: |
+        设置玩家必须保持清醒的 Tick，在这之后幻翼才能开始生成。
+
+        - 默认值（72000）为 3 个我的世界天数，设置为 `-1` 将禁用幻翼生成。
     should-remove-dragon:
       default: "false"
       description: 是否移除没有传送门的末影龙。
@@ -278,6 +285,13 @@ entities:
       default: "false"
       description: >-
         是否允许刷怪笼生成的没有 AI 的怪物在水中漂浮（跳跃）。
+    stuck-entity-poi-retry-delay:
+      default: "200"
+      vanilla: "disabled"
+      description: >-
+        设置当实体导航陷入困境时，重新尝试获取兴趣点之前的延迟时间。
+
+        - 这将减少寻路对性能的影响。以刻为单位测量。
     zombie-villager-infection-chance:
       default: default
       description: >-
@@ -290,23 +304,16 @@ entities:
         是否允许僵尸和僵尸猪灵以海龟蛋为目标。
 
         - 将此设置为 `false` 可能有助于提高性能，因为它们不会搜索附近的蛋。
-    phantoms-spawn-attempt-max-seconds:
-      default: "119"
-      description: 设置幻翼尝试生成之间的最大秒数。
-    phantoms-spawn-attempt-min-seconds:
-      default: "60"
-      description: 设置幻翼尝试生成之间的最小秒数。
-    cooldown-failed-beehive-releases:
-      default: "true"
-      vanilla: "false"
-      description: 是否为蜜蜂在释放失败后增加冷却时间，这可能发生在蜂巢被阻塞或处于夜晚时。
-    stuck-entity-poi-retry-delay:
-      default: "200"
-      vanilla: "disabled"
-      description: 设置当实体导航陷入困境时，重新尝试获取兴趣点之前的延迟时间。这将减少寻路对性能的影响。以刻为单位测量。
   entities-target-with-follow-range:
     default: "false"
     description: "是否使用目标实体的跟随范围进行目标定位"
+  markers:
+    tick:
+      default: "true"
+      description: >-
+        是否禁用以防止标记进行 Tick 更新。
+
+        - 这可能会影响它们作为其他实体乘客的行为。
   mob-effects:
     immune-to-wither-effect:
       default: "true"
@@ -352,49 +359,6 @@ entities:
       default: default
       description: >-
         设置玩家在创造模式下射出的箭的消失速率，单位为 Tick。
-    ticks-per-spawn:
-      ambient:
-        default: "-1"
-        description: |
-          设置尝试生成环境生物（蝙蝠）之间相隔的 Tick。
-
-          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_ambient_spawns)。
-      axolotls:
-        default: "-1"
-        description: |
-          设置尝试生成美西螈之间相隔的 Tick。
-
-          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_axolotl_spawns)。
-      creature:
-        default: "-1"
-        description: |
-          设置尝试生成被动生物（动物）之间相隔的 Tick。
-
-          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_animal_spawns)。
-      monster:
-        default: "-1"
-        description: |
-          设置尝试生成敌对怪物之间相隔的 Tick。
-
-          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_monster_spawns)。
-      underground_water_creature:
-        default: "-1"
-        description: |
-          设置尝试生成地下水域生物（发光鱿鱼）之间相隔的 Tick。
-
-          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_water_underground_creature_spawns)。
-      water_ambient:
-        default: "-1"
-        description: |
-          设置尝试生成水域环境生物（热带鱼）之间相隔的 Tick。
-
-          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_water_ambient_spawns)。
-      water_creature:
-        default: "-1"
-        description: |
-          设置尝试生成水域生物（鱿鱼、海豚）之间相隔的 Tick。
-
-          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_water_spawns)。
     despawn-range-shape:
       default: ELLIPSOID
       description: >-
@@ -573,6 +537,49 @@ entities:
           设置每个世界自然生成的水域动物数量的常数。
 
           - 这与 [bukkit.yml](/paper/reference/bukkit-configuration#spawn_limits_water_animals) 中设置的值相同，只是可以针对每个世界进行配置。设置为 `-1` 将使用 `bukkit.yml` 中的值。
+    ticks-per-spawn:
+      ambient:
+        default: "-1"
+        description: |
+          设置尝试生成环境生物（蝙蝠）之间相隔的 Tick。
+
+          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_ambient_spawns)。
+      axolotls:
+        default: "-1"
+        description: |
+          设置尝试生成美西螈之间相隔的 Tick。
+
+          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_axolotl_spawns)。
+      creature:
+        default: "-1"
+        description: |
+          设置尝试生成被动生物（动物）之间相隔的 Tick。
+
+          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_animal_spawns)。
+      monster:
+        default: "-1"
+        description: |
+          设置尝试生成敌对怪物之间相隔的 Tick。
+
+          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_monster_spawns)。
+      underground_water_creature:
+        default: "-1"
+        description: |
+          设置尝试生成地下水域生物（发光鱿鱼）之间相隔的 Tick。
+
+          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_water_underground_creature_spawns)。
+      water_ambient:
+        default: "-1"
+        description: |
+          设置尝试生成水域环境生物（热带鱼）之间相隔的 Tick。
+
+          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_water_ambient_spawns)。
+      water_creature:
+        default: "-1"
+        description: |
+          设置尝试生成水域生物（鱿鱼、海豚）之间相隔的 Tick。
+
+          - 默认值（-1）使用 [bukkit.yml 中的生成速率](/paper/reference/bukkit-configuration#ticks_per_water_spawns)。
     wandering-trader:
       spawn-chance-failure-increment:
         default: "25"
@@ -604,10 +611,6 @@ entities:
 
           - **注意**：默认值遵循我的世界的默认设置，截至 1.12 版本，通常是世界海平面（通常是 Y: 64）。
   tracking-range-y:
-    enabled:
-      default: "false"
-      description: >-
-        是否启用在垂直（Y）方向上跟踪范围的独立设置。
     animal:
       default: default
       description: >-
@@ -616,22 +619,26 @@ entities:
       default: default
       description: >-
         设置显示实体在垂直方向上被跟踪（发送给玩家）的距离，单位为方块。.
-    monster:
-      default: default
+    enabled:
+      default: "false"
       description: >-
-        设置怪物在垂直方向上被跟踪（发送给玩家）的距离，单位为方块。
-    player:
-      default: default
-      description: >-
-        设置玩家在垂直方向上被跟踪（发送给玩家）的距离，单位为方块。
+        是否启用在垂直（Y）方向上跟踪范围的独立设置。
     misc:
       default: default
       description: >-
         设置杂项实体在垂直方向上被跟踪（发送给玩家）的距离，单位为方块。
+    monster:
+      default: default
+      description: >-
+        设置怪物在垂直方向上被跟踪（发送给玩家）的距离，单位为方块。
     other:
       default: default
       description: >-
         设置其他实体在垂直方向上被跟踪（发送给玩家）的距离，单位为方块。
+    player:
+      default: default
+      description: >-
+        设置玩家在垂直方向上被跟踪（发送给玩家）的距离，单位为方块。
 environment:
   disable-explosion-knockback:
     default: "false"
@@ -646,10 +653,9 @@ environment:
   disable-thunder:
     default: "false"
     description: 是否禁用雷暴天气。
-  locate-structures-outside-world-border:
-    default: "false"
-    description: >-
-      是否在世界边界外的区块中定位结构。
+  fire-tick-delay:
+    default: "30"
+    description: 设置火焰 Tick 更新之间的最小延迟。
   frosted-ice:
     delay:
       max:
@@ -664,6 +670,22 @@ environment:
   generate-flat-bedrock:
     default: "false"
     description: 是否以单层平面的形式生成基岩。
+  locate-structures-outside-world-border:
+    default: "false"
+    description: >-
+      是否在世界边界外的区块中定位结构。
+  max-block-ticks:
+    default: "65536"
+    description: >-
+      设置单次 Tick中可以处理的最大方块刻更新数量。
+
+      - 这是一种安全措施，用于防止服务器在存在大量方块更新时卡住。
+  max-fluid-ticks:
+    default: "65536"
+    description: >-
+      设置单次 Tick 中可以处理的最大流体刻更新数量。
+
+      - 这是一种安全措施，用于防止服务器在存在大量流体更新时卡住。
   nether-ceiling-void-damage-height:
     default: disabled
     description: >-
@@ -718,21 +740,6 @@ environment:
   water-over-lava-flow-speed:
     default: "5"
     description: 设置水流在覆盖熔岩时的流速。
-  fire-tick-delay:
-    default: "30"
-    description: 设置火焰 Tick 更新之间的最小延迟。
-  max-fluid-ticks:
-    default: "65536"
-    description: >-
-      设置单次 Tick 中可以处理的最大流体刻更新数量。
-
-      - 这是一种安全措施，用于防止服务器在存在大量流体更新时卡住。
-  max-block-ticks:
-    default: "65536"
-    description: >-
-      设置单次 Tick中可以处理的最大方块刻更新数量。
-
-      - 这是一种安全措施，用于防止服务器在存在大量方块更新时卡住。
 feature-seeds:
   generate-random-seeds-for-all:
     default: "false"
@@ -781,8 +788,9 @@ fixes:
   tnt-entity-height-nerf:
     default: disabled
     description: >-
-      The height at which Primed TNT entities will be removed from the server. A
-      value of disabled will disable this feature
+      设置引信点燃的 TNT 实体将从服务器中被移除的高度。
+
+      - 设为 “disable” 时将关闭此功能。
 hopper:
   cooldown-when-full:
     vanilla: "false"
@@ -851,7 +859,7 @@ maps:
     description: >-
       设置每张地图允许的光标（标记）数量。
 
-      - 过多的光标可能会导致客户端卡顿，原版为 2147483647。
+      - 过多的光标可能会导致客户端卡顿。
   item-frame-cursor-update-interval:
     default: "10"
     description: >-
@@ -880,6 +888,18 @@ misc:
       是否允许远程末影龙重生。
 
       - 禁用一种优化，该优化会验证末影水晶是否放置在末地传送门框架上，然后才会尝试重新生成末影龙。启用此设置可以再次实现远程重新生成末影龙。
+  alternate-current-update-order:
+    default: HORIZONTAL_FIRST_OUTWARD
+    description: >-
+      设置 Alternate Current 更新红石粉及相邻方块的顺序。仅在使用 “ALTERNATE_CURRENT” 红石实现时有效。此选项可以设置为以下值之一：
+
+      - **HORIZONTAL_FIRST_OUTWARD**
+
+      - **HORIZONTAL_FIRST_INWARD**
+
+      - **VERTICAL_FIRST_OUTWARD**
+
+      - **VERTICAL_FIRST_INWARD**
   disable-end-credits:
     default: "false"
     description: >-
@@ -919,27 +939,13 @@ misc:
 
       - **ALTERNATE_CURRENT**：由 Space Walker 提供的 Alternate Current 红石实现，对性能提升较大。
 
-        **注意**：Eigencraft 和 [Alternate Current](https://github.com/SpaceWalkerRS/alternate-current/blob/main/README.md) 实现都会改变红石粉的行为。您可以在每种实现的文档中了解行为的变化：
+
+      **注意**：Eigencraft 和 [Alternate Current](https://github.com/SpaceWalkerRS/alternate-current/blob/main/README.md) 实现都会改变红石粉的行为。
+      您可以在每种实现的文档中了解行为的变化：
 
       - Eigencraft：没有官方文档。但是，[theosib 在 Mojang Bug 跟踪器上的评论](https://bugs.mojang.com/browse/MC-81098?focusedCommentId=420777#comment-420777)对 Eigencraft 实现有简要概述。
-  alternate-current-update-order:
-    default: HORIZONTAL_FIRST_OUTWARD
-    description: >-
-      设置 Alternate Current 更新红石粉及相邻方块的顺序。仅在使用 “ALTERNATE_CURRENT” 红石实现时有效。此选项可以设置为以下值之一：
 
-      - **HORIZONTAL_FIRST_OUTWARD**
-
-      - **HORIZONTAL_FIRST_INWARD**
-
-      - **VERTICAL_FIRST_OUTWARD**
-
-      - **VERTICAL_FIRST_INWARD**
-  shield-blocking-delay:
-    default: "5"
-    description: >-
-      设置玩家激活盾牌与盾牌实际开始阻挡伤害之间的 Tick 数。
-
-      - 一些小游戏服务器可以适当调整数值，建议不要低于 2。
+      - [Alternate Current](https://github.com/SpaceWalkerRS/alternate-current/blob/main/README.md)
   show-sign-click-command-failure-msgs-to-player:
     default: "false"
     description: >-
@@ -990,6 +996,12 @@ tick-rates:
       设置服务器更新容器和物品栏的 Tick 更新频率。
 
       - 设置为大于 1 的值可能会导致物品不同步/幽灵物品，或者使方块破坏进度看起来随机重置。它还可能产生类似于服务器延迟的视觉效果，尽管实际上并非如此。
+  dry-farmland:
+    default: "1"
+    description: |
+      设置干燥的耕地区块的刻更新频率。
+
+      - 较高的值会减缓耕地检查湿度更新的速度。默认值（1）使用原版行为，设置为 `-1` 将禁用干燥耕地的随机 Tick 更新。
   grass-spread:
     default: "1"
     description: >-
@@ -1002,24 +1014,12 @@ tick-rates:
       设置刷怪笼计算可用生成区域并生成新实体到世界的 Tick 更新频率。
 
       - 设置为 `-1` 将禁用所有刷怪笼，较低的值会占用更多的 CPU 资源。
-  dry-farmland:
-    default: "1"
-    description: |
-      设置干燥的耕地区块的刻更新频率。
-
-      - 较高的值会减缓耕地检查湿度更新的速度。默认值（1）使用原版行为，设置为 `-1` 将禁用干燥耕地的随机 Tick 更新。
-  wet-farmland:
-    default: "1"
-    description: |
-      控制湿润的耕地区块的刻更新频率。
-
-      - 较高的值会减缓耕地检查湿度更新的速度。默认值（1）使用原版行为，设置为 `-1` 将禁用湿润耕地的随机 Tick 更新。
   sensor:
     villager:
       secondarypoisensor:
         default: "40"
         description: >-
-          设置村民实体的二级POI传感器的 Tick 更新频率。
+          设置村民实体的二级 POI 传感器的 Tick 更新频率。
     <entity-type>:
       <sensor-name>:
         default: -1
@@ -1027,6 +1027,12 @@ tick-rates:
           设置实体的传感器 Tick 更新频率。
 
           - 设置为 `-1` 时使用原版。请查看相关计时信息以了解名称。此设置可能在更新之间发生变化！
+  wet-farmland:
+    default: "1"
+    description: |
+      控制湿润的耕地区块的刻更新频率。
+
+      - 较高的值会减缓耕地检查湿度更新的速度。默认值（1）使用原版行为，设置为 `-1` 将禁用湿润耕地的随机 Tick 更新。
 unsupported-settings:
   inline-docs-warning:
     color: red

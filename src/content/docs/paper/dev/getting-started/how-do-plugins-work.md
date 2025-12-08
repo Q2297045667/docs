@@ -121,5 +121,5 @@ slug: paper/dev/how-do-plugins-work
 颜色一直是可能的，但只能通过使用旧版颜色代码。
 
 Paper 实现了一个名为 `Adventure` 的库，它使得向玩家发送消息变得简单。
-你可以从它们的文档 [这里](https://docs.advntr.dev/)
-或我们的文档 [这里](/paper/dev/component-api/introduction) 了解更多信息。
+从其文档了解 `Adventure` API 的更多信息点击[这里](/adventure/)
+或我们的文档 [这里](/paper/dev/component-api/introduction)了解更多信息。

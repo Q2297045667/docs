@@ -11,8 +11,12 @@ ignore-vanilla-permissions:
   default: "false"
   description: 是否在执行命令时使用原版权限等级。
 aliases:
-  <别名名称>:
-    default: "[<要运行的命令>]"
+  icanhasbukkit:
+    default: "[version $1-]"
+    description: >-
+      内置别名。将别名设为空列表（[]）即可永久移除。
+  <alias name>:
+    default: "[<commands to run>]"
     description: >
       一个字符串列表，表示目标命令。
       或者是一个字符串，表示单个目标命令。
@@ -28,8 +32,4 @@ aliases:
         * `$$<n>-` 被替换为第 n 个参数及其之后的所有内容，从 1 开始索引，如果第 n 个参数不存在则失败。
 
 
-      每个注册的别名都不能（轻易地）被插件覆盖。
-  icanhasbukkit:
-    default: "[version $1-]"
-    description: >-
-      每个注册的别名都不能（轻易地）被插件覆盖。
+      每个注册的别名都无法（轻易）被插件覆盖。

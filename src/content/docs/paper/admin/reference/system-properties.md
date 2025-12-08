@@ -256,6 +256,14 @@ Paper 的一些系统属性名称中包含 `.` 字符。在使用 PowerShell 时
 
 :::
 
+#### paper.debugEntitiesWithInvalidIds
+- **默认**: `false`
+- **描述**: 启用在尝试加载实体 ID 缺失或无效的实体时，记录该实体的完整 NBT。（每当控制台输出“Skipping Entity with id”时触发。）
+
+#### paper.maxChatCommandInputSize
+- **默认**: `256`
+- **描述**: 设置聊天栏命令允许的最大长度。原版客户端无法发送超过 256 个字符的内容。
+
 ## 环境变量列表
 
 #### PAPER_VELOCITY_SECRET

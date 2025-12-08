@@ -1,3 +1,4 @@
+import { feedLoader } from "@ascorbic/feed-loader";
 import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { defineCollection, z } from "astro:content";
@@ -14,6 +15,21 @@ export const collections = {
           .optional(),
         version: z.string().optional(),
       }),
+    }),
+  }),
+  "adventure-releases": defineCollection({
+    loader: feedLoader({
+      url: "https://github.com/PaperMC/adventure/releases.atom",
+    }),
+  }),
+  "adventure-platform-releases": defineCollection({
+    loader: feedLoader({
+      url: "https://github.com/PaperMC/adventure-platform/releases.atom",
+    }),
+  }),
+  "adventure-platform-mod-releases": defineCollection({
+    loader: feedLoader({
+      url: "https://github.com/PaperMC/adventure-platform-mod/releases.atom",
     }),
   }),
 };

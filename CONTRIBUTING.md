@@ -5,14 +5,15 @@
 
 ## 目录
 
-1. [介绍](#介绍)
+1. [简介](#介绍)
 2. [添加页面](#添加页面)
 3. [提交贡献](#提交贡献)
-4. [样式指南](#样式指南)
+4. [样式规范](#样式规范)
 5. [版本标签](#版本标签)
 6. [常量替换](#常量替换)
 7. [链接到 Javadocs](#链接到-Javadoc)
-8. [行为准则](#行为准则)
+8. [引用构建系统依赖](#引用构建系统依赖)
+9. [行为准则](#行为准则)
 
 ## 介绍
 
@@ -65,7 +66,7 @@ Slug 应该是唯一的，并且遵循文档的文件夹结构。标题是将在
 
 7. 一旦您的贡献符合指南和要求，它将被合并到主仓库中。
 
-## 样式指南
+## 样式规范
 
 为了保持文档的一致性和可读性，请遵守以下样式指南：
 
@@ -166,8 +167,51 @@ loader: io.papermc.testplugin.TestPluginLoader
 [我的`活动`链接](jd:paper:org.bukkit.event.Event)
 [`ProxyInitializeEvent`](jd:velocity:com.velocitypowered.api.event.proxy.ProxyInitializeEvent)
 [`repeat(long, TimeUnit)`](jd:velocity:com.velocitypowered.api.scheduler.Scheduler$TaskBuilder#repeat(long,java.util.concurrent.TimeUnit))
-[java.base 中的 `List`](jd:java:java.util.List)
-[java.sql 中的 `Connection`](jd:java:java.sql:java.sql.Connection)
+[java.base's List](jd:java:java.util.List)
+[java.sql's Connection](jd:java:java.sql:java.sql.Connection)
+
+我们甚至不需要指定链接文本，它可以自动生成：
+[](jd:paper:org.bukkit.event.Event) 会显示为 `Event`
+[](jd:velocity:com.velocitypowered.api.scheduler.Scheduler$TaskBuilder#repeat(long,java.util.concurrent.TimeUnit)) 会显示为 `Scheduler.TaskBuilder#repeat(long, TimeUnit)`
+```
+
+## 引用构建系统依赖
+
+如果你想引用构建系统（如 Gradle 或 Maven）中的依赖，可以使用 `Dependency` 组件。
+
+```mdxjs
+import { LATEST_ADVENTURE_API_RELEASE } from "/src/utils/versions";
+
+{/* uses the "default" template */}
+<Dependency group="net.kyori" name="adventure-api" version={LATEST_ADVENTURE_API_RELEASE} />
+```
+
+`default` 模板适用于来自 Maven Central 的简单 `implementation`/`compile`-scope 作用域依赖，
+但你也可以创建自己的模板。
+
+如果需要以唯一方式声明依赖，或需要在构建脚本中添加其他配置，
+直接使用带有相应代码块的 Tabs 组件—— **除非你打算多次复用，否则不要创建模板**。
+
+```mdxjs
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+<Tabs syncKey="build-system">
+  <TabItem label="Gradle (Kotlin)">
+    ```kotlin title="build.gradle.kts"
+    // 我的 Kotlin 构建脚本
+    ```
+  </TabItem>
+  <TabItem label="Gradle (Groovy)">
+    ```groovy title="build.gradle"
+    // 我的 Groovy 构建脚本
+    ```
+  </TabItem>
+  <TabItem label="Maven">
+    ```xml title="pom.xml"
+    <!-- 我的 XML 构建脚本 -->
+    ```
+  </TabItem>
+</Tabs>
 ```
 
 ## 行为准则

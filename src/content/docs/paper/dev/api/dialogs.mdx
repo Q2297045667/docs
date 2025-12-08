@@ -235,7 +235,7 @@ public class ServerJoinListener implements Listener {
     /**
      * 一个用于保存所有当前正在连接的玩家的映射表。
      */
-    private final Map<PlayerCommonConnection, CompletableFuture<Boolean>> awaitingResponse = new HashMap<>();
+    private final Map<UUID, CompletableFuture<Boolean>> awaitingResponse = new ConcurrentHashMap<>();
 
     @EventHandler
     void onPlayerConfigure(AsyncPlayerConnectionConfigureEvent event) {
@@ -248,23 +248,34 @@ public class ServerJoinListener implements Listener {
             return;
         }
 
+        PlayerConfigurationConnection connection = event.getConnection();
+        UUID uniqueId = connection.getProfile().getId();
+        if (uniqueId == null) {
+            return;
+        }
+
         // 构造一个没有任务的新可完成的未来。
         CompletableFuture<Boolean> response = new CompletableFuture<>();
+        // 如果在一分钟内没有任何操作完成，则完成该 Future。
+        response.completeOnTimeout(false, 1, TimeUnit.MINUTES);
 
         // 将其放入我们的映射表中。
-        awaitingResponse.put(event.getConnection(), response);
+        awaitingResponse.put(uniqueId, response);
 
+        Audience audience = connection.getAudience();
         // 向正在连接的玩家展示对话框。
-        event.getConnection().getAudience().showDialog(dialog);
+        audience.showDialog(dialog);
 
         // 等待未来完成。这一步是必要的，以保持玩家在配置阶段。
         if (!response.join()) {
-            // 如果响应是`false`，则表示他们拒绝了。因此，我们将他们从服务器中踢出。
-            event.getConnection().disconnect(Component.text("你讨厌 Paper-chan :(", NamedTextColor.RED));
+            // 我们手动关闭对话框，因为客户端可能不会自行关闭它。
+            audience.closeDialog();
+            // 如果响应为 false，则表示他们拒绝了。因此，我们将他们从服务器中踢出。
+            connection.disconnect(Component.text("你讨厌 Paper-chan ：(", NamedTextColor.RED));
         }
 
         // 我们清理映射表，以避免不必要的条目堆积。
-        awaitingResponse.remove(event.getConnection());
+        awaitingResponse.remove(uniqueId);
     }
 
     /**
@@ -272,22 +283,39 @@ public class ServerJoinListener implements Listener {
      */
     @EventHandler
     void onHandleDialog(PlayerCustomClickEvent event) {
-        Key key = event.getIdentifier();
+        // 仅对配置连接处理自定义点击。
+        if (!(event.getCommonConnection() instanceof PlayerConfigurationConnection configurationConnection)) {
+            return;
+        }
 
+        UUID uniqueId = configurationConnection.getProfile().getId();
+        if (uniqueId == null) {
+            return;
+        }
+
+        Key key = event.getIdentifier();
         if (key.equals(Key.key("papermc:paperchan/disagree"))) {
             // 如果标识符与不同意的那个相同，则将连接结果设置为`false`。
-            setConnectionJoinResult(event.getCommonConnection(), false);
+            setConnectionJoinResult(uniqueId, false);
         } else if (key.equals(Key.key("papermc:paperchan/agree"))) {
             // 如果它与同意的那个相同，则将结果设置为`true`。
-            setConnectionJoinResult(event.getCommonConnection(), true);
+            setConnectionJoinResult(uniqueId, true);
         }
+    }
+
+    /**
+     * 用于清理映射以避免不必要的条目堆积的事件处理器。
+     */
+    @EventHandler
+    void onConnectionClose(PlayerConnectionCloseEvent event) {
+        awaitingResponse.remove(event.getPlayerUniqueId());
     }
 
     /**
      * 一个简单的工具方法，用于设置连接的对话框响应结果。
      */
-    private void setConnectionJoinResult(PlayerCommonConnection connection, boolean value) {
-        CompletableFuture<Boolean> future = awaitingResponse.get(connection);
+    private void setConnectionJoinResult(UUID uniqueId, boolean value) {
+        CompletableFuture<Boolean> future = awaitingResponse.get(uniqueId);
         if (future != null) {
             future.complete(value);
         }
@@ -388,8 +416,8 @@ void handleLevelsDialog(PlayerCustomClickEvent event) {
 ### 使用回调
 
 你可以使用
-`DialogAction.customClick(DialogActionCallback, ClickCallback.Options)`方法在本地注册一个回调，
-而不是注册另一个事件处理器。
+[`DialogAction.customClick(DialogActionCallback, ClickCallback.Options)`](jd:paper:io.papermc.paper.registry.data.dialog.action.DialogAction#customClick(io.papermc.paper.registry.data.dialog.action.DialogActionCallback,net.kyori.adventure.text.event.ClickCallback.Options))
+方法在本地注册一个回调，而不是注册另一个事件处理器。
 
 因此，对话框操作的代码如下所示：
 

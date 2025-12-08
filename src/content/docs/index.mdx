@@ -8,7 +8,8 @@ hero:
   title: PaperMC 中文文档
   tagline: 涵盖 PaperMC 旗下所有项目（包括 Paper、Velocity 和 Folia）的文档。
   image:
-    html: '<img src="https://assets.papermc.io/brand/papermc_logo.min.svg" alt="PaperMC Logo">'
+    file: "https://assets.papermc.io/brand/papermc_logo.min.svg"
+    alt: PaperMC Logo
 ---
 
 import { CardGrid } from "@astrojs/starlight/components";
@@ -25,11 +26,11 @@ import LinkCard from "/src/components/LinkCard.astro";
   <LinkCard title="Folia" href="/folia" icon="folia">
     Paper 的一个分支版本，为专用服务端增加了区域化多线程功能。
   </LinkCard>
+  <LinkCard title="Adventure" href="/adventure" icon="adventure">
+    一个用于 Minecraft: Java Edition 中服务端可控用户界面元素的 Java 库。
+  </LinkCard>
   <LinkCard title="Waterfall" href="/waterfall" destructive icon="waterfall">
     一个已停止开发的 BungeeCord 代理分支，旨在提高性能和稳定性。
-  </LinkCard>
-  <LinkCard title="Adventure" href="https://docs.advntr.dev/" icon="adventure">
-    一个用于 Minecraft: Java Edition 中服务端可控用户界面元素的 Java 库。
   </LinkCard>
   <LinkCard title="其他" href="/misc" icon="random">
     其他各种文档和工具。

@@ -15,7 +15,7 @@ version: "1.20"
 
 ### 文本
 
-可以通过 `TextDisplay`
+可以通过 [`TextDisplay`](jd:paper:org.bukkit.entity.TextDisplay)
 实体显示文本。
 
 ```java
@@ -31,7 +31,7 @@ TextDisplay display = world.spawn(location, TextDisplay.class, entity -> {
 
 ### 方块
 
-可以通过 `BlockDisplay`
+可以通过 [`BlockDisplay`](jd:paper:org.bukkit.entity.BlockDisplay)
 实体显示方块。
 
 ```java
@@ -43,7 +43,7 @@ BlockDisplay display = world.spawn(location, BlockDisplay.class, entity -> {
 
 ### 物品
 
-可以通过 `ItemDisplay`
+可以通过 [`ItemDisplay`](jd:paper:org.bukkit.entity.ItemDisplay)
 实体显示物品。
 
 尽管名称为“物品”显示，但物品显示也可以显示“方块”，
@@ -211,7 +211,7 @@ Bukkit.getScheduler().runTaskTimer(plugin, task -> {
 // 新位置将比原来高 10 个方块
 Location newLocation = display.getLocation().add(0, 10, 0);
 
-display.setTeleportDuration(20 * 10); // 移动将耗时 10 秒（1 秒 = 20 帧）
+display.setTeleportDuration(20 * 2); // 移动将耗时 2 秒（1 秒 = 20 帧）
 display.teleport(newLocation); // 执行移动
 ```
 

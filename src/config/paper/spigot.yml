@@ -1,3 +1,110 @@
+settings:
+  debug:
+    default: "false"
+    description: "是否启用调试模式，这将会把所有的报告等级设定为 ALL。"
+  save-user-cache-on-stop-only:
+    default: "false"
+    description: >
+      是否仅在服务端停止时保存用户缓存。
+
+      - 注意：如果服务端在运行时被迫（如：进程被杀死、崩溃等原因）停止，将会损失玩家数据，服务端会自动回滚到上一次保存的数据。
+  sample-count:
+    default: "12"
+    description: >-
+      设置在光标悬浮到玩家数量位置时，返回的玩家数量。
+
+      - 顺序和选中的玩家是随机的。
+  timeout-time:
+    default: "60"
+    description: >-
+      设置 Ticks 与 Ticks 运算之间允许相差的最大时间，以秒作为单位。
+
+      - 如果超过该阈值将会杀死服务端进程。
+  restart-on-crash:
+    default: "true"
+    description: >-
+      是否在服务器被监视进程杀死时，拉起 \`restart-script\` 内的脚本。
+
+      - 提示: 当被外部力量结束进程，比如说操作系统的任务管理器，其将不会被拉起。
+  restart-script:
+    default: ./start.sh
+    description: >-
+      设置服务器重启时候执行的脚本。
+
+      - 在 Windows 上这等同于 \`cmd /c start {restart-script}\`。
+        这意味着需要指定一个批处理文件(*.bat)作为脚本。请参阅 [微软的文档](https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/start)
+        以使用指定的选项启动。
+        笔者推荐参阅英文原版，因为中文为机翻。
+
+      - 在其他平台上等同于 \`sh {restart-script}\`。
+        这意味着需要通过绝对或相对路径指定一个 shell 脚本(*.sh)。
+        参阅你使用的操作系统的文档以了解如何使用脚本。
+        (例: [ArchLinux 手册](https://man.archlinux.org/man/sh.1p#command_file))
+
+
+      了解更多信息，参阅[此处](https://gist.github.com/Prof-Bloodstone/6367eb4016eaf9d1646a88772cdbbac5).
+  log-villager-deaths:
+    default: "true"
+    description: >-
+      是否把村民的死亡信息记录到控制台和 latest.log。
+  log-named-deaths:
+    default: "true"
+    description: >-
+      是否把带有名字的实体的死亡信息记录到控制台和 latest.log。
+  bungeecord:
+    default: "false"
+    description: |-
+      是否启用对 BungeeCord 的支持。这会:
+
+      - 接收转发的玩家数据和客户端 IP 地址。
+
+      - 支持绑定到 Unix 域套接字(Unix domain socket，也即，本地套接字)。
+
+      关于本地套接字参见 [UDS](https://en.wikipedia.org/wiki/Unix_domain_socket)。
+      所有中文维基对于 Unix 域套接字的翻译都不是很全面，因此笔者在此处贴了英文维基。
+  attribute:
+    maxAbsorption:
+      max:
+        default: "2048.0"
+        description: 设置覆写最大伤害吸收(maxAbsorption)的属性最大值。
+    maxHealth:
+      max:
+        default: "1024.0"
+        description: 设置覆写最大生命(maxHealth)的属性最大值。
+    movementSpeed:
+      max:
+        default: "1024.0"
+        description: 设置覆写最大移动速度(movementSpeed)的属性最大值。
+    attackDamage:
+      max:
+        default: "2048.0"
+        description: 设置覆写最大伤害(attackDamage)的属性最大值。
+  netty-threads:
+    default: "4"
+    description: 设置 netty 线程的数量（并非越高越好）。
+  player-shuffle:
+    default: "0"
+    description: >-
+      设置刷新玩家连接列表的频率，以 Ticks 为单位。
+
+      - 设置为 0 或更小则禁用。
+        这将防止玩家为了提升他们在 Ticks 顺序中的优先级位置而*策略性*地重新登录。
+        如果这个值值较低可能会对性能产生影响。
+  user-cache-size:
+    default: "1000"
+    description: 设置玩家缓存内保存到最大玩家数量。
+  moved-too-quickly-multiplier:
+    default: "10.0"
+    description: >-
+      设置在一个包内玩家的移动速度。
+
+      - 如果超过此值，那么服务端将会记录并且会试图将玩家回弹到上一个位置。
+  moved-wrongly-threshold:
+    default: "0.0625"
+    description: >-
+      设置在一个包内玩家的移动速度，取决于玩家当前加载的区块。
+
+      - 如果超过此阈值，那么服务端将会记录并且会试图将玩家回弹到上一个位置。
 advancements:
   disable-saving:
     default: "false"
@@ -16,40 +123,45 @@ advancements:
       - 一个进度标签的命名空间。比如说输入 "minecraft" 将会禁用所有其包含的进度。
 
       - 注意：当父进度被禁用而子进度未被禁用，将会引发异常。
-commands:
-  log:
-    default: "true"
-    description: >-
-      是否记录玩家在聊天或告示牌中执行的命令。
-
-      - 最终在控制台会以“<玩家名称> issued server command: <命令>”的格式记录。
-  replace-commands:
-    default: "[setblock,summon,testforblock,tellraw]"
-    description: 设置在列表中的指令将不会被任何其他插件覆盖为插件指令。
-  send-namespaced:
-    default: "true"
-    description: >-
-      是否在命令补全时，发送带有命名空间的命令到客户端。
-  silent-commandblock-console:
-    default: "false"
-    description: 是否记录原版指令的执行结果到控制台。
-  spam-exclusions:
-    default: "[/skill]"
-    description: >-
-      设置任何信息，或者命令前带有在这个列表之内的前缀消息，将会被内建的反刷屏系统忽略。
-
-      - 命令需要加一个 "/" 前缀才会被识别为命令。
-  tab-complete:
-    default: "0"
-    description: >-
-      设置在使用制表键补全(Tab-complete)时需要输入的字符数量。
-
-      - < 0: 禁用补全。
-
-      - = 0: 总是补全所有可用命令。
-
-      - \\> 0 : 需要输入指定的字符数量之后才能补全。由于客户端的代码变动，这没有实际作用。
 messages:
+  whitelist:
+    default: You are not whitelisted on this server!
+    description: >-
+      设置当玩家不在/在 whitelist.json 文件中时，玩家看到的消息。
+      这条消息会在以下情况下向客户端发送:
+
+      - 当白名单启动时，不在白名单上的玩家试图登录服务器。
+
+      - 当玩家从白名单上被移除且 enforce-whitelist 项启用时。
+
+      - 当启动白名单时且 enforce-whitelist 项启用时，不在白名单上的玩家在服务器内。
+
+
+      - 这条字符串使用在某个字符之前加 "&" 的方式添加效果("&" style formatting)，通过添加 "\\n" 来另起一行。
+        "&" style formatting 的具体解释可参见本文档内 "outdated-client" 一项。
+
+
+      - 中文翻译：您未被加入此服务器的白名单！
+  unknown-command:
+    default: Unknown command. Type "/help" for help.
+    description: >-
+      设置当玩家输入了一个在服务端上无法找到的命令时，玩家看到的消息。
+
+      - 这条字符串使用在某个字符之前加 "&" 的方式添加效果("&" style formatting)，通过添加 "\\n" 来另起一行。
+        "&" style formatting 的具体解释可参见本文档内 "outdated-client" 一项。
+
+
+      - 中文翻译：未知命令。键入“/help”获取帮助。
+  server-full:
+    default: The server is full!
+    description: >-
+      设置当服务器满员时，玩家试图登录服务器时看到的消息。
+
+      - 这条字符串使用在某个字符之前加 "&" 的方式添加效果("&" style formatting)，通过添加 "\\n" 来另起一行。
+        "&" style formatting 的具体解释可参见本文档内 "outdated-client" 一项。
+
+
+      - 中文翻译：服务器已满！
   outdated-client:
     default: "Outdated client! Please use {0}"
     description: >-
@@ -84,183 +196,76 @@ messages:
 
 
       - 中文翻译：服务器正在重新启动
-  server-full:
-    default: The server is full!
-    description: >-
-      设置当服务器满员时，玩家试图登录服务器时看到的消息。
-
-      - 这条字符串使用在某个字符之前加 "&" 的方式添加效果("&" style formatting)，通过添加 "\\n" 来另起一行。
-        "&" style formatting 的具体解释可参见本文档内 "outdated-client" 一项。
-
-
-      - 中文翻译：服务器已满！
-  unknown-command:
-    default: Unknown command. Type "/help" for help.
-    description: >-
-      设置当玩家输入了一个在服务端上无法找到的命令时，玩家看到的消息。
-
-      - 这条字符串使用在某个字符之前加 "&" 的方式添加效果("&" style formatting)，通过添加 "\\n" 来另起一行。
-        "&" style formatting 的具体解释可参见本文档内 "outdated-client" 一项。
-
-
-      - 中文翻译：未知命令。键入“/help”获取帮助。
-  whitelist:
-    default: You are not whitelisted on this server!
-    description: >-
-      设置当玩家不在/在 whitelist.json 文件中时，玩家看到的消息。
-      这条消息会在以下情况下向客户端发送:
-
-      - 当白名单启动时，不在白名单上的玩家试图登录服务器。
-
-      - 当玩家从白名单上被移除且 enforce-whitelist 项启用时。
-
-      - 当启动白名单时且 enforce-whitelist 项启用时，不在白名单上的玩家在服务器内。
-
-
-      - 这条字符串使用在某个字符之前加 "&" 的方式添加效果("&" style formatting)，通过添加 "\\n" 来另起一行。
-        "&" style formatting 的具体解释可参见本文档内 "outdated-client" 一项。
-
-
-      - 中文翻译：您未被加入此服务器的白名单！
-players:
-  disable-saving:
-    default: "false"
-    description: 是否禁止保存玩家数据。
-settings:
-  attribute:
-    attackDamage:
-      max:
-        default: "2048.0"
-        description: 设置覆写最大伤害(attackDamage)的属性最大值。
-    maxAbsorption:
-      max:
-        default: "2048.0"
-        description: 设置覆写最大伤害吸收(maxAbsorption)的属性最大值。
-    maxHealth:
-      max:
-        default: "1024.0"
-        description: 设置覆写最大生命(maxHealth)的属性最大值。
-    movementSpeed:
-      max:
-        default: "1024.0"
-        description: 设置覆写最大移动速度(movementSpeed)的属性最大值。
-  bungeecord:
-    default: "false"
-    description: |-
-      是否启用对 BungeeCord 的支持。这会:
-
-      - 接收转发的玩家数据和客户端 IP 地址。
-
-      - 支持绑定到Unix域套接字(Unix domain socket，也即，本地套接字)。
-
-      关于本地套接字参见 [UDS](https://en.wikipedia.org/wiki/Unix_domain_socket)。
-      所有中文维基对于 Unix 域套接字的翻译都不是很全面，因此笔者在此处贴了英文维基。
-  debug:
-    default: "false"
-    description: "是否启动调试模式。这将会把所有的报告等级设定为 ALL。"
-  log-named-deaths:
-    default: "true"
-    description: >-
-      是否把带有名字的实体的死亡信息记录到控制台和 latest.log。
-  log-villager-deaths:
-    default: "true"
-    description: >-
-      是否把村民的死亡信息记录到控制台和 latest.log。
-  moved-too-quickly-multiplier:
-    default: "10.0"
-    description: >-
-      设置在一个包内玩家的移动速度。
-
-      - 如果超过此值，那么服务端将会记录并且会试图将玩家回弹到上一个位置。
-  moved-wrongly-threshold:
-    default: "0.0625"
-    description: >-
-      设置在一个包内玩家的移动速度，取决于玩家当前加载的区块。
-
-      - 如果超过此阈值，那么服务端将会记录并且会试图将玩家回弹到上一个位置。
-  netty-threads:
-    default: "4"
-    description: 设置 netty 线程的数量（并非越高越好）。
-  player-shuffle:
-    default: "0"
-    description: >-
-      设置刷新玩家连接列表的频率，以 Ticks 为单位。
-
-      - 设置为 0 或更小则禁用。
-        这将防止玩家为了提升他们在 Ticks 顺序中的优先级位置而*策略性*地重新登录。
-        如果这个值值较低可能会对性能产生影响。
-  restart-on-crash:
-    default: "true"
-    description: >-
-      是否在服务器被监视进程杀死时，拉起 \`restart-script\` 内的脚本。
-
-      - 提示: 当被外部力量结束进程，比如说操作系统的任务管理器，其将不会被拉起。
-  restart-script:
-    default: ./start.sh
-    description: >-
-      设置服务器重启时候执行的脚本。
-
-      - 在 Windows 上这等同于 \`cmd /c start {restart-script}\`。
-        这意味着需要指定一个批处理文件(*.bat)作为脚本。请参阅 [微软的文档](https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/start)
-        以使用指定的选项启动。
-        笔者推荐参阅英文原版，因为中文为机翻。
-
-      - 在其他平台上等同于 \`sh {restart-script}\`。
-        这意味着需要通过绝对或相对路径指定一个 shell 脚本(*.sh)。
-        参阅你使用的操作系统的文档以了解如何使用脚本。
-        (例: [ArchLinux 手册](https://man.archlinux.org/man/sh.1p#command_file))
-
-
-      了解更多信息，参阅[此处](https://gist.github.com/Prof-Bloodstone/6367eb4016eaf9d1646a88772cdbbac5).
-  sample-count:
-    default: "12"
-    description: >-
-      设置在光标悬浮到玩家数量位置时，返回的玩家数量。
-
-      - 顺序和选中的玩家是随机的。
-  save-user-cache-on-stop-only:
-    default: "false"
-    description: >
-      是否仅在服务端停止时保存用户缓存。
-
-      - 注意：如果服务端在运行时被迫（如：进程被杀死、崩溃等原因）停止，将会损失玩家数据，服务端会自动回滚到上一次保存的数据。
-  timeout-time:
-    default: "60"
-    description: >-
-      设置Ticks 与 Ticks 运算之间允许相差的最大时间，以秒作为单位。
-
-      - 如果超过该阈值将会杀死服务端进程。
-  user-cache-size:
-    default: "1000"
-    description: 设置玩家缓存内保存到最大玩家数量。
-stats:
-  disable-saving:
-    default: "false"
-    description: 是否禁止保存服务端的统计信息。
-  forced-stats:
-    default: "{}"
-    description: >-
-      设置一个对象。它需要满足如下条件:
-
-      - 任何的统计信息命名空间 ID。
-      可以在 [Minecraft Wiki](https://zh.minecraft.wiki/w/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E6%81%AF#%E7%BB%9F%E8%AE%A1%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8) 的对应处查阅。
-
-      - 每个键的值都是一个整数，用于强制指定相关统计数据。
 world-settings:
   default:
-    unload-frozen-chunks:
-      default: "false"
-      description: >
-        是否允许在执行 /tick freeze 命令冻结 Ticks 时，卸载区块。
-
-        - 注意：该选项为实验性选项，请勿向 PpaerMC 反馈该功能的报错。
-    arrow-despawn-rate:
-      default: "1200"
-      description: 设置在箭矢消失之前经过的游戏 Ticks。
     below-zero-generation-in-existing-chunks:
       default: "true"
       description: >-
         是否将所有原有区块内的高度转换为 1.18 之后的完整高度。
+    merge-radius:
+      exp:
+        default: "-1"
+        description: >-
+          设置经验球之间相距多少距离才会合并为更大的经验球，在原版中这项特性不存在。
+
+          - 设置为 0 或更小的值来禁用这条配置项。
+      item:
+        default: "0.5"
+        description: "设置物品与物品之间能够堆叠的最小半径。"
+    ticks-per:
+      hopper-check:
+        default: "1"
+        description: 设置漏斗从另外一个容器内获取物品的检测间隔时间。
+      hopper-transfer:
+        default: "8"
+        description: 设置漏斗一次移动多少个物品。
+    hopper-amount:
+      default: "1"
+      description: "设置漏斗一次性能搬运多少物品。"
+    hopper-can-load-chunks:
+      default: "false"
+      description: 是否防止漏斗加载区块。
+    hunger:
+      combat-exhaustion:
+        default: "0.1"
+        description: 设置攻击时饱食度的消耗倍率。
+      jump-sprint-exhaustion:
+        default: "0.2"
+        description: 设置跑跳时饱食度的消耗倍率。
+      jump-walk-exhaustion:
+        default: "0.05"
+        description: 设置走跳时饱食度的消耗倍率。
+      other-multiplier:
+        default: "0.0"
+        description: 设置爬行(陆游)，潜行，正常走路时饱食度的消耗倍率。
+      regen-exhaustion:
+        default: "6.0"
+        description: 设置恢复生命的时恢复多少饱食度。
+      sprint-multiplier:
+        default: "0.1"
+        description: 设置冲刺时饱食度的消耗倍率。
+      swim-multiplier:
+        default: "0.01"
+        description: >-
+          设置当玩家正在"游泳"的时候饱食度的消耗倍率。这里的游泳，包括:
+
+          - 真的在游泳
+
+          - 水下行走(眼睛在水下)
+
+          - 水上行走(眼睛在水上)
+    enable-zombie-pigmen-portal-spawns:
+      default: "true"
+      description: >-
+        是否允许下界传送门生成僵尸猪灵。
+
+        - 通过传送门传送的生物不受影响。
+    zombie-aggressive-towards-villager:
+      default: "true"
+      description: >
+        是否允许僵尸攻击村民。
+
+        - 禁用它会减少僵尸 AI 的资源使用，一些特殊的服务器可以选择性禁用。
     dragon-death-sound-radius:
       default: "0"
       description: >-
@@ -268,12 +273,6 @@ world-settings:
 
         - 如果为 0，则音效会对所有维度内的所有玩家播放。
           人多的时候会出现一瞬间的网络数据包增加，建议改为 1000，凋零设置项 [wither-spawn-sound-radius](/paper/reference/spigot-configuration/#world_settings_default_wither_spawn_sound_radius)
-    enable-zombie-pigmen-portal-spawns:
-      default: "true"
-      description: >-
-        是否允许下界传送门生成僵尸猪灵。
-
-        - 通过传送门传送的生物不受影响。
     end-portal-sound-radius:
       default: "0"
       description: >-
@@ -281,44 +280,130 @@ world-settings:
 
         - 如果为 0，则音效会对所有维度内的所有玩家播放。
           人多的时候会出现一瞬间的网络数据包增加，建议改为 1000
+    hanging-tick-frequency:
+      default: "100"
+      description: "设置悬挂实体(比如画和物品展示框)应该在多少游戏 Ticks 内运算一次。"
+    wither-spawn-sound-radius:
+      default: "0"
+      description: >-
+        设置凋零生成时的音效播放半径。
+
+        - 如果为 0，则音效会对所有维度内的所有玩家播放。
+          人多的时候会出现一瞬间的网络数据包增加，建议改为 1000，末影龙设置项 [dragon-death-sound-radius](/paper/reference/spigot-configuration/#world_settings_default_dragon_death_sound_radius)
+    item-despawn-rate:
+      default: "6000"
+      description: >-
+        设置悬浮物品在消失之前的最大存在时间。
+
+        - 单独的配置项需要参看 Paper 配置文件内的
+          [按世界配置](/paper/reference/world-configuration#entities_spawning_alt_item_despawn_rate) 。
+    mob-spawn-range:
+      default: "8"
+      description: "设置玩家周围多少区块之内可以生成生物。"
+    arrow-despawn-rate:
+      default: "1200"
+      description: 设置在箭矢消失之前经过的游戏 Ticks。
+    trident-despawn-rate:
+      default: "1200"
+      description: 设置三叉戟实体的存在时间。
+    seed-village:
+      default: "10387312"
+      description: 设置村庄的结构种子。
+    seed-desert:
+      default: "14357617"
+      description: 设置沙漠的结构种子。
+    seed-igloo:
+      default: "14357618"
+      description: 设置雪屋的结构种子。
+    seed-jungle:
+      default: "14357619"
+      description: 设置丛林的结构种子。
+    seed-swamp:
+      default: "14357620"
+      description: 设置沼泽小屋的结构种子。
+    seed-monument:
+      default: "10387313"
+      description: 设置海底神殿的结构种子。
+    seed-shipwreck:
+      default: "165745295"
+      description: 设置沉船的结构种子。
+    seed-ocean:
+      default: "14357621"
+      description: 设置海洋的结构种子。
+    seed-outpost:
+      default: "165745296"
+      description: 设置掠夺者前哨站的结构种子。
+    seed-endcity:
+      default: "10387313"
+      description: 设置末地城的结构种子。
+    seed-slime:
+      default: "987234911"
+      description: 设置史莱姆区块的结构种子。
+    seed-nether:
+      default: "30084232"
+      description: 设置下界的结构种子。
+    seed-mansion:
+      default: "10387319"
+      description: 设置林地府邸的结构种子。
+    seed-fossil:
+      default: "14357921"
+      description: 设置化石的结构种子。
+    seed-portal:
+      default: "34222645"
+      description: 设置传送门的结构种子。
+    seed-ancientcity:
+      default: "20083232"
+      description: 设置远古城市的结构种子。
+    seed-trailruins:
+      default: "83469867"
+      description: 设置古迹废墟的结构种子。
+    seed-trialchambers:
+      default: "94251327"
+      description: 设置试炼密室的结构种子。
+    seed-buriedtreasure:
+      default: "10387320"
+      description: 设置埋藏的宝藏的结构种子。
+    seed-mineshaft:
+      default: default
+      description: 设置废弃矿井的结构种子。
+    seed-stronghold:
+      default: default
+      description: 设置要塞的结构种子。
+    thunder-chance:
+      default: "100000"
+      description: >-
+        设置在雷雨期间生成闪电的可能性。
+
+        - 概率为 1/<配置的数值> ，每个区块每个游戏 Ticks 单独检测。
     entity-activation-range:
       animals:
+        vanilla: "0"
         default: "32"
         description: 设置动物实体的激活范围。
-      flying-monsters:
-        default: "32"
-        description: 设置可飞行怪物的实体激活范围。
-      ignore-spectators:
-        default: "false"
-        description: 是否允许旁观者激活周围的生物。
-      misc:
-        default: "16"
-        description: 设置杂项实体的激活范围。
       monsters:
+        vanilla: "0"
         default: "32"
         description: 设置怪物的实体激活范围。
       raiders:
+        vanilla: "0"
         default: "64"
         description: 设置掠夺者的实体激活范围。
-      tick-inactive-villagers:
-        default: "true"
-        description: >-
-          是否持续对激活范围之外的村民实体进行 Ticks 运算。
+      misc:
+        vanilla: "0"
+        default: "16"
+        description: 设置杂项实体的激活范围。
+      water:
+        vanilla: "0"
+        default: "16"
+        description: 设置水下实体被激活范围。
       villagers:
+        vanilla: "0"
         default: "32"
-        description: 设置村民的实体激活范围。
-      villagers-active-for-panic:
-        default: "true"
-        description: 是否当村民进入恐慌时激活实体。
-      villagers-work-immunity-after:
-        default: "100"
-        description: >-
-          设置村民必须处于非活动状态并工作才能进入活跃状态的时间（以 Ticks 为单位）。
-      villagers-work-immunity-for:
-        default: "20"
-        description: >-
-          设置 [villagers-work-immunity-after](#world_settings_default_entity_activation_range_villagers_work_immunity_after)
-          的时间之后，村民能够被活跃多长时间（以 Ticks 为单位）。
+        description: 置村民的实体激活范围。
+      flying-monsters:
+        vanilla: "0"
+        default: "32"
+        description: 设置可飞行怪物的实体激活范围。
       wake-up-inactive:
         animals-every:
           default: "1200"
@@ -368,53 +453,66 @@ world-settings:
           default: "4"
           description: >-
             设置同一游戏 Ticks 内最多可以唤醒的不活跃的村民数量。
-      water:
-        default: "16"
-        description: 设置水下实体被激活的范围。
+      villagers-work-immunity-after:
+        default: "100"
+        description: >-
+          设置村民必须处于非活动状态并工作才能进入活跃状态的时间（以 Ticks 为单位）。
+      villagers-work-immunity-for:
+        default: "20"
+        description: >-
+          设置 [villagers-work-immunity-after](#world_settings_default_entity_activation_range_villagers_work_immunity_after)
+          的时间之后，村民能够被活跃多长时间（以 Ticks 为单位）。
+      villagers-active-for-panic:
+        default: "true"
+        description: 是否当村民进入恐慌时激活实体。
+      tick-inactive-villagers:
+        default: "true"
+        description: >-
+          是否持续对激活范围之外的村民实体进行 Ticks 运算。
+      ignore-spectators:
+        default: "false"
+        description: 是否允许旁观者激活周围的生物。
+    nerf-spawner-mobs:
+      default: "false"
+      description: 是否对刷怪笼生成的生物禁用大部分 AI。
+    unload-frozen-chunks:
+      default: "false"
+      description: >
+        是否允许在执行 /tick freeze 命令冻结 Ticks 时，卸载区块。
+
+        - 注意：该选项为实验性选项，请勿向 PpaerMC 反馈该功能的报错。
     entity-tracking-range:
+      players:
+        default: "128"
+        description: >-
+          设置多少格范围内的动物实体将会被发送给玩家。
+          该距离会根据 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 进行倍率缩放。
       animals:
         default: "96"
         description: >-
           设置多少格范围内的动物实体将会被发送给玩家。
-          这会被 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 倍乘。
-      display:
-        default: "128"
-        description: >-
-          设置多少格范围内的显示实体(display entity)将会被发送给玩家。
-          这会被 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 倍乘。
-      misc:
-        default: "96"
-        description: >-
-          设置多少格范围内的杂类实体将会被发送给玩家。
-          这会被 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 倍乘。
+          该距离会根据 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 进行倍率缩放。
       monsters:
         default: "96"
         description: >-
           设置多少格范围内的怪物实体将会被发送给玩家。
-          这会被 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 倍乘。
+          该距离会根据 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 进行倍率缩放。
+      misc:
+        default: "96"
+        description: >-
+          设置多少格范围内的杂类实体将会被发送给玩家。
+          该距离会根据 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 进行倍率缩放。
+      display:
+        default: "128"
+        description: >-
+          设置多少格范围内的显示实体(display entity)将会被发送给玩家。
+          该距离会根据 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 进行倍率缩放。
       other:
         default: "64"
         description: >-
           设置多少格范围内的方块实体将会被发送给玩家。
-          这会被 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 倍乘。
-      players:
-        default: "128"
-        description: >-
-          设置多少格范围内的方块将会被发送给玩家。
-          这会被 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 倍乘。
+          该距离会根据 [entity-broadcast-range-percentage](/paper/reference/server-properties#entity_broadcast_range_percentage) 进行倍率缩放。
     growth:
-      bamboo-modifier:
-        default: "100"
-        description: >-
-          设置竹子的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 300%。
-      beetroot-modifier:
-        default: "100"
-        description: >-
-          设置甜菜根的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
       cactus-modifier:
         default: "100"
         description: >-
@@ -427,36 +525,6 @@ world-settings:
           设置甘蔗的生长速率百分比。作为对照，原版的速率为 100%。
 
           - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 1600%。
-      carrot-modifier:
-        default: "100"
-        description: >-
-          设置胡萝卜的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
-      cavevines-modifier:
-        default: "100"
-        description: >-
-          设置洞穴藤蔓的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 1000%。
-      cocoa-modifier:
-        default: "100"
-        description: >-
-          设置可可豆的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 500%。
-      glowberry-modifier:
-        default: "100"
-        description: >-
-          设置发光浆果的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率大概是 910%。
-      kelp-modifier:
-        default: "100"
-        description: >-
-          设置海带的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率大概是 715%。
       melon-modifier:
         default: "100"
         description: >-
@@ -469,24 +537,6 @@ world-settings:
           设置蘑菇的生长速率百分比。作为对照，原版的速率为 100%。
 
           - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 2500%。
-      netherwart-modifier:
-        default: "100"
-        description: >-
-          设置地狱疣的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 1000%。
-      pitcherplant-modifier:
-        default: "100"
-        description: >-
-          设置瓶子草的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
-      potato-modifier:
-        default: "100"
-        description: >-
-          设置土豆的生长速率百分比。作为对照，原版的速率为 100%。
-
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
       pumpkin-modifier:
         default: "100"
         description: >-
@@ -499,22 +549,40 @@ world-settings:
           设置树苗的生长速率百分比。作为对照，原版的速率为 100%。
 
           - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 700%。
-      sweetberry-modifier:
+      beetroot-modifier:
         default: "100"
         description: >-
-          设置甜浆果的生长速率百分比。作为对照，原版的速率为 100%。
+          设置甜菜根的生长速率百分比。作为对照，原版的速率为 100%。
 
-          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 500%。
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
+      carrot-modifier:
+        default: "100"
+        description: >-
+          设置胡萝卜的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
+      potato-modifier:
+        default: "100"
+        description: >-
+          设置土豆的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
       torchflower-modifier:
         default: "100"
         description: >-
           设置火把花的生长速率百分比。作为对照，原版的速率为 100%。
 
           - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
-      twistingvines-modifier:
+      wheat-modifier:
         default: "100"
         description: >-
-          设置缠怨藤的生长速率百分比。作为对照，原版的速率为 100%。
+          设置小麦的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
+      netherwart-modifier:
+        default: "100"
+        description: >-
+          设置地狱疣的生长速率百分比。作为对照，原版的速率为 100%。
 
           - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 1000%。
       vine-modifier:
@@ -523,203 +591,145 @@ world-settings:
           设置藤蔓的生长速率百分比。作为对照，原版的速率为 100%。
 
           - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 400%。
+      cocoa-modifier:
+        default: "100"
+        description: >-
+          设置可可豆的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 500%。
+      bamboo-modifier:
+        default: "100"
+        description: >-
+          设置竹子的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 300%。
+      sweetberry-modifier:
+        default: "100"
+        description: >-
+          设置甜浆果的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 500%。
+      kelp-modifier:
+        default: "100"
+        description: >-
+          设置海带的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率大概是 715%。
+      twistingvines-modifier:
+        default: "100"
+        description: >-
+          设置缠怨藤的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 1000%。
       weepingvines-modifier:
         default: "100"
         description: >-
           设置垂泪藤的生长速率百分比。作为对照，原版的速率为 100%。
 
           - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 1000%。
-      wheat-modifier:
+      cavevines-modifier:
         default: "100"
         description: >-
-          设置小麦的生长速率百分比。作为对照，原版的速率为 100%。
+          设置洞穴藤蔓的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 1000%。
+      glowberry-modifier:
+        default: "100"
+        description: >-
+          设置发光浆果的生长速率百分比。作为对照，原版的速率为 100%。
+
+          - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率大概是 910%。
+      pitcherplant-modifier:
+        default: "100"
+        description: >-
+          设置瓶子草的生长速率百分比。作为对照，原版的速率为 100%。
 
           - 本配置项无法禁止其生长，默认最小为 100%。最大生长倍率为 5100%。
-    hanging-tick-frequency:
-      default: "100"
-      description: "设置悬挂实体(比如画和物品展示框)应该在多少游戏 Ticks 内运算一次。"
-    hopper-amount:
-      default: "1"
-      description: "设置漏斗一次性能搬运多少物品。"
-    hopper-can-load-chunks:
-      default: "false"
-      description: 是否防止漏斗加载区块。
-    hunger:
-      combat-exhaustion:
-        default: "0.1"
-        description: 设置攻击时饱食度的消耗倍率。
-      jump-sprint-exhaustion:
-        default: "0.2"
-        description: 设置跑跳时饱食度的消耗倍率。
-      jump-walk-exhaustion:
-        default: "0.05"
-        description: 设置走跳时饱食度的消耗倍率。
-      other-multiplier:
-        default: "0.0"
-        description: 设置爬行(陆游)，潜行，正常走路时饱食度的消耗倍率。
-      regen-exhaustion:
-        default: "6.0"
-        description: 设置恢复生命的时恢复多少饱食度。
-      sprint-multiplier:
-        default: "0.1"
-        description: 设置冲刺时饱食度的消耗倍率。
-      swim-multiplier:
-        default: "0.01"
-        description: >-
-          设置当玩家正在"游泳"的时候饱食度的消耗倍率。这里的游泳，包括:
-
-          - 真的在游泳
-
-          - 水下行走(眼睛在水下)
-
-          - 水上行走(眼睛在水上)
-    item-despawn-rate:
-      default: "6000"
-      description: >-
-        设置悬浮物品在消失之前的最大存在时间。
-
-        - 单独的配置项需要参看 Paper 配置文件内的
-          [按世界配置](/paper/reference/world-configuration#entities_spawning_alt_item_despawn_rate) 。
     max-tick-time:
-      entity:
-        default: "50"
-        description: "此配置项不起作用，并且这是一条没有任何作用的上游配置项。"
       tile:
         default: "50"
         description: "由于 Paper 修复了这个特性，这条配置项没有任何作用。"
+      entity:
+        default: "50"
+        description: "此配置项不起作用，并且这是一条没有任何作用的上游配置项。"
     max-tnt-per-tick:
+      vanilla: "-1"
       default: "100"
       description: >
         设置每 Ticks 允许处理的最大 TNT 数量。
 
         - 设置为 0 则会禁用 TNT 爆炸。
-    merge-radius:
-      exp:
-        default: "-1"
-        description: >-
-          设置经验球之间相距多少距离才会合并为更大的经验球，在原版中这项特性不存在。
-
-          - 设置为 0 或更小的值来禁用这条配置项。
-      item:
-        default: "0.5"
-        description: >
-          设置物品与物品之间能够堆叠的最小半径。
-    mob-spawn-range:
-      default: "8"
-      description: "设置玩家周围多少区块之内可以生成生物。"
-    nerf-spawner-mobs:
-      default: "false"
-      description: 是否对刷怪笼生成的生物禁用大部分 AI。
-    seed-ancientcity:
-      default: "20083232"
-      description: 设置远古城市的结构种子。
-    seed-buriedtreasure:
-      default: "10387320"
-      description: 设置埋藏的宝藏的结构种子。
-    seed-desert:
-      default: "14357617"
-      description: 设置沙漠结构的生成种子。
-    seed-endcity:
-      default: "10387313"
-      description: 设置末地城的结构种子。
-    seed-fossil:
-      default: "14357921"
-      description: 设置化石的结构种子。
-    seed-igloo:
-      default: "14357618"
-      description: 设置雪屋的结构种子。
-    seed-jungle:
-      default: "14357619"
-      description: 设置丛林结构的生成种子。
-    seed-mansion:
-      default: "10387319"
-      description: 设置林地府邸的结构种子。
-    seed-mineshaft:
-      default: default
-      description: 设置废弃矿井的结构种子。
-    seed-monument:
-      default: "10387313"
-      description: 设置海底神殿的结构种子。
-    seed-nether:
-      default: "30084232"
-      description: 设置下界结构的生成种子。
-    seed-ocean:
-      default: "14357621"
-      description: 设置海洋结构的生成种子。
-    seed-outpost:
-      default: "165745296"
-      description: 设置掠夺者前哨站的结构种子。
-    seed-portal:
-      default: "34222645"
-      description: 设置传送门的结构种子。
-    seed-shipwreck:
-      default: "165745295"
-      description: 设置沉船的结构种子。
-    seed-slime:
-      default: "987234911"
-      description: 设置史莱姆区块的生成种子。
-    seed-stronghold:
-      default: default
-      description: 设置要塞的结构种子。
-    seed-swamp:
-      default: "14357620"
-      description: 设置沼泽小屋的结构种子。
-    seed-trialchambers:
-      default: "94251327"
-      description: 设置试炼密室的结构种子。
-    seed-trailruins:
-      default: "83469867"
-      description: 设置古迹废墟的结构种子。
-    seed-village:
-      default: "10387312"
-      description: 设置村庄的结构种子。
-    simulation-distance:
-      default: default
-      description: >-
-        设置覆写模拟距离。
-
-        - 设置为 -1 或 "default" 使用 [server.properties](/paper/reference/server-properties#simulation_distance) 里的对应值。
-    thunder-chance:
-      default: "100000"
-      description: >-
-        设置在雷雨期间生成闪电的可能性。
-
-        - 概率为 1/<配置的数值> ，每个区块每个游戏 Ticks 单独检测。
-    ticks-per:
-      hopper-check:
-        default: "1"
-        description: 设置漏斗从另外一个容器内获取物品的检测间隔时间。
-      hopper-transfer:
-        default: "8"
-        description: 设置漏斗一次移动多少个物品。
-    trident-despawn-rate:
-      default: "1200"
-      description: 设置三叉戟实体的存在时间。
-    verbose:
-      default: "false"
-      description: >-
-        是否在加载配置文件时输出所有的世界选项。
-
-        - 这会在你使用 \`/spigot reload\` 或者 \`/reload\` 的时候发生。
     view-distance:
       default: default
       description: >-
         设置覆写的视距。
 
         - 设置为 -1 或 "default" 使用 [server.properties](/paper/reference/server-properties#view_distance) 的对应值。
-    wither-spawn-sound-radius:
-      default: "0"
+    simulation-distance:
+      default: default
       description: >-
-        设置凋零生成时的音效播放半径。
+        设置覆写模拟距离。
 
-        - 如果为 0，则音效会对所有维度内的所有玩家播放。
-          人多的时候会出现一瞬间的网络数据包增加，建议改为 1000，末影龙设置项 [dragon-death-sound-radius](/paper/reference/spigot-configuration/#world_settings_default_dragon_death_sound_radius)
-    zombie-aggressive-towards-villager:
-      default: "true"
-      description: >
-        是否允许僵尸攻击村民。
+        - 设置为 -1 或 "default" 使用 [server.properties](/paper/reference/server-properties#simulation_distance) 里的对应值。
+    verbose:
+      default: "false"
+      description: >-
+        是否在加载配置文件时输出所有的世界选项。
 
-        - 禁用它会减少僵尸 AI 的资源使用，一些特殊的服务器可以选择性禁用。
+        - 这会在你使用 \`/spigot reload\` 或者 \`/reload\` 的时候发生。
+players:
+  disable-saving:
+    default: "false"
+    description: 是否禁止保存玩家数据。
 config-version:
   default: ""
   description: "配置文件版本，在升级配置文件的时候自动生成的一个常量。**不要随意修改！**否则会造成崩溃。"
+stats:
+  disable-saving:
+    default: "false"
+    description: 是否禁止保存服务端的统计信息。
+  forced-stats:
+    default: "{}"
+    description: >-
+      设置一个对象，它需要满足如下条件:
+
+      - 任何的统计信息命名空间 ID。
+        可以在 [Minecraft Wiki](https://zh.minecraft.wiki/w/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E6%81%AF#%E7%BB%9F%E8%AE%A1%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8) 的对应处查阅。
+
+      - 每个键的值都是一个整数，用于强制指定相关统计数据。
+commands:
+  tab-complete:
+    default: "0"
+    description: >-
+      设置在使用制表键补全(Tab-complete)时需要输入的字符数量。
+
+      - < 0: 禁用补全。
+
+      - = 0: 总是补全所有可用命令。
+
+      - \\> 0 : 需要输入指定的字符数量之后才能补全。由于客户端的代码变动，这没有实际作用。
+  send-namespaced:
+    default: "true"
+    description: >-
+      是否在命令补全时，发送带有命名空间的命令到客户端。
+  log:
+    default: "true"
+    description: >-
+      是否记录玩家在聊天或告示牌中执行的命令。
+
+      - 最终在控制台会以“<玩家名称> issued server command: <命令>”的格式记录。
+  replace-commands:
+    default: "[setblock,summon,testforblock,tellraw]"
+    description: 设置在列表中的指令将不会被任何其他插件覆盖为插件指令。
+  spam-exclusions:
+    default: "[/skill]"
+    description: >-
+      设置任何信息，或者命令前带有在这个列表之内的前缀消息，将会被内建的反刷屏系统忽略。
+
+      - 命令需要加一个 "/" 前缀才会被识别为命令。
+  silent-commandblock-console:
+    default: "false"
+    description: 是否记录原版指令的执行结果到控制台。
+  enable-spam-exclusions:
+    default: "false"
+    description: 是否应用来自 [`commands.spam-exclusions`](#commands_spam_exclusions) 的垃圾信息排除规则。

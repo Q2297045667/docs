@@ -7,6 +7,8 @@ accept-transfers:
 allow-flight:
   default: "false"
   description: >
+    Means that users will not be kicked if they fly whilst in Survival mode. This is likely to occur through
+    hacking however there can be false positives.
     是否允许玩家在生存模式中开启飞行的时候不踢出玩家。
 
     - 实测贴地飞行可以绕过检测，这种情况很可能是通过作弊实现的，但也可能会出现误判，建议使用第三方反作弊插件时关闭这个功能，由反作弊提供判定。
@@ -16,6 +18,7 @@ allow-nether:
     是否开启加载和生成下界(也叫地狱)维度
 
     - 大厅，游戏等不需要下界的子服可以直接关闭以节省内存和 CPU 资源，也可以在 [bukkit.yml](/paper/reference/bukkit-configuration/#settings_allow_end) 中关闭末地。
+    - 新版本已经移除该选项
 broadcast-console-to-ops:
   default: "true"
   description: "是否将控制台命令输出发送给所有在线的管理员"
@@ -38,7 +41,15 @@ difficulty:
     - 注意：设置的难度不同生物 AI 的活跃程度也不同，难度越高越占用 CPU 资源。
 enable-command-block:
   default: "true"
-  description: "是否开启命令方块，玩家获取方块仍然需要 OP 权限"
+  description: "是否开启命令方块，玩家获取方块仍然需要 OP 权限（新版本已经移除该选项）"
+enable-code-of-conduct:
+  default: "false"
+  description: >-
+    Whether the server will look for code of conduct files in the codeofconduct subfolder in the server folder.
+
+    Each file in the folder should have the form <language_code>.txt. The server will then show the code of conduct
+    matching the player’s language. If the language doesn’t exist, then en_us will be used. If neither exist, an
+    arbitrary available entry will be used instead.
 enable-jmx-monitoring:
   default: "false"
   description: >
@@ -141,6 +152,37 @@ log-ips:
     是否应该记录客户端的 IP 地址。
 
     - 这不会和记录客户端 IP 地址的插件冲突。
+management-server-enabled:
+  default: "false"
+  description: "Whether the [Minecraft Server Management Protocol](https://minecraft.wiki/w/Minecraft_Server_Management_Protocol) is enabled."
+management-server-host:
+  default: "localhost"
+  description: "Controls the host that the Minecraft Server Management Protocol is started."
+management-server-port:
+  default: "0"
+  description: "Controls the port that the Minecraft Server Management Protocol is started on."
+management-server-secret:
+  default: ""
+  description: >-
+    Allows for clients to supply an Authorization header with a server specific secret, which is forty alphanumeric characters long (A-Z, a-z, and 0-9).
+
+    The secret is automatically generated if the property is left empty.
+management-server-tls-enabled:
+  default: "true"
+  description: "Controls whether the Minecraft Server Management Protocol uses TLS (Transport Layer Security)."
+management-server-tls-keystore:
+  default: ""
+  description: >-
+    Controls the path to the keystore file used for TLS.
+
+    A server will not start when TLS is enabled and no keystore is provided.
+management-server-tls-keystore-password:
+  default: ""
+  description: >-
+    Controls the password to the keystore file used for TLS.
+
+    The password can be done through an environment variable (MINECRAFT_MANAGEMENT_TLS_KEYSTORE_PASSWORD), a
+    Java Virtual Machine argument (-Dmanagement.tls.keystore.password=), or through this server property.
 max-chained-neighbor-updates:
   default: "1000000"
   description: >
@@ -208,7 +250,7 @@ prevent-proxy-connections:
     - 如果不同将禁止该玩家加入服务器，通常这会禁止一些使用 VPN 的玩家进入。
 pvp:
   default: "true"
-  description: "是否禁止玩家之间攻击，这无法防止一些利用 TNT 和火焰的玩家"
+  description: "是否禁止玩家之间攻击，这无法防止一些利用 TNT 和火焰的玩家（新版本已经移除该选项）"
 query.port:
   default: "25565"
   description: >
@@ -270,7 +312,7 @@ simulation-distance:
       这个数值建议应介于 3 到 32 之间。
 spawn-monsters:
   default: "true"
-  description: "是否生成怪物（骷髅，僵尸等敌对玩家的生物）。"
+  description: "是否生成怪物（骷髅，僵尸等敌对玩家的生物）（新版本已经移除该选项）。"
 spawn-protection:
   default: "16"
   description: >
@@ -278,6 +320,12 @@ spawn-protection:
 
     - 设定值为 1 时将会使其**边长为 3**。
       将其设定为 0 以禁用出生点保护。如若启用，数值必须是大于 1 的整数。
+status-heartbeat-interval:
+  default: "0"
+  description: >-
+    设置管理服务器向已连接客户端发送心跳通知的时间间隔。
+
+    默认情况下处于禁用状态。
 sync-chunk-writes:
   default: "true"
   description: |

@@ -26,8 +26,8 @@ Paper 团队使用 [Gradle](https://gradle.org/) 作为其构建系统，其工�
 
 要将 Paper 添加为依赖项，你需要在 `build.gradle.kts` 或 `pom.xml` 文件中添加 Paper 仓库以及依赖项本身。
 
-<Tabs>
-  <TabItem label="Gradle Kotlin DSL">
+<Tabs syncKey="build-system">
+  <TabItem label="Gradle (Kotlin)">
     ```kotlin title="build.gradle.kts" replace
     repositories {
       maven {
@@ -45,7 +45,7 @@ Paper 团队使用 [Gradle](https://gradle.org/) 作为其构建系统，其工�
     }
     ```
   </TabItem>
-  <TabItem label="Gradle Groovy DSL">
+  <TabItem label="Gradle (Groovy)">
     ```groovy title="build.gradle" replace
     repositories {
       maven {
@@ -59,7 +59,7 @@ Paper 团队使用 [Gradle](https://gradle.org/) 作为其构建系统，其工�
     }
     ```
   </TabItem>
-  <TabItem label="Maven POM">
+  <TabItem label="Maven">
     ```xml title="pom.xml" replace
     <project>
       <repositories>
@@ -244,9 +244,9 @@ public class ExamplePlugin extends JavaPlugin implements Listener {
 
 :::
 
-<Tabs>
-  <TabItem label="Gradle Kotlin DSL">
-    ```kotlin
+<Tabs syncKey="build-system">
+  <TabItem label="Gradle (Kotlin)">
+    ```kotlin title="build.gradle.kts"
     tasks.jar {
       manifest {
         attributes["paperweight-mappings-namespace"] = "mojang"
@@ -260,8 +260,27 @@ public class ExamplePlugin extends JavaPlugin implements Listener {
     }
     ```
   </TabItem>
-  <TabItem label="Maven POM">
-    ```xml
+  <TabItem label="Gradle (Groovy)">
+    ```groovy title="build.gradle"
+    jar {
+      manifest {
+        attributes(
+          'paperweight-mappings-namespace': 'mojang'
+        )
+      }
+    }
+    // if you have shadowJar configured
+    shadowJar {
+      manifest {
+        attributes(
+          'paperweight-mappings-namespace': 'mojang'
+        )
+      }
+    }
+    ```
+  </TabItem>
+  <TabItem label="Maven">
+    ```xml title="pom.xml"
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-jar-plugin</artifactId>
@@ -282,9 +301,9 @@ public class ExamplePlugin extends JavaPlugin implements Listener {
 
 如果你明确地想告诉服务器你的插件是使用 Spigot 映射的，你需要在你的构建脚本中添加以下代码：
 
-<Tabs>
-  <TabItem label="Gradle Kotlin DSL">
-    ```kotlin
+<Tabs syncKey="build-system">
+  <TabItem label="Gradle (Kotlin)">
+    ```kotlin title="build.gradle.kts"
     tasks.jar {
       manifest {
         attributes["paperweight-mappings-namespace"] = "spigot"
@@ -298,8 +317,27 @@ public class ExamplePlugin extends JavaPlugin implements Listener {
     }
     ```
   </TabItem>
-  <TabItem label="Maven POM">
-    ```xml
+  <TabItem label="Gradle (Groovy)">
+    ```groovy title="build.gradle"
+    jar {
+      manifest {
+        attributes(
+          'paperweight-mappings-namespace': 'spigot'
+        )
+      }
+    }
+    // if you have shadowJar configured
+    shadowJar {
+      manifest {
+        attributes(
+          'paperweight-mappings-namespace': 'spigot'
+        )
+      }
+    }
+    ```
+  </TabItem>
+  <TabItem label="Maven">
+    ```xml title="pom.xml"
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-jar-plugin</artifactId>

@@ -86,6 +86,30 @@ dependencies {
 
 :::
 
+:::note[为用户开发配置 Java 工具链]
+
+给定的开发包（dev bundle）可能并不总支持 Gradle
+已配置（显式配置或从 Gradle 运行时继承）的 Java 工具链。
+如果在执行 `paperweightUserdevSetup` 时出现错误（尤其是补丁应用失败），
+可以尝试将 paperweight 的 `javaLauncher` 属性设置为其他 Java 版本。
+
+例如，使用 1.17.1 时:
+```kts title="build.gradle.kts"
+paperweight {
+  javaLauncher = javaToolchains.launcherFor {
+    // 示例场景：
+    // Paper **1.17.1** 最初使用 **JDK 16** 构建，且该开发包尚未适配 **21+**，
+    // 但我们希望使用 **25** 工具链进行编译
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
+```
+
+除其他之外 [PaperMC/paperweight-test-plugin 的许多项目分支](https://github.com/PaperMC/paperweight-test-plugin/tree/multi-project)
+也使用了此功能。
+
+:::
+
 ## Gradle 任务
 
 ### `reobfJar`
@@ -106,7 +130,7 @@ dependencies {
 :::
 
 你可以通过以下方式让 `reobfJar` 任务在默认的 `build` 任务中运行：
-```kotlin
+```kotlin title="build.gradle(.kts)"
 tasks.assemble {
   dependsOn(tasks.reobfJar)
 }

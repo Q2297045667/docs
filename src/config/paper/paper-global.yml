@@ -13,6 +13,7 @@ anticheat:
           description: >-
             设置不应向其他玩家隐藏的所有物品的数据组件。
 
+
             - 这是因为它们可能会略微改变物品的外观，因此隐藏它们是没有必要的。在这个例子中，磁石追踪器可能会暴露关键位置，但隐藏位置会导致指南针在其他玩家面前晃动。是否认为这种权衡很重要，取决于您的判断。
         sanitize-count:
           default: "true"
@@ -22,6 +23,7 @@ anticheat:
         default: "false"
         description: >-
           是否将可能为作弊客户端提供优势的不必要的物品信息（如附魔、物品说明等）发送给其他玩家的客户端。
+
 
           - 这可能会破坏依赖于附魔、物品说明或物品名称等信息来观察其他玩家的资源包。可以通过 `also-obfuscate` 扩展或通过 `dont-obfuscate` 减少隐藏的数据组件。
       model-overrides:
@@ -43,22 +45,11 @@ anticheat:
             description: >-
               是否对其他玩家隐藏具有 `minecraft:elytra` 模型的物品的数量。
 block-updates:
-  disable-noteblock-updates:
-    default: "false"
-    description: >-
-      是否禁用音符盒的所有方块更新形式。
-
-      - 禁用方块更新将导致音符盒不再更新其方块状态，允许在世界中保留技术上无效的音符盒，这可能对地图制作者有用。
-  disable-tripwire-updates:
-    default: "false"
-    description: >-
-      是否禁用绊线钩的所有方块更新形式。
-
-      - 禁用方块更新将导致绊线钩不再更新其方块状态，允许在世界中保留技术上无效的绊线钩，这可能对地图制作者有用。
   disable-chorus-plant-updates:
     default: "false"
     description: >-
       是否禁用紫颂植株的所有方块更新形式。
+
 
       - 禁用方块更新将导致紫颂植株不再更新其方块状态，允许在世界中保留技术上无效的紫颂植株配置，这可能对地图制作者有用。
   disable-mushroom-block-updates:
@@ -66,12 +57,29 @@ block-updates:
     description: >-
       是否禁用蘑菇方块的所有方块更新形式。
 
+
       - 禁用方块更新将导致蘑菇方块不再更新其方块状态，允许在世界中保留技术上无效的蘑菇方块配置，这可能对地图制作者有用。
+  disable-noteblock-updates:
+    default: "false"
+    description: >-
+      是否禁用音符盒的所有方块更新形式。
+
+
+      - 禁用方块更新将导致音符盒不再更新其方块状态，允许在世界中保留技术上无效的音符盒，这可能对地图制作者有用。
+  disable-tripwire-updates:
+    default: "false"
+    description: >-
+      是否禁用绊线钩的所有方块更新形式。
+
+
+      - 禁用方块更新将导致绊线钩不再更新其方块状态，允许在世界中保留技术上无效的绊线钩，这可能对地图制作者有用。
 chunk-loading-advanced:
   auto-config-send-distance:
     default: "true"
     description: >-
-      是否匹配客户端在其视距设置中配置的区块发送半径（前提是客户端的设置小于服务器的发送距离），则设置为 `true`。
+      是否匹配客户端在其视距设置中配置的区块发送半径
+
+      - 前提是客户端的设置小于服务器的发送距离，则设置为 `true`。
   player-max-concurrent-chunk-generates:
     default: "0"
     description: >-
@@ -110,6 +118,8 @@ chunk-system:
       设置服务器是否使用并行区块生成。
 
       - 可以配置的选项是 `true`、`on` 和 `enable`，以使服务器使用并行区块生成，设置为 `false`、`off` 或 `disabled` 时以禁用并行区块生成。
+
+      - 注意：此选项在最新的版本中已经移除
   io-threads:
     default: "-1"
     description: >-
@@ -138,6 +148,9 @@ collisions:
 
       - 此设置尝试通过发送涉及碰撞的实体的精确位置来缓解这种不同步。启用此功能将使用更多带宽；然而，在大多数情况下，这是一个值得的权衡。
 commands:
+  ride-command-allow-player-as-vehicle:
+    default: "false"
+    description: 是否允许在原版的 `/ride` 命令中将实体装载到玩家身上。
   suggest-player-names-when-null-tab-completions:
     vanilla: "false"
     default: "true"
@@ -148,9 +161,6 @@ commands:
     default: "false"
     description: >-
       是否允许 `/time` 命令对所有世界生效，还是仅对发送者的当前世界生效。
-  ride-command-allow-player-as-vehicle:
-    default: "false"
-    description: 是否允许在原版的 `/ride` 命令中将实体装载到玩家身上。
 console:
   enable-brigadier-completions:
     default: "true"
@@ -163,21 +173,6 @@ console:
     default: "false"
     description: 是否启用在控制台命令发送者拥有所有权限。
 item-validation:
-  display-name:
-    vanilla: "2147483647"
-    default: "8192"
-    description: 设置物品显示名称的最大长度，以字符为单位。
-  lore-line:
-    vanilla: "2147483647"
-    default: "8192"
-    description: 设置物品说明文本行的最大长度，以字符为单位。
-  resolve-selectors-in-books:
-    vanilla: "true"
-    default: "false"
-    description: >-
-      是否解析书中的选择器。
-
-      - 启用此功能后，拥有创造模式权限的玩家将能够以另一种方式使服务器崩溃。
   book:
     author:
       vanilla: "2147483647"
@@ -201,19 +196,59 @@ item-validation:
       default: "0.98"
       description: >-
         设置每一页都有上一页字节数的这个百分比作为对书籍允许的总字节数的贡献（第一页的百分比为 1.0）。
+  display-name:
+    vanilla: "2147483647"
+    default: "8192"
+    description: 设置物品显示名称的最大长度，以字符为单位。
+  lore-line:
+    vanilla: "2147483647"
+    default: "8192"
+    description: 设置物品说明文本行的最大长度，以字符为单位。
+  resolve-selectors-in-books:
+    vanilla: "true"
+    default: "false"
+    description: >-
+      是否解析书中的选择器。
+
+      - 启用此功能后，拥有创造模式权限的玩家将能够以另一种方式使服务器崩溃。
 logging:
   deobfuscate-stacktraces:
     default: "true"
     description: >-
       是否在日志中将 Spigot 的堆栈跟踪映射重新映射为 Mojang 的映射。对 Mojang 映射的服务器没有影响。
 messages:
+  kick:
+    authentication-servers-down:
+      default: "<lang:multiplayer.disconnect.authservers_down>"
+      description: >-
+        设置当 Mojang 的认证服务器无法访问时发送给玩家的消息，格式化为 [MiniMessage](/adventure/minimessage/)。
+
+        - <lang:multiplayer.disconnect.authservers_down> 为调用客户端的语言文本。
+    connection-throttle:
+      default: Connection throttled! Please wait before reconnecting.
+      description: >-
+        设置当玩家因连接过于频繁而被限制时发送给玩家的消息，格式化为 [MiniMessage](/adventure/minimessage/)。
+
+        - 中文翻译：因连接过于频繁而被限制！请等待后再重新连接。
+    flying-player:
+      default: "<lang:multiplayer.disconnect.flying>"
+      description: >-
+        设置发送给被检测到飞行的玩家的消息，格式化为 [MiniMessage](/adventure/minimessage/)。
+
+        - <lang:multiplayer.disconnect.flying> 为调用客户端的语言文本。
+    flying-vehicle:
+      default: "<lang:multiplayer.disconnect.flying>"
+      description: >-
+        设置发送给被检测到乘坐飞行载具的玩家的消息，格式化为 [MiniMessage](/adventure/minimessage/)。
+
+        - <lang:multiplayer.disconnect.flying> 为调用客户端的语言文本。
   no-permission:
     default: >-
       <red>I'm sorry, but you do not have permission to perform this command.
       Please contact the server administrators if you believe that this is in
       error.
     description: >-
-      设置当玩家权限不足无法执行某个操作时，默认发送给玩家的消息，格式化为 [MiniMessage](https://docs.advntr.dev/minimessage/)。
+      设置当玩家权限不足无法执行某个操作时，默认发送给玩家的消息，格式化为 [MiniMessage](/adventure/minimessage/)。
 
       - 插件可以覆盖此消息以用于其命令。
 
@@ -222,32 +257,34 @@ messages:
     default: "false"
     description: >-
       是否在退出消息中使用玩家的显示名称（由插件设置）或实际名称。
-  kick:
-    authentication-servers-down:
-      default: "<lang:multiplayer.disconnect.authservers_down>"
-      description: >-
-        设置当 Mojang 的认证服务器无法访问时发送给玩家的消息，格式化为 [MiniMessage](https://docs.advntr.dev/minimessage/)。
-
-        - <lang:multiplayer.disconnect.authservers_down> 为调用客户端语言文本。
-    connection-throttle:
-      default: Connection throttled! Please wait before reconnecting.
-      description: >-
-        设置当玩家因连接过于频繁而被限制时发送给玩家的消息，格式化为 [MiniMessage](https://docs.advntr.dev/minimessage/)。
-
-        - 中文翻译：因连接过于频繁而被限制！请等待后再重新连接。
-    flying-player:
-      default: "<lang:multiplayer.disconnect.flying>"
-      description: >-
-        设置发送给被检测到飞行的玩家的消息，格式化为 [MiniMessage](https://docs.advntr.dev/minimessage/)。
-
-        - <lang:multiplayer.disconnect.flying> 为调用客户端语言文本。
-    flying-vehicle:
-      default: "<lang:multiplayer.disconnect.flying>"
-      description: >-
-        设置发送给被检测到乘坐飞行载具的玩家的消息，格式化为 [MiniMessage](https://docs.advntr.dev/minimessage/)。
-
-        - <lang:multiplayer.disconnect.flying> 为调用客户端语言文本。
 misc:
+  chat-threads:
+    chat-executor-core-size:
+      default: "-1"
+      description: >-
+        设置聊天线程池中保持的最小线程数
+    chat-executor-max-size:
+      default: "-1"
+      description: >-
+        设置聊天线程池中允许的最大线程数。
+
+        - 默认值为 `-1`，表示没有最大限制，不需要聊天的服务器（如：监狱）可以设置为 1。
+  client-interaction-leniency-distance:
+    default: "default"
+    description: >-
+      设置在验证交互数据包时，服务器为玩家的交互范围添加的宽容距离。
+  compression-level:
+    default: "default"
+    description: >-
+      设置网络数据包的压缩级别。
+
+      - 更高的压缩级别意味着更少的数据传输，但会消耗更多的 CPU 时间。默认值为 `-1`，表示服务器将使用定义的压缩器的默认值。
+
+      - 请注意，Paper 当前使用的是 Velocity 压缩器，其默认压缩级别为 6，这是在性能和数据传输之间的一个折中方案。
+  enable-nether:
+    default: "true"
+    description: >-
+      是否启用下界维度并将其加载。
   fix-entity-position-desync:
     vanilla: "false"
     default: "true"
@@ -255,6 +292,7 @@ misc:
       是否修复实体位置不同步。
 
       - 这个功能修复了 [MC-4](https://bugs.mojang.com/browse/MC-4)。
+      - 注意：此选项在最新的版本中已经移除
   load-permissions-yml-before-plugins:
     default: "true"
     description: >-
@@ -266,9 +304,22 @@ misc:
       设置在单个刻中可以加入服务器的最大玩家数量。
 
       - 如果有更多玩家加入，他们将被推迟到后续刻中加入，但不会被踢出。这与 `bukkit.yml` 中的连接限制无关。
+  prevent-negative-villager-demand:
+    default: "false"
+    description: >-
+      是否修复 [MC-163962](https://bugs.mojang.com/browse/MC/issues/MC-163962)。
+
+      - 防止村民需求变为负数，但可能会引入与原版的奇偶性问题。
   region-file-cache-size:
     default: "256"
     description: 设置区域文件缓存的最大大小
+  send-full-pos-for-item-entities:
+    default: "false"
+    description: 是否为物品实体发送完整位置
+  strict-advancement-dimension-check:
+    default: "false"
+    description: >-
+      是否禁用将使用与主世界、下界或末地相同生成方式的世界翻译为通用维度，而不是该世界的特定维度键。
   use-alternative-luck-formula:
     default: "false"
     description: >-
@@ -281,32 +332,6 @@ misc:
       是否允许幻翼、流浪商人等在自定义主世界中生成。
 
       - 默认为 `false`，以匹配原版行为。
-  strict-advancement-dimension-check:
-    default: "false"
-    description: >-
-      是否禁用将使用与主世界、下界或末地相同生成方式的世界翻译为通用维度，而不是该世界的特定维度键。
-  chat-threads:
-    chat-executor-core-size:
-      default: "-1"
-      description: 设置聊天线程池中保持的最小线程数
-    chat-executor-max-size:
-      default: "-1"
-      description: >-
-        设置聊天线程池中允许的最大线程数。
-
-        - 默认值为 `-1`，表示没有最大限制，不需要聊天的服务器（如：监狱）可以设置为 1。
-  client-interaction-leniency-distance:
-    default: default
-    description: >-
-      设置在验证交互数据包时，服务器为玩家的交互范围添加的宽容距离。
-  compression-level:
-    default: default
-    description: >-
-      设置网络数据包的压缩级别。
-
-      - 更高的压缩级别意味着更少的数据传输，但会消耗更多的 CPU 时间。默认值为 `-1`，表示服务器将使用定义的压缩器的默认值。
-
-      - 请注意，Paper 当前使用的是 Velocity 压缩器，其默认压缩级别为 6，这是在性能和数据传输之间的一个折中方案。
   xp-orb-groups-per-area:
     default: default
     description: >-
@@ -331,7 +356,7 @@ packet-limiter:
   kick-message:
     default: "<red><lang:disconnect.exceeded_packet_rate>"
     description: >-
-      设置当玩家发送过多数据包而被踢出时发送的消息，格式化为 [MiniMessage](https://docs.advntr.dev/minimessage/)。
+      设置当玩家发送过多数据包而被踢出时发送的消息，格式化为  [MiniMessage](/adventure/minimessage/)。
   overrides:
     header:
       message: >-
@@ -367,12 +392,6 @@ player-auto-save:
 
       - 设置为 `-1` 将使用 `bukkit.yml` 中的 `ticks-per.autosave`。
 proxies:
-  proxy-protocol:
-    default: "false"
-    description: >-
-      是否应处理 [PROXY Protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) 消息。
-
-      - 这与 Velocity 或 BungeeCord 完全无关。仅在使用 HAProxy 或类似工具时启用此功能。
   bungee-cord:
     online-mode:
       default: "true"
@@ -380,6 +399,12 @@ proxies:
         是否在位于 BungeeCord 后端时如何处理玩家 UUID 和数据。
 
         - 应该始终将其设置为与代理的在线模式设置相匹配。
+  proxy-protocol:
+    default: "false"
+    description: >-
+      是否应处理 [PROXY Protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) 消息。
+
+      - 这与 Velocity 或 BungeeCord 完全无关。仅在使用 HAProxy 或类似工具时启用此功能。
   velocity:
     enabled:
       default: "false"
@@ -400,7 +425,9 @@ scoreboards:
   save-empty-scoreboard-teams:
     default: "true"
     description: >-
-      是否允许一些记分板插件会留下数百个空的记分板队伍，这会显著减慢登录时间。此选项设置服务器是否应自动移除这些空队伍。
+      是否允许一些记分板插件会留下数百个空的记分板队伍，这会显著减慢登录时间。
+
+      - 此选项设置服务器是否应自动移除这些空队伍。
   track-plugin-scoreboards:
     default: "false"
     description: >-
@@ -430,16 +457,20 @@ spam-limiter:
     description: >-
       设置内部Tab垃圾邮件计数器可以达到的数值，直到服务器因垃圾邮件将玩家踢出。
 spark:
-  enabled:
-    default: "true"
-    description: 是否启用 Paper 自带的 Spark 性能分析器。
   enable-immediately:
     default: "false"
     description: >-
       是否在尽可能早的时候启用自带的 Spark 性能分析器。
 
       - 这在启动期间对服务器进行性能分析时非常有用。默认情况下，Spark 在服务器启动完成后启用（当控制台中发送 **Done (X.XXXs)! For help, type "help"** 消息时）。
+  enabled:
+    default: "true"
+    description: 是否启用 Paper 自带的 Spark 性能分析器。
 timings:
+  inline-docs-warning:
+    color: red
+    message: >-
+      注意：此选项在最新的版本中已经移除
   enabled:
     default: "false"
     description: 是否启用 Paper 自带的 Timings V2 性能分析器。
@@ -504,26 +535,6 @@ unsupported-settings:
       是否允许复制TNT、地毯和轨道。
 
       - 这不会控制沙子的复制。
-  skip-vanilla-damage-tick-when-shield-blocked:
-    default: "false"
-    description: >-
-      是否在实体通过盾牌阻挡伤害时跳过伤害 Tick。
-
-      - 虽然原版会处理一个伤害 Tick，但这种行为在 Paper 中是一个长期存在的错误。启用此选项意味着将跳过伤害计时，这可能会导致盾牌上的快速伤害，因为缺少了无敌时间。
-  perform-username-validation:
-    vanilla: "false"
-    default: "true"
-    description: >-
-      是否应该验证用户名。
-
-      - 虽然这可能允许用户名中包含特殊字符的用户加入，但也可能会导致命令和插件出现问题。
-  compression-format:
-    default: ZLIB
-    description: >-
-      设置自定义保存区域文件的压缩格式。
-
-      - 这支持 ZLIB、GZIP、LZ4 和 NONE，其中 NONE 表示可以禁用压缩。
-      这会覆盖 server.properties 中的的 [region-file-compression](/paper/reference/server-properties/#region_file_compression)
   allow-unsafe-end-portal-teleportation:
     vanilla: "true"
     default: "false"
@@ -531,11 +542,31 @@ unsupported-settings:
       是否启用与末地传送门传送相关的漏洞，例如沙子复制。
 
       - 不推荐启用此设置，但为有需求的人提供此选项。
+  compression-format:
+    default: ZLIB
+    description: >-
+      设置自定义保存区域文件的压缩格式。
+
+      - 这支持 ZLIB、GZIP、LZ4 和 NONE，其中 NONE 表示可以禁用压缩。
+      这会覆盖 server.properties 中的的 [region-file-compression](/paper/reference/server-properties/#region_file_compression)
+  perform-username-validation:
+    vanilla: "false"
+    default: "true"
+    description: >-
+      是否应该验证用户名。
+
+      - 虽然这可能允许用户名中包含特殊字符的用户加入，但也可能会导致命令和插件出现问题。
   skip-tripwire-hook-placement-validation:
     vanilla: "true"
     default: "false"
     description: >-
       是否启用与绊线钩复制相关的漏洞。
+  skip-vanilla-damage-tick-when-shield-blocked:
+    default: "false"
+    description: >-
+      是否在实体通过盾牌阻挡伤害时跳过伤害 Tick。
+
+      - 虽然原版会处理一个伤害 Tick，但这种行为在 Paper 中是一个长期存在的错误。启用此选项意味着将跳过伤害计时，这可能会导致盾牌上的快速伤害，因为缺少了无敌时间。
   update-equipment-on-player-actions:
     vanilla: "false"
     default: "true"

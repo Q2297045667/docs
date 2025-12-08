@@ -4,16 +4,17 @@ description: 关于 `AsyncChatEvent` 及其处理方式的概述。
 slug: paper/dev/chat-events
 ---
 
-聊天事件在过去的几年里经历了几次演变。
-本指南将解释如何正确使用新的 [`AsyncChatEvent`](jd:paper:io.papermc.paper.event.player.AsyncChatEvent) 及其 [`ChatRenderer`](jd:paper:io.papermc.paper.chat.ChatRenderer)。
+聊天事件这些年来经历了多次演变。
+本指南将说明如何正确使用新的 [`AsyncChatEvent`](jd:paper:io.papermc.paper.event.player.AsyncChatEvent)
+及其 [`ChatRenderer`](jd:paper:io.papermc.paper.chat.ChatRenderer)。
 [`AsyncChatEvent`](jd:paper:io.papermc.paper.event.player.AsyncChatEvent)
-是旧版 [`AsyncPlayerChatEvent`](jd:paper:org.bukkit.event.player.AsyncPlayerChatEvent) 的改进版本，
-它允许你为每个玩家单独渲染聊天消息。
+是旧 [`AsyncPlayerChatEvent`](jd:paper:org.bukkit.event.player.AsyncPlayerChatEvent)
+的增强版，支持针对每个玩家单独渲染聊天消息。
 
 :::note[`AsyncChatEvent` vs `ChatEvent`]
 
 [AsyncChatEvent](jd:paper:io.papermc.paper.event.player.AsyncChatEvent)
- 和 [ChatEvent](jd:paper:io.papermc.paper.event.player.ChatEvent)
+和 [ChatEvent](jd:paper:io.papermc.paper.event.player.ChatEvent)
 之间的关键区别在于 [AsyncChatEvent](jd:paper:io.papermc.paper.event.player.AsyncChatEvent) 是异步触发的。
 
 这意味着它不会阻塞主线程，并且会在监听器完成时发送聊天消息。
@@ -124,12 +125,12 @@ public class ChatListener implements Listener, ChatRenderer {
 
     // 监听器逻辑
 
-    @Override
-    public Component render(Player source, Component sourceDisplayName, Component message, Audience viewer) {
-        return sourceDisplayName
-                .append(Component.text(": "))
-                .append(message);
-    }
+  @Override
+  public Component render(Player source, Component sourceDisplayName, Component message, Audience viewer) {
+    return sourceDisplayName
+      .append(Component.text(": "))
+      .append(message);
+  }
 }
 ```
 
@@ -139,4 +140,4 @@ public class ChatListener implements Listener, ChatRenderer {
 
 关于新的聊天事件及其渲染器，你所需要了解的就这些了。
 当然，组件本身还有很多其他用途。
-如果你想了解更多关于组件的内容，可以阅读[组件文档](https://docs.advntr.dev/text.html)。
+如果你想了解更多关于组件的内容，可以阅读[组件文档](/adventure/text/)。

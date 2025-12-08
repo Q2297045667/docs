@@ -101,7 +101,7 @@ public class DatabaseManager {
 首先，使用以下依赖项将依赖项添加到你的项目中：
 
 ##### Maven
-```xml
+```xml title="pom.xml"
 <dependency>
   <groupId>com.zaxxer</groupId>
   <artifactId>HikariCP</artifactId>
@@ -111,7 +111,7 @@ public class DatabaseManager {
 ```
 
 ##### Gradle
-```kotlin
+```kotlin title="build.gradle(.kts)"
 dependencies {
   implementation("com.zaxxer:HikariCP:4.0.3")
 }
@@ -192,3 +192,28 @@ SELECT * FROM users WHERE username = '' OR 1=1; -- AND password = '密码'
 它们通过将 SQL 代码与用户输入分离，降低了执行意外 SQL 命令的风险。
 **始终**使用预编译语句，以确保数据的安全性和完整性。
 有关 SQL 注入的更多信息，请参阅 [这里](https://www.baeldung.com/sql-injection)。
+
+当使用 `PreparedStatement` 时，l `login` 方法会变为：
+
+```java
+public void login(DataSource dataSource, String username, String password) {
+    try (Connection connection = dataSource.getConnection()) {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ? AND password = ?");
+        statement.setString(1, username);
+        statement.setString(2, password);
+        ResultSet result = statement.executeQuery();
+        // 任务结束
+    } catch (Exception e) {
+        // 处理获取/处理异常时出现的所有异常
+    }
+}
+```
+
+## 数据库工具
+
+考虑到处理数据库的复杂性（管理连接、构建和确保查询安全，或者仅仅是解析数据），
+Java 世界中存在多种工具来辅助完成这项工作。
+
+一些插件开发者使用轻量级工具，如[JDBI](https://jdbi.org/), [JOOQ](https://www.jooq.org/doc/latest/manual/)
+或 [Exposed](https://www.jetbrains.com/help/exposed/get-started-with-exposed.html)，
+这些工具负责处理所有繁重的工作，让开发者可以专注于他们的插件，而不是数据库。

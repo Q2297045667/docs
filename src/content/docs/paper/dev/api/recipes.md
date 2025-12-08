@@ -18,27 +18,28 @@ public class TestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        NamespacedKey key = new NamespacedKey(this, "战士之剑");
-        ItemStack item = ItemStack.of(Material.DIAMOND_SWORD);
+        NamespacedKey key = new NamespacedKey(this, "电视");
+
+        ItemStack item = ItemStack.of(Material.BLACK_WOOL);
+        item.setData(DataComponentTypes.ITEM_NAME, Component.text("电视"));
 
         ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" A ", "AAA", " B ");
-        recipe.setIngredient('A', Material.DIAMOND);
-        recipe.setIngredient('B', Material.STICK);
+        recipe.shape("AAA", "ABA", "AAA");
+        recipe.setIngredient('A', Material.WHITE_CONCRETE);
+        recipe.setIngredient('B', Material.BLACK_STAINED_GLASS_PANE);
 
         getServer().addRecipe(recipe);
     }
 }
 ```
 
-这个配方需要一把钻石剑，在制作网格中以特定方式摆放：
-顶部一行放钻石，中间一行放木棍，底部一行再放钻石，而钻石剑则位于底部行的中间格子。
-在制作网格中看起来会是这样：
+这个配方需要用一台电视与一块黑色染色玻璃板被白色混凝土包围来制作。
+在合成网格中的结果看起来会是这样：
 
 ```
- A
 AAA
- B
+ABA
+AAA
 ```
 
 :::note[注意]

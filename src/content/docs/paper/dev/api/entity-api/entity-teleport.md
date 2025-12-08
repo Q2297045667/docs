@@ -2,6 +2,7 @@
 title: 传送
 description: 实体传送 API 及其使用方法。
 slug: paper/dev/entity-teleport
+version: 1.21.10
 ---
 
 实体可以瞬间传送到特定位置，
@@ -39,7 +40,7 @@ entity.teleportAsync(location).thenAccept(success -> { // 异步加载区块并�
 ## 查看
 
 [lookAt](jd:paper:org.bukkit.entity.Player#lookAt(org.bukkit.entity.Entity,io.papermc.paper.entity.LookAnchor,io.papermc.paper.entity.LookAnchor))
-API允许你让玩家看向某个位置或实体。
+API 允许你让玩家看向某个位置或实体。
 
 ```java
 player.lookAt(
@@ -63,7 +64,7 @@ player.lookAt(
 
 ### 相对传送
 
-相对传送玩家，防止在X、Y和Z轴上重置速度。
+相对传送玩家，防止在 X、Y 和 Z 轴上重置速度。
 
 ```java
 player.teleport(
@@ -75,6 +76,12 @@ player.teleport(
 ```
 
 ### 保留乘客
+
+:::caution[警告]
+
+自 1.21.10 以来，这个标志不再有任何作用，因为它已经成为传送实体时的默认行为。
+
+:::
 
 使用 [RETAIN_PASSENGERS](jd:paper:io.papermc.paper.entity.TeleportFlag$EntityState#RETAIN_PASSENGERS) 标志传送一个实体，
 允许其乘客与实体一起传送。

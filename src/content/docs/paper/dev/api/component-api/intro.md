@@ -36,6 +36,7 @@ Paper 和 Velocity 原生实现了 Adventure API，尽可能地在各个地方�
 [据 Mojang 表示](https://bugs-legacy.mojang.com/browse/MC-190605?focusedId=993040&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-993040)，
 未来将移除客户端对带有 `§` 的旧版格式的支持。
 
+
 :::tip[提示]
 
 在 Paper API 中，有许多处理这种旧版格式的方法和类型已经被弃用。
@@ -52,7 +53,7 @@ Paper 和 Velocity 原生实现了 Adventure API，尽可能地在各个地方�
 ```java
 // 这是一种次优的组件构建方式，
 // 因为每次更改都会创建一个新的组件
-final Component component = Component.text("Hello")
+final Component component = Component.text("你好")
     .color(TextColor.color(0x13f832))
     .append(Component.text(" 世界！", NamedTextColor.GREEN));
 
@@ -61,7 +62,7 @@ final Component component = Component.text("Hello")
   Adventure 组件旨在与静态方法导入结合使用，
   以使代码更加简洁 */
 final Component component = text()
-    .content("Hello").color(color(0x13f832))
+    .content("你好").color(color(0x13f832))
     .append(text(" 世界！", GREEN))
     .build();
 ```
@@ -106,7 +107,7 @@ final Component component = mm("<blue>你好 <red>世界！");
 
 :::note[深入文档]
 
-MiniMessage 是 Adventure 的一部分，你可以通过 [Adventure 的文档](https://docs.advntr.dev/minimessage/index.html) 来查看它的文档。
+MiniMessage 是 Adventure 的一部分，您可以在[Adventure 的文档](/adventure/minimessage/)来查看它的文档。
 
 :::
 
@@ -144,7 +145,7 @@ MiniMessage 有一个 [网页查看器](https://webui.advntr.dev/)，它对于�
 
 :::note[深入文档]
 
-JSON 格式的详细文档可以在 [Minecraft Wiki](https://minecraft.wiki/w/Raw_JSON_text_format) 上找到。
+JSON 格式的详细文档可以在 [Minecraft Wiki](https://minecraft.wiki/w/Text_component_format) 上找到。
 
 :::
 
@@ -171,7 +172,7 @@ Paper 和 Velocity 都内置了不同的序列化器，
 在 `Component` 和 MiniMessage 格式的字符串之间进行转换。
 这种转换是无损的，是那些需要由用户编辑的组件的首选序列化形式。
 你还可以为序列化器添加大量的自定义内容，
-相关内容已在 [API 文档](https://docs.advntr.dev/minimessage/api.html#getting-started) 中进行了说明。
+相关内容已在 [API 文档](/adventure/minimessage/api/#getting-started) 中进行了说明。
 
 ### [`PlainTextComponentSerializer`](https://jd.advntr.dev/text-serializer-plain/latest)
 

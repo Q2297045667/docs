@@ -73,7 +73,7 @@ waterfallVersion=1.20
 
 在您的 `build.gradle.kts` 构建脚本的插件块中，添加发布插件：
 
-```kotlin
+```kotlin title="build.gradle.kts"
 plugins {
     id("io.papermc.hangar-publish-plugin") version "0.1.2"
 }
