@@ -477,7 +477,7 @@ timings:
   inline-docs-warning:
     color: red
     message: >-
-      注意：此选项在最新的版本中已经移除
+      注意：Timings 在最新的版本中已经完全被移除，此说明只针对老版本使用。
   enabled:
     default: "false"
     description: 是否启用 Paper 自带的 Timings V2 性能分析器。

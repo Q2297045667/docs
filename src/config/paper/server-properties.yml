@@ -18,7 +18,7 @@ allow-nether:
     是否开启加载和生成下界(也叫地狱)维度
 
     - 大厅，游戏等不需要下界的子服可以直接关闭以节省内存和 CPU 资源，也可以在 [bukkit.yml](/paper/reference/bukkit-configuration/#settings_allow_end) 中关闭末地。
-    - 新版本已经移除该选项
+    - 新版本已经移除该选项，但在[全局配置](/paper/reference/global-configuration/#misc_enable_nether)中依然提供控制选项
 broadcast-console-to-ops:
   default: "true"
   description: "是否将控制台命令输出发送给所有在线的管理员"
