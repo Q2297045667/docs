@@ -2,7 +2,7 @@
 
 [![Discord](https://img.shields.io/discord/289587909051416579.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/papermc) ![License](https://img.shields.io/github/license/PaperMC/docs) [![QQ 群](https://img.shields.io/badge/QQ_群-611076407-blue)](https://qm.qq.com/cgi-bin/qm/qr?k=uZZDEZV_9Ni8dBJPjzGWZUVXK-qKXc7x)
 
-这是 [PaperMC 官方文档](https://docs.papermc.io) 的社区中文翻译版本，由 [千屈](https://github.com/Lythrilla)，[Missing_Love](https://github.com/Q2297045667) 维护。你可以在 [paper.8aka.org](https://paper.8aka.org) 阅读在线文档。
+这是 [PaperMC 官方文档](https://docs.papermc.io) 的社区中文翻译版本，由 [千屈](https://github.com/Lythrilla)，[Missing_Love](https://github.com/Q2297045667) 维护。
 
 ## 🔔 重要说明
 
